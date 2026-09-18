@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Check, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,4 +25,4 @@ export function QuoteWizard() {
     <div className="mt-8 flex justify-between gap-3">{step > 1 ? <Button variant="outline" onClick={() => { setError(""); setStep(s => s - 1); }}><ArrowLeft /> Retour</Button> : <span />}{step < 5 && <Button onClick={next}>Continuer <ArrowRight /></Button>}</div>
   </div>;
 }
-function Field({ label, children }: { label: string; children: React.ReactNode }) { return <label className="block text-xs font-bold uppercase text-muted-foreground">{label}<div className="mt-2">{children}</div></label>; }
+function Field({ label, children }: { label: string; children: ReactNode }) { return <label className="block text-xs font-bold uppercase text-muted-foreground">{label}<div className="mt-2">{children}</div></label>; }
