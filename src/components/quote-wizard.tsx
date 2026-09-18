@@ -1,0 +1,28 @@
+import { useMemo, useState, type ReactNode } from "react";
+import { ArrowLeft, ArrowRight, Check, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
+const poles = ["Sécurité", "Événement", "Photo / Vidéo", "Publicité", "Formation", "Facility Management", "Solution multiservices"];
+type Data = { pole: string; name: string; org: string; phone: string; email: string; needs: string; place: string; dates: string };
+const initial: Data = { pole: "", name: "", org: "", phone: "", email: "", needs: "", place: "", dates: "" };
+
+export function QuoteWizard() {
+  const [step, setStep] = useState(1); const [data, setData] = useState(initial); const [error, setError] = useState("");
+  const set = (key: keyof Data, value: string) => setData(v => ({ ...v, [key]: value }));
+  const valid = useMemo(() => step === 1 ? !!data.pole : step === 2 ? data.name.trim().length >= 2 && /^\+?[0-9 ]{8,18}$/.test(data.phone) && (!data.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) : step === 3 ? data.needs.trim().length >= 15 : step === 4 ? data.place.trim().length >= 2 && !!data.dates : true, [data, step]);
+  const next = () => { if (!valid) { setError("Veuillez compléter correctement les informations demandées."); return; } setError(""); setStep(s => Math.min(5, s + 1)); };
+  const text = encodeURIComponent(`DEMANDE DE DEVIS FORMA\nPôle : ${data.pole}\nNom : ${data.name}\nOrganisation : ${data.org || "—"}\nTéléphone : ${data.phone}\nEmail : ${data.email || "—"}\nBesoin : ${data.needs}\nLieu : ${data.place}\nDates : ${data.dates}`);
+  return <div className="mx-auto max-w-3xl border border-border bg-card p-5 md:p-10">
+    <div className="mb-10 grid grid-cols-5 gap-2" aria-label={`Étape ${step} sur 5`}>{[1,2,3,4,5].map(n => <div key={n}><div className={`h-1 ${n <= step ? "bg-accent" : "bg-muted"}`} /><p className="mt-2 text-center text-[10px] font-bold text-muted-foreground">0{n}</p></div>)}</div>
+    {step === 1 && <div><p className="eyebrow">Étape 1</p><h2 className="mt-2 text-3xl font-bold">Quel pôle vous concerne ?</h2><div className="mt-7 grid gap-3 sm:grid-cols-2">{poles.map(p => <button type="button" key={p} onClick={() => set("pole", p)} className={`flex min-h-14 items-center justify-between border p-4 text-left text-sm font-bold transition-colors ${data.pole === p ? "border-accent bg-accent/10" : "border-border hover:border-accent"}`}>{p}{data.pole === p && <Check className="h-4 w-4 text-accent" />}</button>)}</div></div>}
+    {step === 2 && <div><p className="eyebrow">Étape 2</p><h2 className="mt-2 text-3xl font-bold">Vos coordonnées</h2><div className="mt-7 grid gap-5 sm:grid-cols-2"><Field label="Nom *"><Input maxLength={100} value={data.name} onChange={e => set("name", e.target.value)} /></Field><Field label="Entreprise / Organisation"><Input maxLength={120} value={data.org} onChange={e => set("org", e.target.value)} /></Field><Field label="Téléphone *"><Input type="tel" maxLength={18} value={data.phone} onChange={e => set("phone", e.target.value.replace(/[^+0-9 ]/g, ""))} /></Field><Field label="Email"><Input type="email" maxLength={255} value={data.email} onChange={e => set("email", e.target.value)} /></Field></div></div>}
+    {step === 3 && <div><p className="eyebrow">Étape 3</p><h2 className="mt-2 text-3xl font-bold">Décrivez votre besoin</h2><Field label="Spécifications et besoins précis *"><Textarea className="mt-7 min-h-44" maxLength={1500} placeholder="Contexte, volume, horaires, objectifs, contraintes…" value={data.needs} onChange={e => set("needs", e.target.value)} /></Field></div>}
+    {step === 4 && <div><p className="eyebrow">Étape 4</p><h2 className="mt-2 text-3xl font-bold">Lieu et période souhaitée</h2><div className="mt-7 grid gap-5 sm:grid-cols-2"><Field label="Commune de Kinshasa / Province *"><Input maxLength={120} value={data.place} onChange={e => set("place", e.target.value)} /></Field><Field label="Date ou période souhaitée *"><Input type="date" value={data.dates} onChange={e => set("dates", e.target.value)} /></Field></div></div>}
+    {step === 5 && <div><p className="eyebrow">Étape 5</p><h2 className="mt-2 text-3xl font-bold">Vérifiez votre demande</h2><dl className="mt-7 divide-y divide-border border-y border-border text-sm">{[["Pôle",data.pole],["Contact",`${data.name} — ${data.phone}`],["Organisation",data.org || "Non précisée"],["Besoin",data.needs],["Lieu et date",`${data.place} — ${data.dates}`]].map(([k,v]) => <div key={k} className="grid gap-2 py-4 sm:grid-cols-[140px_1fr]"><dt className="font-bold text-muted-foreground">{k}</dt><dd className="whitespace-pre-wrap">{v}</dd></div>)}</dl><Button asChild className="mt-7 h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"><a href={`https://wa.me/243977528234?text=${text}`} target="_blank" rel="noreferrer"><Send /> Envoyer directement sur WhatsApp</a></Button></div>}
+    {error && <p className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>}
+    <div className="mt-8 flex justify-between gap-3">{step > 1 ? <Button variant="outline" onClick={() => { setError(""); setStep(s => s - 1); }}><ArrowLeft /> Retour</Button> : <span />}{step < 5 && <Button onClick={next}>Continuer <ArrowRight /></Button>}</div>
+  </div>;
+}
+function Field({ label, children }: { label: string; children: ReactNode }) { return <label className="block text-xs font-bold uppercase text-muted-foreground">{label}<div className="mt-2">{children}</div></label>; }

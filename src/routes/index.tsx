@@ -1,24 +1,42 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Check, Shield, Camera, CalendarDays, GraduationCap, Building2, Megaphone, ClipboardCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SecurityAssessment } from "@/components/security-assessment";
+import hero from "@/assets/forma-security-hero.jpg";
+import events from "@/assets/forma-events.jpg";
+import media from "@/assets/forma-media.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [{ title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/" }] }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+const services = [
+  { icon: Shield, title: "FORMA Security", text: "Gardiennage, protection, contrôle d’accès, rondes et audits de site.", to: "/securite" as const },
+  { icon: CalendarDays, title: "FORMA Events", text: "Organisation, protocole, accueil, coordination, décoration et logistique.", to: "/evenements" as const },
+  { icon: Camera, title: "Media & Coverage", text: "Photo, vidéo, streaming live et couverture médiatique professionnelle.", to: "/media-publicite" as const },
+  { icon: Megaphone, title: "FORMA Advertising", text: "Image de dirigeants, publicité, création visuelle et campagnes digitales.", to: "/media-publicite" as const },
+  { icon: GraduationCap, title: "FORMA Training", text: "Langues, informatique, développement, marketing et métiers créatifs.", to: "/formations" as const },
+  { icon: Building2, title: "FORMA Facility", text: "Sélection, coordination et contrôle qualité de services opérationnels.", to: "/facility" as const },
+];
+
+function Home() {
+  return <>
+    <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
+      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
+      <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
+      <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20"><div className="reveal max-w-4xl">
+        <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
+        <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl md:text-7xl">Sécurité, événements<br />et solutions multiservices.</h1>
+        <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">FORMA accompagne particuliers, entreprises et organisations avec des solutions professionnelles en sécurité, événementiel, communication, formation et services opérationnels en RDC.</p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"><Link to="/devis">Demander un devis <ArrowRight /></Link></Button><Button asChild variant="outline" className="h-12 border-primary-foreground/30 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/solutions">Découvrir nos solutions</Link></Button></div>
+        <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-primary-foreground/20 pt-5 text-[11px] font-semibold uppercase text-primary-foreground/65"><span>RCCM CD/KNM/RCCM/25-A-10490</span><span>Kinshasa</span><span>Enregistré ONEM · INPP</span></div>
+      </div></div>
+    </section>
+    <section className="bg-card py-20 md:py-28"><div className="section-shell"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow">Pôle prioritaire</p><h2 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">Votre sécurité,<br />notre priorité.</h2><p className="mt-5 max-w-md leading-7 text-muted-foreground">Chaque dispositif part du terrain : diagnostic, dimensionnement, encadrement opérationnel et suivi régulier.</p><ul className="mt-8 grid gap-3 text-sm font-semibold">{["Gardiennage statique 24/7", "Entreprises et chantiers", "Protection rapprochée / VIP", "Sécurité événementielle", "Contrôle d’accès et filtrage", "Rondes mobiles", "Audit sécuritaire de site"].map(x => <li key={x} className="flex items-center gap-3"><Check className="h-4 w-4 text-accent" />{x}</li>)}</ul></div><SecurityAssessment /></div></div></section>
+    <section className="py-20 md:py-28"><div className="section-shell"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="eyebrow">Un écosystème coordonné</p><h2 className="mt-3 max-w-2xl text-3xl font-extrabold md:text-5xl">Des expertises distinctes. Un même niveau d’exigence.</h2></div><Button asChild variant="outline"><Link to="/solutions">Voir toutes les solutions <ArrowRight /></Link></Button></div><div className="mt-12 grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">{services.map(({icon: Icon,title,text,to}, i) => <Link key={title} to={to} className="group bg-card p-7 transition-colors hover:bg-primary hover:text-primary-foreground"><div className="flex justify-between"><Icon className="h-6 w-6 text-accent" /><span className="text-xs font-bold text-muted-foreground">0{i+1}</span></div><h3 className="mt-14 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-primary-foreground/65">{text}</p><ArrowRight className="mt-6 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>)}</div></div></section>
+    <section className="bg-primary py-20 text-primary-foreground"><div className="section-shell grid gap-8 md:grid-cols-2"><div className="relative min-h-80 overflow-hidden"><img src={events} loading="lazy" width="1280" height="960" alt="Coordination d’un événement corporate à Kinshasa" className="absolute inset-0 h-full w-full object-cover" /></div><div className="flex flex-col justify-center py-6 md:p-10"><p className="eyebrow">Pilotage opérationnel</p><h2 className="mt-4 text-3xl font-bold md:text-4xl">Un interlocuteur. Une exécution maîtrisée.</h2><p className="mt-5 leading-7 text-primary-foreground/65">FORMA assemble les expertises adaptées, supervise les interventions et assure un reporting clair à chaque étape.</p><Button asChild className="mt-7 w-fit bg-accent text-accent-foreground"><Link to="/facility">Découvrir le modèle FORMA <ArrowRight /></Link></Button></div></div></section>
+    <section className="py-20"><div className="section-shell grid gap-10 lg:grid-cols-2"><div className="relative min-h-96 overflow-hidden"><img src={media} loading="lazy" width="1280" height="960" alt="Couverture vidéo professionnelle d’un événement institutionnel" className="absolute inset-0 h-full w-full object-cover" /></div><div className="flex flex-col justify-center"><p className="eyebrow">Phase 3 · Vision digitale</p><h2 className="mt-4 text-3xl font-bold md:text-4xl">La continuité de service, bientôt dans un espace unique.</h2><p className="mt-5 leading-7 text-muted-foreground">Suivi des sites, interventions, rapports, missions prestataires, factures et pilotage central : découvrez l’aperçu interactif de la future plateforme.</p><Button asChild variant="outline" className="mt-7 w-fit"><Link to="/plateforme">Explorer les espaces <ClipboardCheck /></Link></Button></div></div></section>
+    <section className="bg-accent py-14 text-accent-foreground"><div className="section-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center"><div><p className="text-xs font-bold uppercase">Besoin immédiat ?</p><h2 className="mt-2 text-2xl font-bold md:text-3xl">Parlons de votre dispositif.</h2></div><div className="flex flex-wrap gap-3"><Button asChild className="bg-primary text-primary-foreground"><Link to="/devis">Demander un devis</Link></Button><Button asChild variant="outline" className="border-accent-foreground/35 bg-transparent text-accent-foreground hover:bg-accent-foreground/10"><a href="tel:+243977528234">+243 977 528 234</a></Button></div></div></section>
+  </>;
 }

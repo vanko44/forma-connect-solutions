@@ -1,0 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { PageIntro } from "@/components/page-shell";
+
+export const Route = createFileRoute("/mentions-legales")({
+  head: () => ({ meta: [{ title: "Mentions légales — FORMA Event & Security" }, { name: "description", content: "Transparence administrative de ETS FORMA EVENT AND SECURITY : RCCM, adresse et conformité légale en RDC." }, { property: "og:title", content: "Mentions légales FORMA" }, { property: "og:description", content: "Informations administratives officielles de FORMA à Kinshasa." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/mentions-legales" }] }),
+  component: Legal,
+});
+
+function Legal() { const rows = [["Raison sociale", "ETS FORMA EVENT AND SECURITY"], ["RCCM", "CD/KNM/RCCM/25-A-10490 — Kinshasa"], ["Adresse", "144, av. Ngandu, Q/Mpasa I, C/Nsele, Ville de Kinshasa, RDC"], ["Téléphone / WhatsApp", "+243 977 528 234"], ["Identification Nationale", "Ministère de l’Économie Nationale"], ["Immatriculations", "INPP · ONEM · RCCM"]]; return <><PageIntro eyebrow="Transparence administrative" title="Mentions légales et conformité." text="Ces informations reprennent les éléments officiels communiqués pour ETS FORMA EVENT AND SECURITY." /><section className="py-20"><div className="section-shell max-w-4xl"><dl className="divide-y divide-border border-y border-border">{rows.map(([k, v]) => <div key={k} className="grid gap-2 py-5 md:grid-cols-[240px_1fr]"><dt className="text-sm font-bold uppercase text-muted-foreground">{k}</dt><dd className="font-semibold">{v}</dd></div>)}</dl><p className="mt-8 text-sm leading-6 text-muted-foreground">FORMA ne publie pas de faux témoignages, faux logos clients ou certifications non vérifiées. Toute référence commerciale devra être ajoutée uniquement après validation formelle.</p></div></section></>; }
