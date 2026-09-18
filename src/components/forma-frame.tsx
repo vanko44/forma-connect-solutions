@@ -36,7 +36,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
       <div className="section-shell grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div><img src={logo.url} alt="FORMA Event Services & Security" className="h-28 w-28 object-cover" width="640" height="640" /><p className="mt-4 max-w-sm text-sm leading-6 text-primary-foreground/65">Sécurité, événements et solutions multiservices pour les particuliers, entreprises et organisations en RDC.</p></div>
         <div><p className="eyebrow">Contact direct</p><a href="tel:+243977528234" className="mt-4 block font-display text-xl font-bold">+243 977 528 234</a><p className="mt-3 text-sm text-primary-foreground/65">144, av. Ngandu, Q/Mpasa I<br />C/Nsele, Kinshasa, RDC</p></div>
-        <div><p className="eyebrow">Entreprise</p><div className="mt-4 grid gap-3 text-sm"><Link to="/a-propos">À propos</Link><Link to="/rejoindre">Rejoindre le réseau</Link><Link to="/plateforme">Future plateforme <ArrowUpRight className="ml-1 inline h-3 w-3" /></Link><Link to="/contact">Contact</Link></div></div>
+        <div><p className="eyebrow">Entreprise</p><div className="mt-4 grid gap-3 text-sm"><Link to="/a-propos">À propos</Link><Link to="/rejoindre">Rejoindre le réseau</Link><Link to="/plateforme">Future plateforme <ArrowUpRight className="ml-1 inline h-3 w-3" /></Link><Link to="/mentions-legales">Mentions légales</Link><Link to="/contact">Contact</Link></div></div>
       </div>
       <div className="border-t border-primary-foreground/10"><div className="section-shell flex flex-col gap-2 py-5 text-[11px] text-primary-foreground/45 md:flex-row md:justify-between"><span>© 2026 ETS FORMA EVENT AND SECURITY</span><span>RCCM CD/KNM/RCCM/25-A-10490 — Kinshasa</span></div></div>
     </footer>

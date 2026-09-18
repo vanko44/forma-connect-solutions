@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as DevisRouteImport } from './routes/devis'
 import { Route as EvenementsRouteImport } from './routes/evenements'
 import { Route as FacilityRouteImport } from './routes/facility'
 import { Route as FormationsRouteImport } from './routes/formations'
+import { Route as MediaPubliciteRouteImport } from './routes/media-publicite'
+import { Route as RejoindreRouteImport } from './routes/rejoindre'
 import { Route as SecuriteRouteImport } from './routes/securite'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 
@@ -25,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevisRoute = DevisRouteImport.update({
+  id: '/devis',
+  path: '/devis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EvenementsRoute = EvenementsRouteImport.update({
@@ -42,6 +50,16 @@ const FormationsRoute = FormationsRouteImport.update({
   path: '/formations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MediaPubliciteRoute = MediaPubliciteRouteImport.update({
+  id: '/media-publicite',
+  path: '/media-publicite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RejoindreRoute = RejoindreRouteImport.update({
+  id: '/rejoindre',
+  path: '/rejoindre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SecuriteRoute = SecuriteRouteImport.update({
   id: '/securite',
   path: '/securite',
@@ -56,18 +74,24 @@ const SolutionsRoute = SolutionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
+  '/media-publicite': typeof MediaPubliciteRoute
+  '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
+  '/media-publicite': typeof MediaPubliciteRoute
+  '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
 }
@@ -75,9 +99,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
+  '/media-publicite': typeof MediaPubliciteRoute
+  '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
 }
@@ -86,27 +113,36 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
+    | '/media-publicite'
+    | '/rejoindre'
     | '/securite'
     | '/solutions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/a-propos'
+    | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
+    | '/media-publicite'
+    | '/rejoindre'
     | '/securite'
     | '/solutions'
   id:
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
+    | '/media-publicite'
+    | '/rejoindre'
     | '/securite'
     | '/solutions'
   fileRoutesById: FileRoutesById
@@ -114,9 +150,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRoute
+  DevisRoute: typeof DevisRoute
   EvenementsRoute: typeof EvenementsRoute
   FacilityRoute: typeof FacilityRoute
   FormationsRoute: typeof FormationsRoute
+  MediaPubliciteRoute: typeof MediaPubliciteRoute
+  RejoindreRoute: typeof RejoindreRoute
   SecuriteRoute: typeof SecuriteRoute
   SolutionsRoute: typeof SolutionsRoute
 }
@@ -135,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/a-propos'
       fullPath: '/a-propos'
       preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devis': {
+      id: '/devis'
+      path: '/devis'
+      fullPath: '/devis'
+      preLoaderRoute: typeof DevisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/evenements': {
@@ -158,6 +204,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FormationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/media-publicite': {
+      id: '/media-publicite'
+      path: '/media-publicite'
+      fullPath: '/media-publicite'
+      preLoaderRoute: typeof MediaPubliciteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rejoindre': {
+      id: '/rejoindre'
+      path: '/rejoindre'
+      fullPath: '/rejoindre'
+      preLoaderRoute: typeof RejoindreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/securite': {
       id: '/securite'
       path: '/securite'
@@ -178,9 +238,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRoute,
+  DevisRoute: DevisRoute,
   EvenementsRoute: EvenementsRoute,
   FacilityRoute: FacilityRoute,
   FormationsRoute: FormationsRoute,
+  MediaPubliciteRoute: MediaPubliciteRoute,
+  RejoindreRoute: RejoindreRoute,
   SecuriteRoute: SecuriteRoute,
   SolutionsRoute: SolutionsRoute,
 }
