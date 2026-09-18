@@ -1,0 +1,6 @@
+import { CheckCircle2 } from "lucide-react";
+import { CtaBand, PageIntro } from "./page-shell";
+
+export function ServicePage({ eyebrow, title, intro, items, note }: { eyebrow: string; title: string; intro: string; items: string[]; note?: string }) {
+  return <><PageIntro eyebrow={eyebrow} title={title} text={intro} /><section className="py-16 md:py-24"><div className="section-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="eyebrow">Expertise FORMA</p><h2 className="mt-3 text-3xl font-bold">Une coordination rigoureuse, du besoin au reporting.</h2>{note && <p className="mt-5 border-l-2 border-accent pl-4 text-sm leading-6 text-muted-foreground">{note}</p>}</div><div className="grid gap-px bg-border sm:grid-cols-2">{items.map((item, i) => <article key={item} className="bg-card p-6"><span className="text-xs font-bold text-accent">0{i+1}</span><CheckCircle2 className="mt-8 h-5 w-5 text-accent" /><h3 className="mt-4 text-lg font-bold">{item}</h3></article>)}</div></div></section><CtaBand /></>;
+}
