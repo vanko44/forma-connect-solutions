@@ -11,11 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DevisRouteImport } from './routes/devis'
 import { Route as EvenementsRouteImport } from './routes/evenements'
 import { Route as FacilityRouteImport } from './routes/facility'
 import { Route as FormationsRouteImport } from './routes/formations'
 import { Route as MediaPubliciteRouteImport } from './routes/media-publicite'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as PlateformeRouteImport } from './routes/plateforme'
 import { Route as RejoindreRouteImport } from './routes/rejoindre'
 import { Route as SecuriteRouteImport } from './routes/securite'
 import { Route as SolutionsRouteImport } from './routes/solutions'
@@ -28,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DevisRoute = DevisRouteImport.update({
@@ -55,6 +63,16 @@ const MediaPubliciteRoute = MediaPubliciteRouteImport.update({
   path: '/media-publicite',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlateformeRoute = PlateformeRouteImport.update({
+  id: '/plateforme',
+  path: '/plateforme',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RejoindreRoute = RejoindreRouteImport.update({
   id: '/rejoindre',
   path: '/rejoindre',
@@ -74,11 +92,14 @@ const SolutionsRoute = SolutionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
   '/media-publicite': typeof MediaPubliciteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/plateforme': typeof PlateformeRoute
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
@@ -86,11 +107,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
   '/media-publicite': typeof MediaPubliciteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/plateforme': typeof PlateformeRoute
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
@@ -99,11 +123,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
   '/media-publicite': typeof MediaPubliciteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/plateforme': typeof PlateformeRoute
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
@@ -113,11 +140,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/contact'
     | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
     | '/media-publicite'
+    | '/mentions-legales'
+    | '/plateforme'
     | '/rejoindre'
     | '/securite'
     | '/solutions'
@@ -125,11 +155,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/a-propos'
+    | '/contact'
     | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
     | '/media-publicite'
+    | '/mentions-legales'
+    | '/plateforme'
     | '/rejoindre'
     | '/securite'
     | '/solutions'
@@ -137,11 +170,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/contact'
     | '/devis'
     | '/evenements'
     | '/facility'
     | '/formations'
     | '/media-publicite'
+    | '/mentions-legales'
+    | '/plateforme'
     | '/rejoindre'
     | '/securite'
     | '/solutions'
@@ -150,11 +186,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRoute
+  ContactRoute: typeof ContactRoute
   DevisRoute: typeof DevisRoute
   EvenementsRoute: typeof EvenementsRoute
   FacilityRoute: typeof FacilityRoute
   FormationsRoute: typeof FormationsRoute
   MediaPubliciteRoute: typeof MediaPubliciteRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
+  PlateformeRoute: typeof PlateformeRoute
   RejoindreRoute: typeof RejoindreRoute
   SecuriteRoute: typeof SecuriteRoute
   SolutionsRoute: typeof SolutionsRoute
@@ -174,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/a-propos'
       fullPath: '/a-propos'
       preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/devis': {
@@ -211,6 +257,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaPubliciteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plateforme': {
+      id: '/plateforme'
+      path: '/plateforme'
+      fullPath: '/plateforme'
+      preLoaderRoute: typeof PlateformeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rejoindre': {
       id: '/rejoindre'
       path: '/rejoindre'
@@ -238,11 +298,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRoute,
+  ContactRoute: ContactRoute,
   DevisRoute: DevisRoute,
   EvenementsRoute: EvenementsRoute,
   FacilityRoute: FacilityRoute,
   FormationsRoute: FormationsRoute,
   MediaPubliciteRoute: MediaPubliciteRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
+  PlateformeRoute: PlateformeRoute,
   RejoindreRoute: RejoindreRoute,
   SecuriteRoute: SecuriteRoute,
   SolutionsRoute: SolutionsRoute,
