@@ -3,7 +3,6 @@ import { ArrowRight, Check, Shield, Camera, CalendarDays, GraduationCap, Buildin
 import { Button } from "@/components/ui/button";
 import { SecurityAssessment } from "@/components/security-assessment";
 import hero from "@/assets/forma-security-hero.jpg";
-import events from "@/assets/forma-events.jpg";
 import media from "@/assets/forma-media.jpg";
 import wedding from "@/assets/forma-event-mariage.jpeg.asset.json";
 import training from "@/assets/forma-training-equipe.jpeg.asset.json";
