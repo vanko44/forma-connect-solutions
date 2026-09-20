@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as ConnexionClientRouteImport } from './routes/connexion-client'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DevisRouteImport } from './routes/devis'
+import { Route as EspaceClientRouteImport } from './routes/espace-client'
 import { Route as EvenementsRouteImport } from './routes/evenements'
 import { Route as FacilityRouteImport } from './routes/facility'
 import { Route as FormationsRouteImport } from './routes/formations'
@@ -33,6 +35,11 @@ const AProposRoute = AProposRouteImport.update({
   path: '/a-propos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConnexionClientRoute = ConnexionClientRouteImport.update({
+  id: '/connexion-client',
+  path: '/connexion-client',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -41,6 +48,11 @@ const ContactRoute = ContactRouteImport.update({
 const DevisRoute = DevisRouteImport.update({
   id: '/devis',
   path: '/devis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EspaceClientRoute = EspaceClientRouteImport.update({
+  id: '/espace-client',
+  path: '/espace-client',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EvenementsRoute = EvenementsRouteImport.update({
@@ -92,8 +104,10 @@ const SolutionsRoute = SolutionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/espace-client': typeof EspaceClientRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
@@ -107,8 +121,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/espace-client': typeof EspaceClientRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
@@ -123,8 +139,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/espace-client': typeof EspaceClientRoute
   '/evenements': typeof EvenementsRoute
   '/facility': typeof FacilityRoute
   '/formations': typeof FormationsRoute
@@ -140,8 +158,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/connexion-client'
     | '/contact'
     | '/devis'
+    | '/espace-client'
     | '/evenements'
     | '/facility'
     | '/formations'
@@ -155,8 +175,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/a-propos'
+    | '/connexion-client'
     | '/contact'
     | '/devis'
+    | '/espace-client'
     | '/evenements'
     | '/facility'
     | '/formations'
@@ -170,8 +192,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/connexion-client'
     | '/contact'
     | '/devis'
+    | '/espace-client'
     | '/evenements'
     | '/facility'
     | '/formations'
@@ -186,8 +210,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRoute
+  ConnexionClientRoute: typeof ConnexionClientRoute
   ContactRoute: typeof ContactRoute
   DevisRoute: typeof DevisRoute
+  EspaceClientRoute: typeof EspaceClientRoute
   EvenementsRoute: typeof EvenementsRoute
   FacilityRoute: typeof FacilityRoute
   FormationsRoute: typeof FormationsRoute
@@ -215,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AProposRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/connexion-client': {
+      id: '/connexion-client'
+      path: '/connexion-client'
+      fullPath: '/connexion-client'
+      preLoaderRoute: typeof ConnexionClientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -227,6 +260,13 @@ declare module '@tanstack/react-router' {
       path: '/devis'
       fullPath: '/devis'
       preLoaderRoute: typeof DevisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/espace-client': {
+      id: '/espace-client'
+      path: '/espace-client'
+      fullPath: '/espace-client'
+      preLoaderRoute: typeof EspaceClientRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/evenements': {
@@ -298,8 +338,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRoute,
+  ConnexionClientRoute: ConnexionClientRoute,
   ContactRoute: ContactRoute,
   DevisRoute: DevisRoute,
+  EspaceClientRoute: EspaceClientRoute,
   EvenementsRoute: EvenementsRoute,
   FacilityRoute: FacilityRoute,
   FormationsRoute: FormationsRoute,

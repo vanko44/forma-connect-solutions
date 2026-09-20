@@ -29,7 +29,7 @@ function Home() {
       <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20"><div className="reveal max-w-4xl">
         <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
         <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl md:text-7xl">Sécurité, événements<br />et solutions multiservices.</h1>
-        <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">FORMA accompagne particuliers, entreprises et organisations avec des solutions professionnelles en sécurité, événementiel, communication, formation et services opérationnels en RDC.</p>
+        <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">Des solutions professionnelles en sécurité, événementiel, formation et services multiservices en RDC.</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"><Link to="/devis">Demander un devis <ArrowRight /></Link></Button><Button asChild variant="outline" className="h-12 border-primary-foreground/30 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/solutions">Découvrir nos solutions</Link></Button></div>
         <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-primary-foreground/20 pt-5 text-[11px] font-semibold uppercase text-primary-foreground/65"><span>RCCM CD/KNM/RCCM/25-A-10490</span><span>Kinshasa</span><span>Enregistré ONEM · INPP</span></div>
       </div></div>
