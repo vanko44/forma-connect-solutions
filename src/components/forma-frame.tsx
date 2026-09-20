@@ -32,7 +32,8 @@ export function FormaFrame({ children }: { children: ReactNode }) {
         </Link>
         <nav className="hidden items-center gap-4 xl:flex" aria-label="Navigation principale">
           {nav.map(([label, to]) => <Link key={to} to={to} activeProps={{ className: "text-accent" }} className="text-xs font-semibold text-primary-foreground/75 transition-colors hover:text-primary-foreground">{label}</Link>)}
-          <Link to="/rejoindre" activeProps={{ className: "text-accent" }} className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden">Réseau partenaire</Link>
+          <Link to="/connexion-client" activeProps={{ className: "text-accent" }} className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden">Espace Client</Link>
+          <Link to="/rejoindre" activeProps={{ className: "text-accent" }} className="text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden">Prestataire</Link>
         </nav>
         <Button asChild variant="ghost" className="hidden px-2 text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"><Link to="/connexion-client"><UserRound /> Espace Client</Link></Button>
         <Button asChild variant="outline" className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"><Link to="/rejoindre"><Users /> Espace Prestataire</Link></Button>
