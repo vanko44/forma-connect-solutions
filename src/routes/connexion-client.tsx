@@ -65,8 +65,7 @@ function ClientConnection() {
   const signInWithGoogle = async () => {
     setLoading(true);
     setError("");
-    window.sessionStorage.setItem("forma-auth-next", "/espace-client");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/connexion-client` });
     if (result.error) { setError("La connexion Google n’a pas abouti. Réessayez."); setLoading(false); return; }
     if (!result.redirected) await navigate({ to: "/espace-client" });
   };

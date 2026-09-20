@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X, ArrowUpRight, Mail, MessageCircle, Moon, Sun, Users } from "lucide-react";
+import { Menu, Phone, X, ArrowUpRight, Mail, MessageCircle, Moon, Sun, UserRound, Users } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/forma-logo.jpeg.asset.json";
@@ -34,14 +34,17 @@ export function FormaFrame({ children }: { children: ReactNode }) {
           {nav.map(([label, to]) => <Link key={to} to={to} activeProps={{ className: "text-accent" }} className="text-xs font-semibold text-primary-foreground/75 transition-colors hover:text-primary-foreground">{label}</Link>)}
           <Link to="/rejoindre" activeProps={{ className: "text-accent" }} className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden">Réseau partenaire</Link>
         </nav>
-        <Button asChild variant="outline" className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"><Link to="/rejoindre"><Users /> Espace partenaire</Link></Button>
+        <Button asChild variant="ghost" className="hidden px-2 text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"><Link to="/connexion-client"><UserRound /> Espace Client</Link></Button>
+        <Button asChild variant="outline" className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"><Link to="/rejoindre"><Users /> Espace Prestataire</Link></Button>
         <Button asChild className="hidden bg-accent text-accent-foreground hover:bg-accent/90 md:inline-flex"><Link to="/devis">Demander un devis</Link></Button>
         <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" onClick={toggleTheme} aria-label={dark ? "Activer le thème clair" : "Activer le thème sombre"} title={dark ? "Thème clair" : "Thème sombre"}>{dark ? <Sun /> : <Moon />}</Button>
         <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground xl:hidden" onClick={() => setOpen(!open)} aria-label="Ouvrir le menu">{open ? <X /> : <Menu />}</Button>
       </div>
       {open && <nav className="max-h-[80vh] overflow-y-auto border-t border-primary-foreground/10 bg-primary px-5 py-5 xl:hidden" aria-label="Navigation mobile">
         <div className="grid gap-1">{nav.map(([label, to]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="border-b border-primary-foreground/10 py-3 text-sm font-medium">{label}</Link>)}</div>
-        <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">Espace prestataires</p>
+        <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">Espace clients — demandeurs de services</p>
+        <Link to="/connexion-client" onClick={() => setOpen(false)} className="mt-2 flex items-center gap-2 border-b border-primary-foreground/10 pb-3 text-sm font-medium"><UserRound className="h-4 w-4 text-accent" />Se connecter · Compte client gratuit</Link>
+        <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">Espace prestataires — professionnels</p>
         <Link to="/rejoindre" onClick={() => setOpen(false)} className="mt-2 flex items-center gap-2 border-b border-primary-foreground/10 pb-3 text-sm font-medium"><Users className="h-4 w-4 text-accent" />Rejoindre le réseau · Connexion partenaire</Link>
         <div className="mt-5 grid gap-3 text-sm">
           <a href="tel:+243977528234" className="flex items-center gap-2 font-semibold"><Phone className="h-4 w-4 text-accent" />+243 977 528 234</a>
@@ -55,10 +58,10 @@ export function FormaFrame({ children }: { children: ReactNode }) {
       <div className="section-shell grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div><img src={logo.url} alt="FORMA Event Services & Security" className="h-28 w-28 object-cover" width="640" height="640" /><p className="mt-4 max-w-sm text-sm leading-6 text-primary-foreground/65">Sécurité, événements et solutions multiservices pour les particuliers, entreprises et organisations en RDC. FORMA est votre unique interlocuteur contractuel et garant de la qualité.</p></div>
         <div><p className="eyebrow">Contact direct</p><a href="tel:+243977528234" className="mt-4 block font-display text-xl font-bold">+243 977 528 234</a><a href={`mailto:${FORMA_EMAIL}`} className="mt-3 block break-all text-sm font-semibold text-primary-foreground/80 underline">{FORMA_EMAIL}</a><p className="mt-3 text-sm text-primary-foreground/65">144, av. Ngandu, Q/Mpasa I<br />C/Nsele, Kinshasa, RDC</p></div>
-        <div><p className="eyebrow">Entreprise</p><div className="mt-4 grid gap-3 text-sm"><Link to="/a-propos">À propos</Link><Link to="/devis">Demander un devis (clients)</Link><Link to="/plateforme">Future plateforme <ArrowUpRight className="ml-1 inline h-3 w-3" /></Link><Link to="/mentions-legales">Mentions légales</Link><Link to="/contact">Contact</Link></div><p className="eyebrow mt-7">Espace prestataires</p><div className="mt-4 grid gap-3 text-sm"><Link to="/rejoindre">Rejoindre le réseau FORMA</Link><span className="text-xs leading-5 text-primary-foreground/50">Réservé aux artisans et techniciens partenaires.</span></div></div>
+        <div><p className="eyebrow">Entreprise</p><div className="mt-4 grid gap-3 text-sm"><Link to="/a-propos">À propos</Link><Link to="/devis">Demander un devis (clients)</Link><Link to="/plateforme">Future plateforme <ArrowUpRight className="ml-1 inline h-3 w-3" /></Link><Link to="/mentions-legales">Mentions légales</Link><Link to="/contact">Contact</Link></div><p className="eyebrow mt-7">Espace Client</p><div className="mt-4 grid gap-3 text-sm"><Link to="/connexion-client">Se connecter · Créer un compte gratuit</Link><span className="text-xs leading-5 text-primary-foreground/50">Pour les particuliers et organisations qui commandent des prestations.</span></div><p className="eyebrow mt-7">Espace Prestataire</p><div className="mt-4 grid gap-3 text-sm"><Link to="/rejoindre">Rejoindre le réseau FORMA</Link><span className="text-xs leading-5 text-primary-foreground/50">Réservé aux artisans et techniciens partenaires.</span></div></div>
       </div>
       <div className="border-t border-primary-foreground/10"><div className="section-shell flex flex-col gap-2 py-5 text-[11px] text-primary-foreground/45 md:flex-row md:justify-between"><span>© 2026 ETS FORMA EVENT AND SECURITY</span><span>RCCM CD/KNM/RCCM/25-A-10490 — Kinshasa</span></div></div>
     </footer>
-    <a href={FORMA_WHATSAPP} target="_blank" rel="noreferrer" aria-label="Contacter FORMA sur WhatsApp" className="fixed bottom-4 left-4 z-40 flex items-center gap-2 rounded-full bg-accent px-4 py-3 text-xs font-bold text-accent-foreground shadow-xl transition-transform hover:scale-105 md:left-auto md:right-5"><MessageCircle className="h-5 w-5" /> WhatsApp</a>
+    <a href={FORMA_WHATSAPP} target="_blank" rel="noreferrer" aria-label="Contacter FORMA sur WhatsApp" title="WhatsApp" className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-accent-foreground/15 bg-accent text-accent-foreground shadow-soft transition-transform hover:scale-105 md:left-auto md:right-5"><MessageCircle className="h-5 w-5" /></a>
   </div>;
 }
