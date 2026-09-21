@@ -10,4 +10,4 @@
 - [x] Protéger les activités stratégiques FORMA et exclure sécurité/gardiennage du formulaire.
 - [x] Déployer le formulaire complet de qualification partenaire.
 - [x] Présenter le processus, les statuts, les avantages, les exigences et le portail privé.
-- [ ] Vérifier le nouveau parcours partenaire sur ordinateur et mobile.
+- [x] Vérifier le nouveau parcours partenaire sur ordinateur et mobile.
