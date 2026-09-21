@@ -9,7 +9,7 @@ export const Route = createFileRoute("/plateforme")({
 
 const dashboards = [
   { title: "Espace Client", icon: Building2, rows: ["Mes sites", "Mes interventions", "Rapports", "Factures"], stat: "Suivi consolidé" },
-  { title: "Espace Prestataire", icon: ClipboardList, rows: ["Missions", "Interventions", "Documents", "Paiements"], stat: "Exécution encadrée" },
+  { title: "Espace Partenaire", icon: ClipboardList, rows: ["Profil & documents", "Disponibilités", "Missions & ordres de service", "Rapports & paiements"], stat: "Collaboration sécurisée" },
   { title: "Dashboard Central FORMA", icon: LayoutDashboard, rows: ["Planning", "Qualité", "Alertes", "Reporting"], stat: "Pilotage admin" },
 ];
 
