@@ -13,4 +13,4 @@
 - [x] Vérifier le nouveau parcours partenaire sur ordinateur et mobile.
 - [x] Reformuler positivement la séparation entre activités directes et expertises partenaires.
 - [x] Créer le tableau de pilotage FORMA Admin avec indicateurs, filtres et actions.
-- [ ] Vérifier l’interface FORMA Admin sur ordinateur et mobile.
+- [x] Vérifier l’interface FORMA Admin sur ordinateur et mobile.
