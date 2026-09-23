@@ -8,7 +8,7 @@ import wedding from "@/assets/forma-event-mariage.jpeg.asset.json";
 import training from "@/assets/forma-training-equipe.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/" }] }),
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app" }, { title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app" }] }),
   component: Home,
 });
 

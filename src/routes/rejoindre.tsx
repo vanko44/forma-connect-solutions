@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { PartnerApplication } from "@/components/partner-application";
 
 export const Route = createFileRoute("/rejoindre")({
-  head: () => ({ meta: [
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/rejoindre" }, 
     { title: "Réseau de partenaires professionnels — FORMA" },
     { name: "description", content: "Artisans, indépendants, PME et entreprises spécialisées : candidatez au réseau professionnel coordonné par FORMA en RDC." },
     { property: "og:title", content: "Rejoignez le réseau de partenaires FORMA" },
     { property: "og:description", content: "Présentez votre structure, vos expertises et vos capacités pour rejoindre le réseau professionnel coordonné par FORMA." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ], links: [{ rel: "canonical", href: "/rejoindre" }] }),
+  ], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/rejoindre" }] }),
   component: Join,
 });
 
