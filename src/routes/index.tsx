@@ -46,7 +46,7 @@ const services = [
 function Home() {
   return <>
     <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
-      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
+      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" fetchPriority="high" decoding="async" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
       <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
       <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20"><div className="reveal max-w-4xl">
         <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
