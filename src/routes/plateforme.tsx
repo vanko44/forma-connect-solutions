@@ -5,7 +5,7 @@ import { FormaAdminDashboard } from "@/components/forma-admin-dashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/plateforme")({
-  head: () => ({ meta: [{ title: "Future plateforme digitale — FORMA" }, { name: "description", content: "Aperçu interactif des futurs espaces Client, Prestataire et Admin de la plateforme FORMA." }, { property: "og:title", content: "Future plateforme digitale FORMA" }, { property: "og:description", content: "Suivi des sites, interventions, missions, paiements, rapports et factures dans un espace digital FORMA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/plateforme" }] }),
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/plateforme" }, { title: "Future plateforme digitale — FORMA" }, { name: "description", content: "Aperçu interactif des futurs espaces Client, Prestataire et Admin de la plateforme FORMA." }, { property: "og:title", content: "Future plateforme digitale FORMA" }, { property: "og:description", content: "Suivi des sites, interventions, missions, paiements, rapports et factures dans un espace digital FORMA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/plateforme" }] }),
   component: Platform,
 });
 

@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/connexion-client")({
   head: () => ({
-    meta: [
+    meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/connexion-client" }, 
       { title: "Connexion Espace Client — FORMA" },
       { name: "description", content: "Connectez-vous ou créez gratuitement votre compte client FORMA pour suivre vos devis, sites, interventions et rapports." },
       { property: "og:title", content: "Espace Client FORMA" },
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/connexion-client")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/connexion-client" }],
+    links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/connexion-client" }],
   }),
   component: ClientConnection,
 });

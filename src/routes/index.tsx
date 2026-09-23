@@ -8,7 +8,29 @@ import wedding from "@/assets/forma-event-mariage.jpeg.asset.json";
 import training from "@/assets/forma-training-equipe.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/" }] }),
+  head: () => ({
+    meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app" }, { title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }],
+    links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app" }],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SecurityService",
+        name: "ETS FORMA EVENT AND SECURITY",
+        url: "https://forma-connect-solutions.lovable.app",
+        image: "https://forma-connect-solutions.lovable.app/og-image.jpg",
+        telephone: "+243977528234",
+        email: "formaeventandsecurity@gmail.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "144, av. Ngandu, Q/Mpasa I, C/Nsele",
+          addressLocality: "Kinshasa",
+          addressCountry: "CD",
+        },
+        areaServed: { "@type": "City", name: "Kinshasa" },
+      }),
+    }],
+  }),
   component: Home,
 });
 
@@ -24,7 +46,7 @@ const services = [
 function Home() {
   return <>
     <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
-      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
+      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" fetchPriority="high" decoding="async" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
       <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
       <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20"><div className="reveal max-w-4xl">
         <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>

@@ -9,7 +9,7 @@ import { FORMA_EMAIL, FORMA_WHATSAPP, isValidPhone, mailtoLink, whatsappLink } f
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
-    meta: [
+    meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/contact" }, 
       { title: "Contact — FORMA Event & Security Kinshasa" },
       { name: "description", content: "Contactez FORMA à Kinshasa : téléphone, WhatsApp, email formaeventandsecurity@gmail.com, adresse et formulaire." },
       { property: "og:title", content: "Contacter FORMA" },
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/contact")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/contact" }],
   }),
   component: Contact,
 });

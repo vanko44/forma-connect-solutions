@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/page-shell";
 
 export const Route = createFileRoute("/mentions-legales")({
-  head: () => ({ meta: [{ title: "Mentions légales — FORMA Event & Security" }, { name: "description", content: "Transparence administrative de ETS FORMA EVENT AND SECURITY : RCCM, adresse et conformité légale en RDC." }, { property: "og:title", content: "Mentions légales FORMA" }, { property: "og:description", content: "Informations administratives officielles de FORMA à Kinshasa." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/mentions-legales" }] }),
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/mentions-legales" }, { title: "Mentions légales — FORMA Event & Security" }, { name: "description", content: "Transparence administrative de ETS FORMA EVENT AND SECURITY : RCCM, adresse et conformité légale en RDC." }, { property: "og:title", content: "Mentions légales FORMA" }, { property: "og:description", content: "Informations administratives officielles de FORMA à Kinshasa." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/mentions-legales" }] }),
   component: Legal,
 });
 

@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://forma-connect-solutions.lovable.app/sitemap.xml

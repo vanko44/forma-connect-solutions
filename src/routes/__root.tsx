@@ -79,8 +79,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "ETS FORMA EVENT AND SECURITY" },
+      { name: "theme-color", content: "#0A0A0B" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "FORMA Event & Security" },
+      { property: "og:locale", content: "fr_FR" },
+      { property: "og:image", content: "https://forma-connect-solutions.lovable.app/og-image.jpg" },
+      { property: "og:image:width", content: "1920" },
+      { property: "og:image:height", content: "1200" },
+      { property: "og:image:alt", content: "Agents de sécurité FORMA devant un immeuble moderne à Kinshasa" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://forma-connect-solutions.lovable.app/og-image.jpg" },
     ],
     links: [
       {

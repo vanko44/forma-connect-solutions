@@ -4,7 +4,7 @@ import { Camera, Megaphone, PlayCircle } from "lucide-react";
 import { PageIntro, CtaBand } from "@/components/page-shell";
 
 export const Route = createFileRoute("/media-publicite")({
-  head: () => ({ meta: [{ title: "Media, couverture et publicité — FORMA" }, { name: "description", content: "Photographie, vidéo, streaming live, couverture médiatique, personal branding et campagnes digitales en RDC." }, { property: "og:title", content: "FORMA Media & Advertising" }, { property: "og:description", content: "Production média, visibilité et communication corporate avec une exécution maîtrisée." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/media-publicite" }] }),
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/media-publicite" }, { title: "Media, couverture et publicité — FORMA" }, { name: "description", content: "Photographie, vidéo, streaming live, couverture médiatique, personal branding et campagnes digitales en RDC." }, { property: "og:title", content: "FORMA Media & Advertising" }, { property: "og:description", content: "Production média, visibilité et communication corporate avec une exécution maîtrisée." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/media-publicite" }] }),
   component: MediaPublicite,
 });
 

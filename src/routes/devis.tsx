@@ -4,7 +4,7 @@ import { PageIntro } from "@/components/page-shell";
 import { FORMA_EMAIL } from "@/lib/forma-contact";
 
 export const Route = createFileRoute("/devis")({
-  head: () => ({ meta: [{ title: "Demander un devis — FORMA Event & Security" }, { name: "description", content: "Formulaire de demande de devis FORMA : sécurité, événements, média, publicité, formation, facility. Envoi par email à formaeventandsecurity@gmail.com ou WhatsApp." }, { property: "og:title", content: "Demander un devis FORMA" }, { property: "og:description", content: "Précisez votre besoin et transmettez votre demande directement à FORMA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/devis" }] }),
+  head: () => ({ meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app/devis" }, { title: "Demander un devis — FORMA Event & Security" }, { name: "description", content: "Formulaire de demande de devis FORMA : sécurité, événements, média, publicité, formation, facility. Envoi par email à formaeventandsecurity@gmail.com ou WhatsApp." }, { property: "og:title", content: "Demander un devis FORMA" }, { property: "og:description", content: "Précisez votre besoin et transmettez votre demande directement à FORMA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/devis" }] }),
   component: Quote,
 });
 
