@@ -13,4 +13,6 @@
 - [x] Vérifier le nouveau parcours partenaire sur ordinateur et mobile.
 - [x] Reformuler positivement la séparation entre activités directes et expertises partenaires.
 - [x] Créer le tableau de pilotage FORMA Admin avec indicateurs, filtres et actions.
-- [x] Vérifier l’interface FORMA Admin sur ordinateur et mobile.
+- [x] Vérifier l’interface FORMA Admin sur ordinateur et mobile.- [x] Images en fichiers statiques /images (compatibles Vercel).
+- [x] FORMA Admin déplacé sur /admin, protégé, données réelles.
+- [ ] Passe de design premium (en attente).
