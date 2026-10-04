@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
-import { whatsappLink } from "@/lib/forma-contact";
 
 type Quote = { id: string; created_at: string; pole: string; name: string; organization: string | null; phone: string; email: string | null; needs: string; place: string; desired_date: string | null; amount: string | null; status: string };
 type Partner = { id: string; created_at: string; business_name: string; manager_name: string; trade: string; phone: string; email: string; documents: string | null; status: string };
@@ -143,4 +142,3 @@ export function FormaAdminDashboard() {
   </div>;
 }
 
-export { whatsappLink };
