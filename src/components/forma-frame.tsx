@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, Phone, X, ArrowUpRight, Mail, MessageCircle, Moon, Sun, UserRound, Users } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/forma-logo.jpeg.asset.json";
+const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
 
 const nav = [

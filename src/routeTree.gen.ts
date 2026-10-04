@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ConnexionClientRouteImport } from './routes/connexion-client'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DevisRouteImport } from './routes/devis'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const AProposRoute = AProposRouteImport.update({
   id: '/a-propos',
   path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConnexionClientRoute = ConnexionClientRouteImport.update({
@@ -104,6 +110,7 @@ const SolutionsRoute = SolutionsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/admin': typeof AdminRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/admin': typeof AdminRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/admin': typeof AdminRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/a-propos'
+    | '/admin'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/a-propos'
+    | '/admin'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/a-propos'
+    | '/admin'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AProposRoute: typeof AProposRoute
+  AdminRoute: typeof AdminRoute
   ConnexionClientRoute: typeof ConnexionClientRoute
   ContactRoute: typeof ContactRoute
   DevisRoute: typeof DevisRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/a-propos'
       fullPath: '/a-propos'
       preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/connexion-client': {
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AProposRoute: AProposRoute,
+  AdminRoute: AdminRoute,
   ConnexionClientRoute: ConnexionClientRoute,
   ContactRoute: ContactRoute,
   DevisRoute: DevisRoute,

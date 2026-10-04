@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { FORMA_EMAIL, isValidPhone, mailtoLink, whatsappLink } from "@/lib/forma-contact";
+import { supabase } from "@/integrations/supabase/client";
 
 const serviceGroups = [
   { title: "Maintenance & technique", services: ["Électricité", "Plomberie", "Climatisation / HVAC", "Maintenance générale", "Équipements techniques", "Informatique & réseaux"] },
@@ -63,8 +64,16 @@ Références : ${form.references}
 Documents / agréments disponibles : ${form.documents || "Non renseignés"}
 Portfolio / documents : ${form.portfolio || "Non renseigné"}`, [availability, form, services]);
 
+  const [saved, setSaved] = useState(false);
   const validate = () => {
-    if (ready) { setError(""); return true; }
+    if (ready) {
+      setError("");
+      if (!saved) {
+        setSaved(true);
+        void supabase.from("partner_applications").insert({ business_name: form.businessName.trim(), manager_name: form.managerName.trim(), trade: form.mainDomain, phone: form.phone.trim(), email: form.email.trim(), documents: form.documents || null, details: body.slice(0, 6000) });
+      }
+      return true;
+    }
     setError("Merci de compléter les champs obligatoires, de sélectionner au moins un service et une disponibilité, puis de vérifier le téléphone et l’email.");
     return false;
   };
