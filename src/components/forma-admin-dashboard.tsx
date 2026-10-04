@@ -89,7 +89,7 @@ export function FormaAdminDashboard() {
     </div>
 
     <Tabs defaultValue="devis">
-      <div className="overflow-x-auto border-b border-border px-4 pt-4 sm:px-6"><TabsList className="h-auto min-w-max justify-start rounded-none bg-transparent p-0">{[["devis", `Devis (${quotes.length})`], ["operations", `Postes de sécurité (${sites.length})`], ["partners", `Partenaires (${partners.length})`]].map(([v, l]) => <TabsTrigger key={v} value={v} className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none">{l}</TabsTrigger>)}</TabsList></div>
+      <div className="overflow-x-auto border-b border-border px-4 pt-4 sm:px-6"><TabsList className="h-auto min-w-max justify-start rounded-none bg-transparent p-0">{([["devis", `Devis (${quotes.length})`], ["operations", `Postes de sécurité (${sites.length})`], ["partners", `Partenaires (${partners.length})`]] as const).map(([v, l]) => <TabsTrigger key={v} value={v} className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none">{l}</TabsTrigger>)}</TabsList></div>
 
       <TabsContent value="devis" className="m-0">
         {vQuotes.length === 0 ? <p className="p-10 text-center text-sm text-muted-foreground">{loading ? "Chargement…" : "Aucune demande de devis pour le moment. Les demandes envoyées depuis le site apparaissent ici."}</p> :
