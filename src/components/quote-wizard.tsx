@@ -4,13 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FORMA_EMAIL, isValidPhone, mailtoLink, whatsappLink } from "@/lib/forma-contact";
+import { supabase } from "@/integrations/supabase/client";
 
 const poles = ["Sécurité", "Événement", "Photo / Vidéo", "Publicité", "Formation", "Facility Management", "Solution multiservices"];
 type Data = { pole: string; name: string; org: string; phone: string; email: string; needs: string; place: string; dates: string };
 const initial: Data = { pole: "", name: "", org: "", phone: "", email: "", needs: "", place: "", dates: "" };
 
 export function QuoteWizard() {
-  const [step, setStep] = useState(1); const [data, setData] = useState(initial); const [error, setError] = useState(""); const [sent, setSent] = useState("");
+  const [step, setStep] = useState(1); const [data, setData] = useState(initial); const [error, setError] = useState(""); const [sentState, setSentState] = useState("");
+  const [saved, setSaved] = useState(false);
+  const sent = sentState;
+  const setSent = (channel: string) => {
+    setSentState(channel);
+    if (saved) return;
+    setSaved(true);
+    void supabase.from("quote_requests").insert({ pole: data.pole, name: data.name.trim(), organization: data.org || null, phone: data.phone.trim(), email: data.email || null, needs: data.needs.trim(), place: data.place.trim(), desired_date: data.dates || null });
+  };
   const set = (key: keyof Data, value: string) => setData(v => ({ ...v, [key]: value }));
   const valid = useMemo(() => step === 1 ? !!data.pole : step === 2 ? data.name.trim().length >= 2 && isValidPhone(data.phone) && (!data.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) : step === 3 ? data.needs.trim().length >= 15 : step === 4 ? data.place.trim().length >= 2 && !!data.dates : true, [data, step]);
   const next = () => { if (!valid) { setError("Veuillez compléter correctement les informations demandées."); return; } setError(""); setStep(s => Math.min(5, s + 1)); };
