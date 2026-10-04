@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Shield, Camera, CalendarDays, GraduationCap, Building2, Megaphone, ClipboardCheck, UserRoundCheck, FileSignature, ReceiptText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SecurityAssessment } from "@/components/security-assessment";
-import hero from "@/assets/forma-security-hero.jpg";
-import media from "@/assets/forma-media.jpg";
-import wedding from "@/assets/forma-event-mariage.jpeg.asset.json";
-import training from "@/assets/forma-training-equipe.jpeg.asset.json";
+const hero = "/images/forma-security-hero.jpg";
+const media = "/images/forma-media.jpg";
+const wedding = { url: "/images/forma-event-mariage.jpeg" };
+const training = { url: "/images/forma-training-equipe.jpeg" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
