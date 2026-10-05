@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep operational photography needed on external Git/Vercel deployments as files under `public/images/` so asset paths work on every host.
+- Grant direction administrator roles in database triggers after email confirmation, because UI email matching is not an authorization boundary.
