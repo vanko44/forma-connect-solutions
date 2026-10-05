@@ -15,4 +15,6 @@
 - [x] Créer le tableau de pilotage FORMA Admin avec indicateurs, filtres et actions.
 - [x] Vérifier l’interface FORMA Admin sur ordinateur et mobile.- [x] Images en fichiers statiques /images (compatibles Vercel).
 - [x] FORMA Admin déplacé sur /admin, protégé, données réelles.
+- [x] Afficher le véhicule de patrouille versionné sur l’accueil et la page Sécurité.
+- [x] Autoriser les comptes de direction confirmés sur FORMA Admin et afficher un accueil dédié.
 - [ ] Passe de design premium (en attente).
