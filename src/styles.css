@@ -203,3 +203,11 @@
 button, a, article {
   transition-duration: 220ms;
 }
+
+@media print {
+  body.printing-offer * { visibility: hidden; }
+  body.printing-offer .forma-offer, body.printing-offer .forma-offer * { visibility: visible; }
+  body.printing-offer .forma-offer { position: absolute; inset: 0 auto auto 0; width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.printing-offer .offer-page { break-inside: avoid; }
+  body.printing-offer .forma-offer > header { break-after: page; min-height: 95vh; }
+}
