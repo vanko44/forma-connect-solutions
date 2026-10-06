@@ -56,45 +56,54 @@ export type Database = {
       quote_requests: {
         Row: {
           amount: string | null
+          approved_at: string | null
           created_at: string
           desired_date: string | null
           email: string | null
           id: string
           name: string
           needs: string
+          offer: Json | null
           organization: string | null
           phone: string
           place: string
           pole: string
           status: string
+          user_id: string | null
         }
         Insert: {
           amount?: string | null
+          approved_at?: string | null
           created_at?: string
           desired_date?: string | null
           email?: string | null
           id?: string
           name: string
           needs: string
+          offer?: Json | null
           organization?: string | null
           phone: string
           place: string
           pole: string
           status?: string
+          user_id?: string | null
         }
         Update: {
           amount?: string | null
+          approved_at?: string | null
           created_at?: string
           desired_date?: string | null
           email?: string | null
           id?: string
           name?: string
           needs?: string
+          offer?: Json | null
           organization?: string | null
           phone?: string
           place?: string
           pole?: string
           status?: string
+          user_id?: string | null
         }
         Relationships: []
       }
