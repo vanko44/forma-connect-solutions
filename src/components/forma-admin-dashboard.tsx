@@ -6,16 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { FormaOfferEditor } from "@/components/forma-offer-editor";
+import { PENDING_STATUS, APPROVED_STATUS } from "@/lib/forma-offer";
 
-type Quote = { id: string; created_at: string; pole: string; name: string; organization: string | null; phone: string; email: string | null; needs: string; place: string; desired_date: string | null; amount: string | null; status: string };
+type Quote = { id: string; created_at: string; pole: string; name: string; organization: string | null; phone: string; email: string | null; needs: string; place: string; desired_date: string | null; amount: string | null; status: string; offer?: unknown };
 type Partner = { id: string; created_at: string; business_name: string; manager_name: string; trade: string; phone: string; email: string; documents: string | null; status: string };
 type Site = { id: string; site: string; location: string; day_posts: number; night_posts: number; supervisor: string | null; last_report: string | null; status: string };
 
-const quoteStatuses = ["Nouveau", "Chiffrage envoyé", "En négociation", "Signé", "Traité"];
+const quoteStatuses = [PENDING_STATUS, APPROVED_STATUS, "Chiffrage envoyé", "En négociation", "Signé", "Traité"];
 const partnerStatuses = ["Candidature reçue", "En vérification", "Compléments demandés", "Validé", "Partenaire actif"];
 const siteStatuses = ["Opérationnel", "Ronde effectuée", "Vigilance"];
 
-const tone = (s: string) => s === "Vigilance" ? "border-destructive/35 bg-destructive/10 text-destructive" : ["Nouveau", "Candidature reçue", "En négociation", "Compléments demandés"].includes(s) ? "border-accent/50 bg-accent/15 text-foreground" : "border-primary/25 bg-primary/10 text-foreground";
+const tone = (s: string) => s === "Vigilance" ? "border-destructive/35 bg-destructive/10 text-destructive" : [PENDING_STATUS, "Candidature reçue", "En négociation", "Compléments demandés"].includes(s) ? "border-accent/50 bg-accent/15 text-foreground" : "border-primary/25 bg-primary/10 text-foreground";
 const fmt = (d: string) => new Date(d).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
 const waTo = (phone: string, text: string) => {
   let digits = phone.replace(/\D/g, "");
@@ -71,7 +73,7 @@ export function FormaAdminDashboard() {
   const agents = sites.reduce((t, s) => t + s.day_posts + s.night_posts, 0);
   const kpis = [
     { icon: ShieldCheck, label: "Sites sous contrat · agents", value: `${sites.length} · ${agents}`, detail: "Kinshasa" },
-    { icon: FileText, label: "Devis à chiffrer", value: quotes.filter((q) => q.status === "Nouveau").length, detail: "À traiter" },
+    { icon: FileText, label: "Devis à chiffrer", value: quotes.filter((q) => q.status === PENDING_STATUS).length, detail: "À traiter" },
     { icon: UserCheck, label: "Candidatures à examiner", value: partners.filter((p) => ["Candidature reçue", "En vérification", "Compléments demandés"].includes(p.status)).length, detail: "Qualification" },
     { icon: ClipboardCheck, label: "Devis signés", value: quotes.filter((q) => q.status === "Signé").length, detail: "Exécution" },
   ];
@@ -93,7 +95,7 @@ export function FormaAdminDashboard() {
 
       <TabsContent value="devis" className="m-0">
         {vQuotes.length === 0 ? <p className="p-10 text-center text-sm text-muted-foreground">{loading ? "Chargement…" : "Aucune demande de devis pour le moment. Les demandes envoyées depuis le site apparaissent ici."}</p> :
-          <div className="overflow-x-auto"><table className="w-full min-w-[1100px] text-left text-sm"><thead className="bg-muted/60 text-xs uppercase text-muted-foreground"><tr>{["Date", "Client / organisation", "Pôle", "Lieu · date", "Besoin", "Montant indicatif", "Statut", "Actions"].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead><tbody>{vQuotes.map((q) => <tr key={q.id} className="border-t border-border">
+          <div className="overflow-x-auto"><table className="w-full min-w-[1250px] text-left text-sm"><thead className="bg-muted/60 text-xs uppercase text-muted-foreground"><tr>{["Date", "Client / organisation", "Pôle", "Lieu · date", "Besoin", "Montant indicatif", "Statut", "Actions"].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead><tbody>{vQuotes.map((q) => <tr key={q.id} className="border-t border-border">
             <td className={`${td} whitespace-nowrap text-muted-foreground`}>{fmt(q.created_at)}</td>
             <td className={td}><p className="font-semibold">{q.name}</p><p className="text-xs text-muted-foreground">{q.organization ?? "Particulier"} · {q.phone}</p></td>
             <td className={td}>{q.pole}</td>
@@ -101,7 +103,7 @@ export function FormaAdminDashboard() {
             <td className={`${td} max-w-[260px]`}><p className="line-clamp-3 text-xs text-muted-foreground" title={q.needs}>{q.needs}</p></td>
             <td className={td}><Input defaultValue={q.amount ?? ""} placeholder="À chiffrer" maxLength={40} className="h-8 w-32 text-xs" onBlur={(e) => e.target.value !== (q.amount ?? "") && void updQuote(q.id, { amount: e.target.value || null })} /></td>
             <td className={td}><StatusSelect value={q.status} options={quoteStatuses} onChange={(v) => void updQuote(q.id, { status: v })} /></td>
-            <td className={td}><div className="flex gap-2"><Button asChild size="sm" variant="outline" title="WhatsApp"><a href={waTo(q.phone, `Bonjour ${q.name}, FORMA Event & Security revient vers vous concernant votre demande de devis (${q.pole}).`)} target="_blank" rel="noreferrer"><MessageCircle /></a></Button>{q.email && <Button asChild size="sm" variant="outline" title="Email"><a href={`mailto:${q.email}?subject=${encodeURIComponent(`Votre demande de devis FORMA — ${q.pole}`)}`}><Mail /></a></Button>}<Button size="sm" title="Marquer traité" disabled={q.status === "Traité"} onClick={() => void updQuote(q.id, { status: "Traité" })}><CheckCircle2 /></Button></div></td>
+            <td className={td}><div className="flex flex-wrap gap-2"><FormaOfferEditor quote={q} onDone={(patch) => setQuotes((c) => c.map((x) => x.id === q.id ? { ...x, ...patch } as Quote : x))} /><Button asChild size="sm" variant="outline" title="WhatsApp"><a href={waTo(q.phone, `Bonjour ${q.name}, FORMA Event & Security revient vers vous concernant votre demande de devis (${q.pole}).`)} target="_blank" rel="noreferrer"><MessageCircle /></a></Button>{q.email && <Button asChild size="sm" variant="outline" title="Email"><a href={`mailto:${q.email}?subject=${encodeURIComponent(`Votre demande de devis FORMA — ${q.pole}`)}`}><Mail /></a></Button>}<Button size="sm" title="Marquer traité" disabled={q.status === "Traité"} onClick={() => void updQuote(q.id, { status: "Traité" })}><CheckCircle2 /></Button></div></td>
           </tr>)}</tbody></table></div>}
       </TabsContent>
 

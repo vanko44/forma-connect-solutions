@@ -18,7 +18,7 @@ export function QuoteWizard() {
     setSentState(channel);
     if (saved) return;
     setSaved(true);
-    void supabase.from("quote_requests").insert({ pole: data.pole, name: data.name.trim(), organization: data.org || null, phone: data.phone.trim(), email: data.email || null, needs: data.needs.trim(), place: data.place.trim(), desired_date: data.dates || null });
+    void supabase.auth.getSession().then(({ data: auth }) => supabase.from("quote_requests").insert({ user_id: auth.session?.user.id ?? null, pole: data.pole, name: data.name.trim(), organization: data.org || null, phone: data.phone.trim(), email: data.email || null, needs: data.needs.trim(), place: data.place.trim(), desired_date: data.dates || null }));
   };
   const set = (key: keyof Data, value: string) => setData(v => ({ ...v, [key]: value }));
   const valid = useMemo(() => step === 1 ? !!data.pole : step === 2 ? data.name.trim().length >= 2 && isValidPhone(data.phone) && (!data.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) : step === 3 ? data.needs.trim().length >= 15 : step === 4 ? data.place.trim().length >= 2 && !!data.dates : true, [data, step]);
