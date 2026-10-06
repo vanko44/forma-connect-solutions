@@ -211,3 +211,6 @@ button, a, article {
   body.printing-offer .offer-page { break-inside: avoid; }
   body.printing-offer .forma-offer > header { break-after: page; min-height: 95vh; }
 }
+@media print {
+  body.printing-offer [role="dialog"] { position: absolute !important; inset: 0 !important; transform: none !important; max-height: none !important; overflow: visible !important; max-width: none !important; width: 100% !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; }
+}
