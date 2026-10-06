@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { FormaOfferEditor } from "@/components/forma-offer-editor";
 import { PENDING_STATUS, APPROVED_STATUS } from "@/lib/forma-offer";
 
-type Quote = { id: string; created_at: string; pole: string; name: string; organization: string | null; phone: string; email: string | null; needs: string; place: string; desired_date: string | null; amount: string | null; status: string; offer?: unknown };
+type Quote = { id: string; created_at: string; pole: string; name: string; organization: string | null; phone: string; email: string | null; needs: string; place: string; desired_date: string | null; amount: string | null; status: string; offer?: import("@/integrations/supabase/types").Json };
 type Partner = { id: string; created_at: string; business_name: string; manager_name: string; trade: string; phone: string; email: string; documents: string | null; status: string };
 type Site = { id: string; site: string; location: string; day_posts: number; night_posts: number; supervisor: string | null; last_report: string | null; status: string };
 
