@@ -8,30 +8,81 @@ import { supabase } from "@/integrations/supabase/client";
 
 import { FormaOfferDownloads } from "@/components/forma-offer-downloads";
 
-type Row = { id: string; created_at: string; pole: string; place: string; status: string; offer: unknown; amount: string | null };
+type Row = {
+  id: string;
+  created_at: string;
+  pole: string;
+  place: string;
+  status: string;
+  offer: unknown;
+  amount: string | null;
+};
 
 export function ClientQuotes({ userId }: { userId: string }) {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [open, setOpen] = useState<Offer | null>(null);
   useEffect(() => {
-    void supabase.from("quote_requests").select("id, created_at, pole, place, status, offer, amount").eq("user_id", userId).order("created_at", { ascending: false }).then(({ data }) => setRows((data as Row[]) ?? []));
+    void supabase
+      .from("quote_requests")
+      .select("id, created_at, pole, place, status, offer, amount")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => setRows((data as Row[]) ?? []));
   }, [userId]);
   if (!rows) return <p className="text-sm text-muted-foreground">Chargement de vos devis…</p>;
-  if (!rows.length) return <p className="border border-dashed border-border p-6 text-sm text-muted-foreground">Aucune demande de devis liée à votre compte. Les demandes envoyées en étant connecté apparaissent ici.</p>;
-  return <>
-    <div className="divide-y divide-border border border-border bg-card">{rows.map((r) => {
-      const ready = r.status === APPROVED_STATUS && !!r.offer;
-      return <div key={r.id} className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div><p className="font-bold">{r.pole} — {r.place}</p><p className="text-xs text-muted-foreground">Demande du {new Date(r.created_at).toLocaleDateString("fr-FR")}</p></div>
-        {ready ? <div className="flex items-center gap-3"><span className="flex items-center gap-1 text-sm font-semibold text-accent"><FileCheck2 className="h-4 w-4" /> Offre officielle disponible{r.amount ? ` · ${r.amount}` : ""}</span><Button size="sm" onClick={() => setOpen(r.offer as Offer)}>Consulter l’offre</Button></div>
-          : <span className="flex items-center gap-2 text-sm text-muted-foreground"><Clock className="h-4 w-4" /> En cours d’étude par la direction FORMA</span>}
-      </div>;
-    })}</div>
-    <Dialog open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
-      <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
-        <DialogHeader className="gap-3 border-b border-border p-5 pr-12"><DialogTitle>Offre officielle FORMA</DialogTitle>{open && <FormaOfferDownloads offer={open}/>}</DialogHeader>
-        {open && <FormaOfferDocument offer={open} />}
-      </DialogContent>
-    </Dialog>
-  </>;
+  if (!rows.length)
+    return (
+      <p className="border border-dashed border-border p-6 text-sm text-muted-foreground">
+        Aucune demande de devis liée à votre compte. Les demandes envoyées en étant connecté
+        apparaissent ici.
+      </p>
+    );
+  return (
+    <>
+      <div className="divide-y divide-border border border-border bg-card">
+        {rows.map((r) => {
+          const ready = r.status === APPROVED_STATUS && !!r.offer;
+          return (
+            <div
+              key={r.id}
+              className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <p className="font-bold">
+                  {r.pole} — {r.place}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Demande du {new Date(r.created_at).toLocaleDateString("fr-FR")}
+                </p>
+              </div>
+              {ready ? (
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-accent">
+                    <FileCheck2 className="h-4 w-4" /> Offre officielle disponible
+                    {r.amount ? ` · ${r.amount}` : ""}
+                  </span>
+                  <Button size="sm" onClick={() => setOpen(r.offer as Offer)}>
+                    Consulter l’offre
+                  </Button>
+                </div>
+              ) : (
+                <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" /> En cours d’étude par la direction FORMA
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <Dialog open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
+        <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
+          <DialogHeader className="gap-3 border-b border-border p-5 pr-12">
+            <DialogTitle>Offre officielle FORMA</DialogTitle>
+            {open && <FormaOfferDownloads offer={open} />}
+          </DialogHeader>
+          {open && <FormaOfferDocument offer={open} />}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
