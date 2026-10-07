@@ -12,3 +12,5 @@
 - Keep operational photography needed on external Git/Vercel deployments as files under `public/images/` so asset paths work on every host.
 - Grant direction administrator roles in database triggers after email confirmation, because UI email matching is not an authorization boundary.
 - Store optional mission team names inside the offer JSON and share role definitions across editing and rendering, so legacy offers remain readable and client/print output stays consistent.
+
+- Generate client-side offer downloads from the original PDF template, preserving annexes; embed PDF pages in PowerPoint to retain the exact visual layout without external account connections.

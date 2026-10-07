@@ -19,3 +19,5 @@
 - [x] Autoriser les comptes de direction confirmés sur FORMA Admin et afficher un accueil dédié.
 - [ ] Passe de design premium (en attente).
 - [x] Ajouter la Section 04, son édition manuelle et vérifier sa restitution dans l’offre client et le PDF.
+- [ ] Intégrer les photos de surveillance et de l’équipe cynophile sur l’accueil et Sécurité.
+- [ ] Remplacer le bouton PDF par des téléchargements PDF et PowerPoint fondés sur le document original et vérifier l’impression.

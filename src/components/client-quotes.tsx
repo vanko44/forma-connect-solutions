@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Clock, FileCheck2, Printer } from "lucide-react";
+import { Clock, FileCheck2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { FormaOfferDocument, printOffer } from "@/components/forma-offer-document";
+import { FormaOfferDocument } from "@/components/forma-offer-document";
 import { APPROVED_STATUS, type Offer } from "@/lib/forma-offer";
 import { supabase } from "@/integrations/supabase/client";
+
+import { FormaOfferDownloads } from "@/components/forma-offer-downloads";
 
 type Row = { id: string; created_at: string; pole: string; place: string; status: string; offer: unknown; amount: string | null };
 
@@ -27,7 +29,7 @@ export function ClientQuotes({ userId }: { userId: string }) {
     })}</div>
     <Dialog open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
       <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
-        <DialogHeader className="flex-row items-center justify-between gap-3 border-b border-border p-5"><DialogTitle>Offre officielle FORMA</DialogTitle><Button size="sm" variant="outline" className="mr-8" onClick={printOffer}><Printer /> Télécharger / Imprimer (PDF)</Button></DialogHeader>
+        <DialogHeader className="gap-3 border-b border-border p-5 pr-12"><DialogTitle>Offre officielle FORMA</DialogTitle>{open && <FormaOfferDownloads offer={open}/>}</DialogHeader>
         {open && <FormaOfferDocument offer={open} />}
       </DialogContent>
     </Dialog>
