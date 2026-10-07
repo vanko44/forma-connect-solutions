@@ -34,7 +34,7 @@ export function FormaOfferEditor({ quote, onDone }: { quote: Q; onDone: (patch: 
   return <>
     <Button size="sm" variant="outline" onClick={() => setOpen(true)}><Pencil /> Éditer & Approuver</Button>
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto p-0">
+      <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
         <DialogHeader className="border-b border-border p-5"><DialogTitle>Offre officielle — {quote.organization || quote.name}</DialogTitle>
           <div className="mt-3 flex flex-wrap gap-2"><Button size="sm" variant={preview ? "outline" : "default"} onClick={() => setPreview(false)}><Pencil /> Édition</Button><Button size="sm" variant={preview ? "default" : "outline"} onClick={() => setPreview(true)}><Eye /> Aperçu</Button>{preview && <Button size="sm" variant="outline" onClick={printOffer}><Printer /> Imprimer / PDF</Button>}</div>
         </DialogHeader>

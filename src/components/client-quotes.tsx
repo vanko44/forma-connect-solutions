@@ -26,7 +26,7 @@ export function ClientQuotes({ userId }: { userId: string }) {
       </div>;
     })}</div>
     <Dialog open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
-      <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto p-0">
+      <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
         <DialogHeader className="flex-row items-center justify-between gap-3 border-b border-border p-5"><DialogTitle>Offre officielle FORMA</DialogTitle><Button size="sm" variant="outline" className="mr-8" onClick={printOffer}><Printer /> Télécharger / Imprimer (PDF)</Button></DialogHeader>
         {open && <FormaOfferDocument offer={open} />}
       </DialogContent>
