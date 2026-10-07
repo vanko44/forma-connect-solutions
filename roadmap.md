@@ -18,3 +18,4 @@
 - [x] Afficher le véhicule de patrouille versionné sur l’accueil et la page Sécurité.
 - [x] Autoriser les comptes de direction confirmés sur FORMA Admin et afficher un accueil dédié.
 - [ ] Passe de design premium (en attente).
+- [ ] Ajouter la Section 04, son édition manuelle et vérifier sa restitution dans l’offre client et le PDF.
