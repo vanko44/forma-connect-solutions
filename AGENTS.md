@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -7,6 +8,7 @@
 >
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
+
 <!-- LOVABLE:END -->
 
 - Keep operational photography needed on external Git/Vercel deployments as files under `public/images/` so asset paths work on every host.

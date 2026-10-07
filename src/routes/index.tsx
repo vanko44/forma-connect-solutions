@@ -1,5 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, Shield, Camera, CalendarDays, GraduationCap, Building2, Megaphone, ClipboardCheck, UserRoundCheck, FileSignature, ReceiptText } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Shield,
+  Camera,
+  CalendarDays,
+  GraduationCap,
+  Building2,
+  Megaphone,
+  ClipboardCheck,
+  UserRoundCheck,
+  FileSignature,
+  ReceiptText,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SecurityAssessment } from "@/components/security-assessment";
 import { FormaSecurityPhotography } from "@/components/forma-security-photography";
@@ -10,60 +23,418 @@ const training = { url: "/images/forma-training-equipe.jpeg" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [{ property: "og:url", content: "https://forma-connect-solutions.lovable.app" }, { title: "FORMA Event & Security — Sécurité et services à Kinshasa" }, { name: "description", content: "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC." }, { property: "og:title", content: "FORMA Event & Security — Kinshasa" }, { property: "og:description", content: "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }],
+    meta: [
+      { property: "og:url", content: "https://forma-connect-solutions.lovable.app" },
+      { title: "FORMA Event & Security — Sécurité et services à Kinshasa" },
+      {
+        name: "description",
+        content:
+          "Sécurité, événementiel, communication, formation et coordination de services opérationnels en RDC.",
+      },
+      { property: "og:title", content: "FORMA Event & Security — Kinshasa" },
+      {
+        property: "og:description",
+        content:
+          "Votre sécurité, notre priorité. Des solutions professionnelles et multiservices en RDC.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app" }],
-    scripts: [{
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "SecurityService",
-        name: "ETS FORMA EVENT AND SECURITY",
-        url: "https://forma-connect-solutions.lovable.app",
-        image: "https://forma-connect-solutions.lovable.app/og-image.jpg",
-        telephone: "+243977528234",
-        email: "formaeventandsecurity@gmail.com",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "144, av. Ngandu, Q/Mpasa I, C/Nsele",
-          addressLocality: "Kinshasa",
-          addressCountry: "CD",
-        },
-        areaServed: { "@type": "City", name: "Kinshasa" },
-      }),
-    }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SecurityService",
+          name: "ETS FORMA EVENT AND SECURITY",
+          url: "https://forma-connect-solutions.lovable.app",
+          image: "https://forma-connect-solutions.lovable.app/og-image.jpg",
+          telephone: "+243977528234",
+          email: "formaeventandsecurity@gmail.com",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "144, av. Ngandu, Q/Mpasa I, C/Nsele",
+            addressLocality: "Kinshasa",
+            addressCountry: "CD",
+          },
+          areaServed: { "@type": "City", name: "Kinshasa" },
+        }),
+      },
+    ],
   }),
   component: Home,
 });
 
 const services = [
-  { icon: Shield, title: "FORMA Security", text: "Gardiennage, protection, contrôle d’accès, rondes et audits de site.", to: "/securite" as const },
-  { icon: CalendarDays, title: "FORMA Events", text: "Organisation, protocole, accueil, coordination, décoration et logistique.", to: "/evenements" as const },
-  { icon: Camera, title: "Media & Coverage", text: "Photo, vidéo, streaming live et couverture médiatique professionnelle.", to: "/media-publicite" as const },
-  { icon: Megaphone, title: "FORMA Advertising", text: "Image de dirigeants, publicité, création visuelle et campagnes digitales.", to: "/media-publicite" as const },
-  { icon: GraduationCap, title: "FORMA Training", text: "Langues, informatique, développement, marketing et métiers créatifs.", to: "/formations" as const },
-  { icon: Building2, title: "FORMA Facility", text: "Sélection, coordination et contrôle qualité de services opérationnels.", to: "/facility" as const },
+  {
+    icon: Shield,
+    title: "FORMA Security",
+    text: "Gardiennage, protection, contrôle d’accès, rondes et audits de site.",
+    to: "/securite" as const,
+  },
+  {
+    icon: CalendarDays,
+    title: "FORMA Events",
+    text: "Organisation, protocole, accueil, coordination, décoration et logistique.",
+    to: "/evenements" as const,
+  },
+  {
+    icon: Camera,
+    title: "Media & Coverage",
+    text: "Photo, vidéo, streaming live et couverture médiatique professionnelle.",
+    to: "/media-publicite" as const,
+  },
+  {
+    icon: Megaphone,
+    title: "FORMA Advertising",
+    text: "Image de dirigeants, publicité, création visuelle et campagnes digitales.",
+    to: "/media-publicite" as const,
+  },
+  {
+    icon: GraduationCap,
+    title: "FORMA Training",
+    text: "Langues, informatique, développement, marketing et métiers créatifs.",
+    to: "/formations" as const,
+  },
+  {
+    icon: Building2,
+    title: "FORMA Facility",
+    text: "Sélection, coordination et contrôle qualité de services opérationnels.",
+    to: "/facility" as const,
+  },
 ];
 
 function Home() {
-  return <>
-    <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
-      <img src={hero} alt="Agents de sécurité professionnels devant un immeuble moderne" fetchPriority="high" decoding="async" width="1920" height="1200" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />
-      <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
-      <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20"><div className="reveal max-w-4xl">
-        <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
-        <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl md:text-7xl">Sécurité, événements<br />et solutions multiservices.</h1>
-        <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">Des solutions professionnelles en sécurité, événementiel, formation et services multiservices en RDC.</p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"><Link to="/devis">Demander un devis <ArrowRight /></Link></Button><Button asChild variant="outline" className="h-12 border-primary-foreground/30 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/solutions">Découvrir nos solutions</Link></Button></div>
-        <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-primary-foreground/20 pt-5 text-[11px] font-semibold uppercase text-primary-foreground/65"><span>RCCM CD/KNM/RCCM/25-A-10490</span><span>Kinshasa</span><span>Enregistré ONEM · INPP</span></div>
-      </div></div>
-    </section>
-    <section className="bg-card py-20 md:py-28"><div className="section-shell"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow">Pôle prioritaire</p><h2 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">Votre sécurité,<br />notre priorité.</h2><p className="mt-5 max-w-md leading-7 text-muted-foreground">Chaque dispositif part du terrain : diagnostic, dimensionnement, encadrement opérationnel et suivi régulier.</p><ul className="mt-8 grid gap-3 text-sm font-semibold">{["Gardiennage statique 24/7", "Entreprises et chantiers", "Protection rapprochée / VIP", "Sécurité événementielle", "Contrôle d’accès et filtrage", "Rondes mobiles", "Audit sécuritaire de site"].map(x => <li key={x} className="flex items-center gap-3"><Check className="h-4 w-4 text-accent" />{x}</li>)}</ul></div><SecurityAssessment /></div></div></section>
-    <section className="bg-primary py-16 text-primary-foreground md:py-24"><div className="section-shell grid items-center gap-8 lg:grid-cols-[1.35fr_.65fr] lg:gap-16"><div className="overflow-hidden"><img src="/images/forma-vehicule-patrouille.jpg" alt="Véhicule d’intervention FORMA siglé, déployé pour les rondes à Kinshasa" width="1080" height="444" loading="lazy" decoding="async" className="aspect-[1080/444] w-full object-cover object-center" /></div><div><p className="eyebrow">Flotte & réactivité terrain · Kinshasa</p><h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">Une présence mobile, au plus près de vos sites.</h2><p className="mt-5 leading-7 text-primary-foreground/75">Nos équipes de terrain s’appuient sur un véhicule d’intervention FORMA pour les rondes motorisées et le suivi opérationnel.</p><Button asChild variant="outline" className="mt-7 border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/securite">Découvrir FORMA Security <ArrowRight /></Link></Button></div></div></section>
-    <FormaSecurityPhotography/>
-    <section className="py-20 md:py-28"><div className="section-shell"><div className="scroll-reveal flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="eyebrow">Un écosystème coordonné</p><h2 className="mt-3 max-w-2xl text-3xl font-extrabold md:text-5xl">Des expertises distinctes. Un même niveau d’exigence.</h2></div><Button asChild variant="outline"><Link to="/solutions">Voir toutes les solutions <ArrowRight /></Link></Button></div><div className="mt-12 grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">{services.map(({icon: Icon,title,text,to}, i) => <Link key={title} to={to} className="service-card group bg-card p-7 transition-colors hover:bg-primary hover:text-primary-foreground"><div className="flex justify-between"><Icon className="h-6 w-6 text-accent" /><span className="text-xs font-bold text-muted-foreground">0{i+1}</span></div><h3 className="mt-14 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-primary-foreground/65">{text}</p><ArrowRight className="mt-6 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>)}</div></div></section>
-    <section className="bg-primary py-20 text-primary-foreground md:py-28"><div className="section-shell"><div className="scroll-reveal max-w-4xl"><p className="eyebrow">Pilotage & Facility Management</p><h2 className="mt-4 text-3xl font-extrabold leading-tight md:text-5xl">La Solution FORMA : Pilotez et optimisez vos services généraux en toute sérénité.</h2></div><div className="mt-12 grid gap-px bg-primary-foreground/15 md:grid-cols-3">{[[UserRoundCheck,"1 seul contact dédié"],[FileSignature,"1 contrat unique"],[ReceiptText,"1 facture consolidée"]].map(([Icon,label]) => { const PillarIcon = Icon as typeof UserRoundCheck; return <article key={label as string} className="service-card bg-primary p-7"><PillarIcon className="h-7 w-7 text-accent"/><h3 className="mt-10 text-xl font-bold">{label as string}</h3></article>; })}</div><p className="mt-10 max-w-4xl font-display text-2xl font-bold leading-snug">Avec FORMA EVENT & SECURITY, gérer vos bureaux, sites et opérations n’aura jamais été aussi simple !</p><div className="mt-12 grid gap-10 border-t border-primary-foreground/15 pt-10 lg:grid-cols-2"><div><p className="eyebrow">Notre mission</p><p className="mt-4 leading-7 text-primary-foreground/70">FORMA EVENT & SECURITY a analysé les exigences des appels d’offres, matrices de chiffrage et contrats pour chaque service. Nous avons modélisé des solutions standardisées et personnalisables, pour automatiser les chiffrages tout en nous adaptant aux besoins précis de chaque organisation.</p><ul className="mt-6 grid gap-3 text-sm font-semibold">{["Un vrai choix : 3 gammes de services claires et lisibles — Essentiel, Sérénité, Premium / Sur mesure","Des devis comparables et personnalisables, sans être expert technique","Des cahiers des charges et contrats immédiatement déployables"].map(item=><li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-accent"/>{item}</li>)}</ul><p className="mt-6 font-bold">Sélectionnez vos services, vos gammes, vos options, et nous prenons le relais !</p></div><div><p className="leading-7 text-primary-foreground/70">Du cahier des charges à la planification, du contrat au démarrage, FORMA EVENT & SECURITY vous offre une prise en charge 100 % clé en main. Ne perdez plus de temps à lancer des appels d’offres chronophages ou à attendre des devis sans réponse : bénéficiez immédiatement de notre réseau qualifié.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"><Link to="/devis">Demander un chiffrage de services <ArrowRight/></Link></Button><Button asChild variant="outline" className="h-12 border-primary-foreground/25 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/rejoindre">Rejoindre le réseau partenaire</Link></Button></div></div></div></div></section>
-    <section className="py-20 md:py-28"><div className="section-shell grid gap-6 lg:grid-cols-2"><Link to="/evenements" className="group relative min-h-105 overflow-hidden bg-primary text-primary-foreground"><img src={wedding.url} loading="lazy" alt="Échange d’alliances lors d’une cérémonie de mariage" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"/><div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent"/><div className="absolute inset-x-0 bottom-0 p-7 md:p-10"><p className="eyebrow">FORMA Events</p><h2 className="mt-3 text-3xl font-bold">Cérémonies privées & protocole</h2><p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">Une coordination raffinée pour les mariages, célébrations et événements privés.</p><ArrowRight className="mt-5 h-5 w-5 text-accent"/></div></Link><Link to="/formations" className="group relative min-h-105 overflow-hidden bg-primary text-primary-foreground"><img src={training.url} loading="lazy" alt="Jeunes professionnels africains en formation informatique" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"/><div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent"/><div className="absolute inset-x-0 bottom-0 p-7 md:p-10"><p className="eyebrow">FORMA Training</p><h2 className="mt-3 text-3xl font-bold">Compétences professionnelles</h2><p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">Des parcours concrets pour renforcer l’autonomie et la performance des équipes.</p><ArrowRight className="mt-5 h-5 w-5 text-accent"/></div></Link></div></section>
-    <section className="bg-card py-20"><div className="section-shell grid gap-10 lg:grid-cols-2"><div className="relative min-h-96 overflow-hidden shadow-soft"><img src={media} loading="lazy" width="1280" height="960" alt="Couverture vidéo professionnelle d’un événement institutionnel" className="absolute inset-0 h-full w-full object-cover" /></div><div className="scroll-reveal flex flex-col justify-center"><p className="eyebrow">Phase 3 · Vision digitale</p><h2 className="mt-4 text-3xl font-bold md:text-4xl">La continuité de service, bientôt dans un espace unique.</h2><p className="mt-5 leading-7 text-muted-foreground">Suivi des sites, interventions, rapports, missions prestataires, factures et pilotage central : découvrez l’aperçu interactif de la future plateforme.</p><Button asChild variant="outline" className="mt-7 w-fit"><Link to="/plateforme">Explorer les espaces <ClipboardCheck /></Link></Button></div></div></section>
-    <section className="bg-accent py-14 text-accent-foreground"><div className="section-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center"><div><p className="text-xs font-bold uppercase">Besoin immédiat ?</p><h2 className="mt-2 text-2xl font-bold md:text-3xl">Parlons de votre dispositif.</h2></div><div className="flex flex-wrap gap-3"><Button asChild className="bg-primary text-primary-foreground"><Link to="/devis">Demander un devis</Link></Button><Button asChild variant="outline" className="border-accent-foreground/35 bg-transparent text-accent-foreground hover:bg-accent-foreground/10"><a href="tel:+243977528234">+243 977 528 234</a></Button></div></div></section>
-  </>;
+  return (
+    <>
+      <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
+        <img
+          src={hero}
+          alt="Agents de sécurité professionnels devant un immeuble moderne"
+          fetchPriority="high"
+          decoding="async"
+          width="1920"
+          height="1200"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-55"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
+        <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20">
+          <div className="reveal max-w-4xl">
+            <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
+            <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl md:text-7xl">
+              Sécurité, événements
+              <br />
+              et solutions multiservices.
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">
+              Des solutions professionnelles en sécurité, événementiel, formation et services
+              multiservices en RDC.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"
+              >
+                <Link to="/devis">
+                  Demander un devis <ArrowRight />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="h-12 border-primary-foreground/30 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              >
+                <Link to="/solutions">Découvrir nos solutions</Link>
+              </Button>
+            </div>
+            <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-primary-foreground/20 pt-5 text-[11px] font-semibold uppercase text-primary-foreground/65">
+              <span>RCCM CD/KNM/RCCM/25-A-10490</span>
+              <span>Kinshasa</span>
+              <span>Enregistré ONEM · INPP</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-card py-20 md:py-28">
+        <div className="section-shell">
+          <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <p className="eyebrow">Pôle prioritaire</p>
+              <h2 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">
+                Votre sécurité,
+                <br />
+                notre priorité.
+              </h2>
+              <p className="mt-5 max-w-md leading-7 text-muted-foreground">
+                Chaque dispositif part du terrain : diagnostic, dimensionnement, encadrement
+                opérationnel et suivi régulier.
+              </p>
+              <ul className="mt-8 grid gap-3 text-sm font-semibold">
+                {[
+                  "Gardiennage statique 24/7",
+                  "Entreprises et chantiers",
+                  "Protection rapprochée / VIP",
+                  "Sécurité événementielle",
+                  "Contrôle d’accès et filtrage",
+                  "Rondes mobiles",
+                  "Audit sécuritaire de site",
+                ].map((x) => (
+                  <li key={x} className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-accent" />
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <SecurityAssessment />
+          </div>
+        </div>
+      </section>
+      <section className="bg-primary py-16 text-primary-foreground md:py-24">
+        <div className="section-shell grid items-center gap-8 lg:grid-cols-[1.35fr_.65fr] lg:gap-16">
+          <div className="overflow-hidden">
+            <img
+              src="/images/forma-vehicule-patrouille.jpg"
+              alt="Véhicule d’intervention FORMA siglé, déployé pour les rondes à Kinshasa"
+              width="1080"
+              height="444"
+              loading="lazy"
+              decoding="async"
+              className="aspect-[1080/444] w-full object-cover object-center"
+            />
+          </div>
+          <div>
+            <p className="eyebrow">Flotte & réactivité terrain · Kinshasa</p>
+            <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+              Une présence mobile, au plus près de vos sites.
+            </h2>
+            <p className="mt-5 leading-7 text-primary-foreground/75">
+              Nos équipes de terrain s’appuient sur un véhicule d’intervention FORMA pour les rondes
+              motorisées et le suivi opérationnel.
+            </p>
+            <Button
+              asChild
+              variant="outline"
+              className="mt-7 border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
+              <Link to="/securite">
+                Découvrir FORMA Security <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+      <FormaSecurityPhotography />
+      <section className="py-20 md:py-28">
+        <div className="section-shell">
+          <div className="scroll-reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow">Un écosystème coordonné</p>
+              <h2 className="mt-3 max-w-2xl text-3xl font-extrabold md:text-5xl">
+                Des expertises distinctes. Un même niveau d’exigence.
+              </h2>
+            </div>
+            <Button asChild variant="outline">
+              <Link to="/solutions">
+                Voir toutes les solutions <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+          <div className="mt-12 grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
+            {services.map(({ icon: Icon, title, text, to }, i) => (
+              <Link
+                key={title}
+                to={to}
+                className="service-card group bg-card p-7 transition-colors hover:bg-primary hover:text-primary-foreground"
+              >
+                <div className="flex justify-between">
+                  <Icon className="h-6 w-6 text-accent" />
+                  <span className="text-xs font-bold text-muted-foreground">0{i + 1}</span>
+                </div>
+                <h3 className="mt-14 text-xl font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-primary-foreground/65">
+                  {text}
+                </p>
+                <ArrowRight className="mt-6 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="bg-primary py-20 text-primary-foreground md:py-28">
+        <div className="section-shell">
+          <div className="scroll-reveal max-w-4xl">
+            <p className="eyebrow">Pilotage & Facility Management</p>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight md:text-5xl">
+              La Solution FORMA : Pilotez et optimisez vos services généraux en toute sérénité.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-px bg-primary-foreground/15 md:grid-cols-3">
+            {[
+              [UserRoundCheck, "1 seul contact dédié"],
+              [FileSignature, "1 contrat unique"],
+              [ReceiptText, "1 facture consolidée"],
+            ].map(([Icon, label]) => {
+              const PillarIcon = Icon as typeof UserRoundCheck;
+              return (
+                <article key={label as string} className="service-card bg-primary p-7">
+                  <PillarIcon className="h-7 w-7 text-accent" />
+                  <h3 className="mt-10 text-xl font-bold">{label as string}</h3>
+                </article>
+              );
+            })}
+          </div>
+          <p className="mt-10 max-w-4xl font-display text-2xl font-bold leading-snug">
+            Avec FORMA EVENT & SECURITY, gérer vos bureaux, sites et opérations n’aura jamais été
+            aussi simple !
+          </p>
+          <div className="mt-12 grid gap-10 border-t border-primary-foreground/15 pt-10 lg:grid-cols-2">
+            <div>
+              <p className="eyebrow">Notre mission</p>
+              <p className="mt-4 leading-7 text-primary-foreground/70">
+                FORMA EVENT & SECURITY a analysé les exigences des appels d’offres, matrices de
+                chiffrage et contrats pour chaque service. Nous avons modélisé des solutions
+                standardisées et personnalisables, pour automatiser les chiffrages tout en nous
+                adaptant aux besoins précis de chaque organisation.
+              </p>
+              <ul className="mt-6 grid gap-3 text-sm font-semibold">
+                {[
+                  "Un vrai choix : 3 gammes de services claires et lisibles — Essentiel, Sérénité, Premium / Sur mesure",
+                  "Des devis comparables et personnalisables, sans être expert technique",
+                  "Des cahiers des charges et contrats immédiatement déployables",
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 font-bold">
+                Sélectionnez vos services, vos gammes, vos options, et nous prenons le relais !
+              </p>
+            </div>
+            <div>
+              <p className="leading-7 text-primary-foreground/70">
+                Du cahier des charges à la planification, du contrat au démarrage, FORMA EVENT &
+                SECURITY vous offre une prise en charge 100 % clé en main. Ne perdez plus de temps à
+                lancer des appels d’offres chronophages ou à attendre des devis sans réponse :
+                bénéficiez immédiatement de notre réseau qualifié.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  asChild
+                  className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"
+                >
+                  <Link to="/devis">
+                    Demander un chiffrage de services <ArrowRight />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 border-primary-foreground/25 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                >
+                  <Link to="/rejoindre">Rejoindre le réseau partenaire</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="py-20 md:py-28">
+        <div className="section-shell grid gap-6 lg:grid-cols-2">
+          <Link
+            to="/evenements"
+            className="group relative min-h-105 overflow-hidden bg-primary text-primary-foreground"
+          >
+            <img
+              src={wedding.url}
+              loading="lazy"
+              alt="Échange d’alliances lors d’une cérémonie de mariage"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-7 md:p-10">
+              <p className="eyebrow">FORMA Events</p>
+              <h2 className="mt-3 text-3xl font-bold">Cérémonies privées & protocole</h2>
+              <p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">
+                Une coordination raffinée pour les mariages, célébrations et événements privés.
+              </p>
+              <ArrowRight className="mt-5 h-5 w-5 text-accent" />
+            </div>
+          </Link>
+          <Link
+            to="/formations"
+            className="group relative min-h-105 overflow-hidden bg-primary text-primary-foreground"
+          >
+            <img
+              src={training.url}
+              loading="lazy"
+              alt="Jeunes professionnels africains en formation informatique"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-7 md:p-10">
+              <p className="eyebrow">FORMA Training</p>
+              <h2 className="mt-3 text-3xl font-bold">Compétences professionnelles</h2>
+              <p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">
+                Des parcours concrets pour renforcer l’autonomie et la performance des équipes.
+              </p>
+              <ArrowRight className="mt-5 h-5 w-5 text-accent" />
+            </div>
+          </Link>
+        </div>
+      </section>
+      <section className="bg-card py-20">
+        <div className="section-shell grid gap-10 lg:grid-cols-2">
+          <div className="relative min-h-96 overflow-hidden shadow-soft">
+            <img
+              src={media}
+              loading="lazy"
+              width="1280"
+              height="960"
+              alt="Couverture vidéo professionnelle d’un événement institutionnel"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+          <div className="scroll-reveal flex flex-col justify-center">
+            <p className="eyebrow">Phase 3 · Vision digitale</p>
+            <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+              La continuité de service, bientôt dans un espace unique.
+            </h2>
+            <p className="mt-5 leading-7 text-muted-foreground">
+              Suivi des sites, interventions, rapports, missions prestataires, factures et pilotage
+              central : découvrez l’aperçu interactif de la future plateforme.
+            </p>
+            <Button asChild variant="outline" className="mt-7 w-fit">
+              <Link to="/plateforme">
+                Explorer les espaces <ClipboardCheck />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+      <section className="bg-accent py-14 text-accent-foreground">
+        <div className="section-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+          <div>
+            <p className="text-xs font-bold uppercase">Besoin immédiat ?</p>
+            <h2 className="mt-2 text-2xl font-bold md:text-3xl">Parlons de votre dispositif.</h2>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild className="bg-primary text-primary-foreground">
+              <Link to="/devis">Demander un devis</Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-accent-foreground/35 bg-transparent text-accent-foreground hover:bg-accent-foreground/10"
+            >
+              <a href="tel:+243977528234">+243 977 528 234</a>
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

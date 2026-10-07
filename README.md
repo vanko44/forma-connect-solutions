@@ -3,19 +3,21 @@
 Mettre en œuvre la première version de l'écosystème digital et du site corporate officiel de FORMA EVENT & SECURITY (Kinshasa, RDC).
 
 DIRECTIVES STRICTES D'EXÉCUTION :
+
 - Mettre en œuvre le périmètre complet en mode Build direct, sans présenter de plan préalable à valider.
 - Respecter scrupuleusement l'identité visuelle du logo fourni (écu géométrique isométrique "F", typographie géométrique FORMA, teintes noir profond #0A0A0B, blanc cassé / pierre claire #EAE7E1, nuances anthracite et touches dorées / bronze subtiles très corporate).
 - Ne jamais modifier le logo fourni, l'intégrer fidèlement dans le header, footer et la marque.
 - La SÉCURITÉ est le cœur stratégique prioritaire de FORMA (« Votre sécurité, notre priorité »). Les autres pôles sont complémentaires.
 - Pas de design IA générique : adopter une esthétique corporate B2B de très haut standing digne des grandes directions générales, multinationales, institutions et ONG en RDC (typographie éditoriale soignée, cartes précises, micro-interactions soignées, hiérarchie visuelle impeccable).
 - Rigueur absolue sur la réalité : AUCUN faux témoignage, AUCUN faux logo client, AUCUNE certification inventée. Utiliser les mentions légales officielles extraites de leur document d'enregistrement :
-  * Raison sociale : ETS FORMA EVENT AND SECURITY
-  * RCCM : CD/KNM/RCCM/25-A-10490 — Kinshasa
-  * Adresse : 144, av. Ngandu, Q/Mpasa I, C/Nsele, Ville de Kinshasa, RDC
-  * Téléphone / WhatsApp : +243 977 528 234
-  * Conformité légale réelle : Identification Nationale (Ministère de l'Économie), Immatriculation INPP, ONEM, RCCM.
+  - Raison sociale : ETS FORMA EVENT AND SECURITY
+  - RCCM : CD/KNM/RCCM/25-A-10490 — Kinshasa
+  - Adresse : 144, av. Ngandu, Q/Mpasa I, C/Nsele, Ville de Kinshasa, RDC
+  - Téléphone / WhatsApp : +243 977 528 234
+  - Conformité légale réelle : Identification Nationale (Ministère de l'Économie), Immatriculation INPP, ONEM, RCCM.
 
 ARCHITECTURE DU SITE ET SECTIONS REQUISES :
+
 1. Navigation & Header :
    - Logo officiel FORMA
    - Liens : Accueil, À propos, Sécurité, Événements, Media & Publicité, Formations, Facility, Solutions, Contact

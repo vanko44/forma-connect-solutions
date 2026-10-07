@@ -11,7 +11,13 @@ test("official FORMA tariffs", () => {
 });
 
 test("discount applies to subtotal", () => {
-  const t = offerTotals({ lines: [{ label: "a", unit: "u", price: 480, qty: 2 }, { label: "b", unit: "u", price: 650, qty: 1 }], discountPct: 10 });
+  const t = offerTotals({
+    lines: [
+      { label: "a", unit: "u", price: 480, qty: 2 },
+      { label: "b", unit: "u", price: 650, qty: 1 },
+    ],
+    discountPct: 10,
+  });
   expect(t.subtotal).toBe(1610);
   expect(t.discount).toBe(161);
   expect(t.total).toBe(1449);

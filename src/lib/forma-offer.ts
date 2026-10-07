@@ -4,8 +4,16 @@ export const APPROVED_STATUS = "Offre approuvée";
 export const TARIFFS = [
   { label: "Agent de sécurité non armé — poste 12h (jour)", unit: "1 agent / poste", price: 18 },
   { label: "Agent de sécurité non armé — poste 12h (nuit)", unit: "1 agent / poste", price: 20 },
-  { label: "Engagement mensuel — poste fixe (1 agent, 30 jours)", unit: "1 agent / mois", price: 480 },
-  { label: "Superviseur / chef d'équipe (supervision multi-sites)", unit: "1 superviseur / mois", price: 650 },
+  {
+    label: "Engagement mensuel — poste fixe (1 agent, 30 jours)",
+    unit: "1 agent / mois",
+    price: 480,
+  },
+  {
+    label: "Superviseur / chef d'équipe (supervision multi-sites)",
+    unit: "1 superviseur / mois",
+    price: 650,
+  },
   { label: "Ronde mobile de surveillance (véhicule + 2 agents)", unit: "par ronde", price: 35 },
   { label: "Protection rapprochée / VIP (agent formé)", unit: "1 agent / jour", price: 60 },
   { label: "Sécurité événementielle (agent, jour ou soirée)", unit: "1 agent / jour", price: 25 },
@@ -13,10 +21,41 @@ export const TARIFFS = [
 ] as const;
 
 export const SERVICE_GROUPS: { title: string; items: string[] }[] = [
-  { title: "Gardiennage & surveillance", items: ["Gardiennage statique de site (jour / nuit / 24h-24)", "Rondes de surveillance mobiles motorisées", "Contrôle d'accès et filtrage des entrées/sorties", "Surveillance de chantier", "Sécurité résidentielle"] },
-  { title: "Protection des personnes", items: ["Protection rapprochée / VIP", "Escorte et accompagnement de personnalités", "Sécurité de convoi et de transport de valeurs"] },
-  { title: "Services événementiels", items: ["Sécurité événementielle (conférences, mariages, concerts)", "Gestion des flux et du placement du public", "Coordination avec les services d'ordre publics", "Stewarding et accueil sécurisé"] },
-  { title: "Prestations complémentaires", items: ["Audit sécuritaire préalable du site", "Formation et sensibilisation du personnel client", "Renfort ponctuel en agents supplémentaires"] },
+  {
+    title: "Gardiennage & surveillance",
+    items: [
+      "Gardiennage statique de site (jour / nuit / 24h-24)",
+      "Rondes de surveillance mobiles motorisées",
+      "Contrôle d'accès et filtrage des entrées/sorties",
+      "Surveillance de chantier",
+      "Sécurité résidentielle",
+    ],
+  },
+  {
+    title: "Protection des personnes",
+    items: [
+      "Protection rapprochée / VIP",
+      "Escorte et accompagnement de personnalités",
+      "Sécurité de convoi et de transport de valeurs",
+    ],
+  },
+  {
+    title: "Services événementiels",
+    items: [
+      "Sécurité événementielle (conférences, mariages, concerts)",
+      "Gestion des flux et du placement du public",
+      "Coordination avec les services d'ordre publics",
+      "Stewarding et accueil sécurisé",
+    ],
+  },
+  {
+    title: "Prestations complémentaires",
+    items: [
+      "Audit sécuritaire préalable du site",
+      "Formation et sensibilisation du personnel client",
+      "Renfort ponctuel en agents supplémentaires",
+    ],
+  },
 ];
 
 export type OfferLine = { label: string; unit: string; price: number; qty: number };
@@ -29,7 +68,17 @@ export const TEAM_ROLES = [
   { key: "agents", label: "Agents de terrain (gardiennage, rondes, protection, événementiel)" },
 ] as const;
 export type OfferTeam = Partial<Record<(typeof TEAM_ROLES)[number]["key"], string>>;
-export type Offer = { clientName: string; signatory: string; signatoryRole: string; date: string; services: string[]; lines: OfferLine[]; discountPct: number; notes: string; team?: OfferTeam };
+export type Offer = {
+  clientName: string;
+  signatory: string;
+  signatoryRole: string;
+  date: string;
+  services: string[];
+  lines: OfferLine[];
+  discountPct: number;
+  notes: string;
+  team?: OfferTeam;
+};
 
 export function offerTeamRows(offer: Pick<Offer, "team">) {
   return TEAM_ROLES.map((role) => ({ ...role, name: offer.team?.[role.key]?.trim() || "" }));
