@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { CheckCircle2, Eye, Pencil, Printer } from "lucide-react";
+import { CheckCircle2, Eye, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FormaOfferDocument, printOffer } from "@/components/forma-offer-document";
+import { FormaOfferDocument } from "@/components/forma-offer-document";
 import { APPROVED_STATUS, defaultOffer, offerTotals, SERVICE_GROUPS, TEAM_ROLES, usd, type Offer } from "@/lib/forma-offer";
 import { supabase } from "@/integrations/supabase/client";
+
+import { FormaOfferDownloads } from "@/components/forma-offer-downloads";
 
 type Q = { id: string; name: string; organization: string | null; needs: string; pole: string; offer?: unknown };
 
@@ -36,7 +38,8 @@ export function FormaOfferEditor({ quote, onDone }: { quote: Q; onDone: (patch: 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
         <DialogHeader className="border-b border-border p-5"><DialogTitle>Offre officielle — {quote.organization || quote.name}</DialogTitle>
-          <div className="mt-3 flex flex-wrap gap-2"><Button size="sm" variant={preview ? "outline" : "default"} onClick={() => setPreview(false)}><Pencil /> Édition</Button><Button size="sm" variant={preview ? "default" : "outline"} onClick={() => setPreview(true)}><Eye /> Aperçu</Button>{preview && <Button size="sm" variant="outline" onClick={printOffer}><Printer /> Imprimer / PDF</Button>}</div>
+          <div className="mt-3 flex flex-wrap gap-2"><Button size="sm" variant={preview ? "outline" : "default"} onClick={() => setPreview(false)}><Pencil /> Édition</Button><Button size="sm" variant={preview ? "default" : "outline"} onClick={() => setPreview(true)}><Eye /> Aperçu</Button></div>
+          {preview && <FormaOfferDownloads offer={offer}/>}
         </DialogHeader>
         {preview ? <FormaOfferDocument offer={offer} /> : <div className="grid gap-6 p-5">
           <p className="border-l-2 border-accent pl-3 text-sm text-muted-foreground"><b className="text-foreground">Besoin client ({quote.pole}) :</b> {quote.needs}</p>
