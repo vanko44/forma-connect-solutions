@@ -204,7 +204,19 @@ button, a, article {
   transition-duration: 220ms;
 }
 
+.offer-team-role { margin-bottom: 1.75rem; }
+.offer-team-role:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  height: 1.75rem;
+  border-left: 1px solid var(--border);
+}
 @media print {
+  .offer-organigram { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .offer-team-role:first-child, .offer-team-role:last-child { grid-column: span 2; width: 75%; margin-inline: auto; }
+  .offer-team-role { break-inside: avoid; }
   body.printing-offer * { visibility: hidden; }
   body.printing-offer .forma-offer, body.printing-offer .forma-offer * { visibility: visible; }
   body.printing-offer .forma-offer { position: absolute; inset: 0 auto auto 0; width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }

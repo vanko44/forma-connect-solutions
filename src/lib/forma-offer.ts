@@ -20,7 +20,20 @@ export const SERVICE_GROUPS: { title: string; items: string[] }[] = [
 ];
 
 export type OfferLine = { label: string; unit: string; price: number; qty: number };
-export type Offer = { clientName: string; signatory: string; signatoryRole: string; date: string; services: string[]; lines: OfferLine[]; discountPct: number; notes: string };
+export const TEAM_ROLES = [
+  { key: "direction", label: "Direction Générale / Fondateur" },
+  { key: "operations", label: "Responsable Opérations & Sécurité" },
+  { key: "commercial", label: "Responsable Commercial & Administratif" },
+  { key: "supervisors", label: "Chefs d'équipe / Superviseurs de site" },
+  { key: "events", label: "Coordinateur Événementiel" },
+  { key: "agents", label: "Agents de terrain (gardiennage, rondes, protection, événementiel)" },
+] as const;
+export type OfferTeam = Partial<Record<(typeof TEAM_ROLES)[number]["key"], string>>;
+export type Offer = { clientName: string; signatory: string; signatoryRole: string; date: string; services: string[]; lines: OfferLine[]; discountPct: number; notes: string; team?: OfferTeam };
+
+export function offerTeamRows(offer: Pick<Offer, "team">) {
+  return TEAM_ROLES.map((role) => ({ ...role, name: offer.team?.[role.key]?.trim() || "" }));
+}
 
 export function defaultOffer(q: { name: string; organization: string | null }): Offer {
   return {
@@ -32,6 +45,7 @@ export function defaultOffer(q: { name: string; organization: string | null }): 
     lines: TARIFFS.map((t) => ({ ...t, qty: 0 })),
     discountPct: 0,
     notes: "",
+    team: {},
   };
 }
 
