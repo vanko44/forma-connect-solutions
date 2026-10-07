@@ -1,5 +1,5 @@
 import { FORMA_EMAIL } from "@/lib/forma-contact";
-import { offerTotals, SERVICE_GROUPS, usd, type Offer } from "@/lib/forma-offer";
+import { offerTeamRows, offerTotals, SERVICE_GROUPS, usd, type Offer } from "@/lib/forma-offer";
 
 const RCCM = "CD/KNM/RCCM/25-A-10490";
 const ADDRESS = "144, av. Ngandu, Q/Mpasa I, C/Nsele, Ville de Kinshasa, RDC";
@@ -41,6 +41,15 @@ export function FormaOfferDocument({ offer }: { offer: Offer }) {
 
     <Section n="03" title="Prestations retenues">
       <div className="grid gap-6 sm:grid-cols-2">{services.map((g) => <div key={g.title}><p className="font-bold text-accent">{g.title}</p><ul className="mt-2 list-disc pl-5">{g.items.map((i) => <li key={i}>{i}</li>)}</ul></div>)}</div>
+    </Section>
+
+    <Section n="04" title="Notre équipe / Organigramme">
+      <div className="offer-organigram grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+        {offerTeamRows(offer).map((role, index) => <div key={role.key} className={`offer-team-role relative border border-border bg-secondary/40 px-4 py-4 text-center ${index === 0 || index === 5 ? "sm:col-span-2 sm:mx-auto sm:w-3/4" : ""}`}>
+          <h3 className="text-sm font-bold leading-6">{role.label}</h3>
+          <p className="mt-3 flex min-h-6 items-baseline justify-center gap-2 text-sm"><span className="text-muted-foreground">Nom :</span>{role.name ? <span className="min-w-0 break-words font-medium">{role.name}</span> : <span aria-label="Nom non renseigné" className="inline-block w-40 max-w-full border-b border-dotted border-muted-foreground">&nbsp;</span>}</p>
+        </div>)}
+      </div>
     </Section>
 
     <Section n="05" title="Notre devis">
