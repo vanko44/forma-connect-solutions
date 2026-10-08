@@ -15,10 +15,16 @@ export async function missionPdf(m: MissionOrder) {
     for (const para of value.split("\n")) {
       let line="";
       for (const word of para.split(/\s+/)) {
-        for (const char of (line ? " " : "") + word) {
-          if (font.widthOfTextAtSize(line+char,size)>507) { if(y<60)newPage();page.drawText(line,{x:44,y,size,font});y-=size+6;line=""; }
-          line+=char;
+        const candidate = line ? line + " " + word : word;
+        if (line && font.widthOfTextAtSize(candidate,size)>507) {
+          if(y<60)newPage();page.drawText(line,{x:44,y,size,font});y-=size+6;line="";
         }
+        if (font.widthOfTextAtSize(word,size)>507) {
+          for (const char of word) {
+            if(font.widthOfTextAtSize(line+char,size)>507){if(y<60)newPage();page.drawText(line,{x:44,y,size,font});y-=size+6;line="";}
+            line+=char;
+          }
+        } else line = line ? line + " " + word : word;
       }
       if(y<60)newPage(); page.drawText(line,{x:44,y,size,font});y-=size+7;
     }
@@ -29,7 +35,12 @@ export async function missionPdf(m: MissionOrder) {
   y-=10;text("CAHIER DES CHARGES / CONSIGNES",13);text(m.instructions || "À compléter");
   y-=10;text("RÈGLEMENTS",13);text(`Montant convenu : ${usd(m.amount)}\nAcompte / règlements versés : ${usd(m.paid_amount)}\nSolde restant : ${usd(missionFinance(m.amount,m.paid_amount).balance)}\nÉchéance : ${m.due_date || "À convenir"}\nPaiement : ${missionFinance(m.amount,m.paid_amount).status}`);
   y-=10;text("ENGAGEMENTS",13);text("Le partenaire s’engage à exécuter la mission conformément au cahier des charges, aux consignes du superviseur FORMA et aux exigences de qualité convenues. Il préserve la confidentialité des informations du client et de FORMA. Les livrables sont soumis au contrôle de FORMA. Toute modification de périmètre ou de montant fait l’objet d’un accord écrit entre les parties.");
-  if(y<180)newPage();y-=15;text("Direction FORMA                           Partenaire\nNom et signature :                         Nom et signature :\n\n________________________           ________________________");
+  if(y<180)newPage();y-=20;
+  for (const [x,label] of [[44,"Direction FORMA"],[320,"Partenaire"]] as const) {
+    page.drawText(label,{x,y,size:11,font});
+    page.drawText("Nom et signature :",{x,y:y-20,size:11,font});
+    page.drawText("________________________",{x,y:y-65,size:11,font});
+  }
   const pages=pdf.getPages();pages.forEach((p,i)=>{p.drawText(`${FORMA_ADDRESS}`,{x:44,y:34,size:8,font});p.drawText(`${FORMA_PHONE} · ${FORMA_EMAIL} | ${i+1}/${pages.length}`,{x:44,y:20,size:8,font});});
   return pdf.save();
 }
