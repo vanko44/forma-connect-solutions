@@ -1,0 +1,10 @@
+import { test, expect } from "bun:test";
+import { missionFinance, missionSchema, MISSION_POLES, MISSION_STATUSES } from "../src/lib/mission-order";
+test("unpaid mission has full balance",()=>expect(missionFinance(1000,0)).toEqual({balance:1000,status:"Non payé"}));
+test("deposit reduces remaining USD balance",()=>expect(missionFinance(1000,250)).toEqual({balance:750,status:"Acompte réglé"}));
+test("full settlement clears balance",()=>expect(missionFinance(1000,1000)).toEqual({balance:0,status:"Soldé"}));
+test("only requested mission poles are allowed",()=>expect(MISSION_POLES).toEqual(["Facility Management","Événementiel","Support technique"]));
+test("mission lifecycle includes all five states",()=>expect(MISSION_STATUSES).toEqual(["Brouillon","Émis / Transmis","En cours d'exécution","Livrable contrôlé","Clôturé"]));
+const valid={partner_id:null,partner_name:"Partenaire",partner_phone:"",partner_email:"",title:"Mission",pole:"Événementiel",client_site:"Site",location:"Kinshasa",start_date:"2026-10-10",end_date:"2026-10-11",instructions:"",supervisor:"Responsable",amount:100,paid_amount:0,due_date:null,status:"Brouillon"};
+test("reject payments above agreed amount",()=>expect(missionSchema.safeParse({...valid,paid_amount:101}).success).toBe(false));
+test("reject mission ending before start",()=>expect(missionSchema.safeParse({...valid,end_date:"2026-10-09"}).success).toBe(false));
