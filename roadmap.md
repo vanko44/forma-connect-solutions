@@ -24,4 +24,4 @@
 - [x] Remplacer l’icône de contact flottante par le logo WhatsApp fourni.
 - [ ] Fiabiliser l’enregistrement des devis avant ouverture email ou WhatsApp : correction appliquée, confirmation d’un nouvel envoi à vérifier.
 - [ ] Notifications automatiques email et WhatsApp : domaine d’envoi et compte WhatsApp Business à configurer.
-- [ ] Ordres de mission partenaires : gestion privée, règlements, PDF, impression et transmission préformatée.
+- [x] Ordres de mission partenaires : gestion privée, règlements, PDF, impression et transmission préformatée ; création et solde vérifiés connecté, PDF relu, ordre test supprimé.
