@@ -42,17 +42,16 @@ export function QuoteWizard() {
   const [error, setError] = useState("");
   const [sentState, setSentState] = useState("");
   const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
   const sent = sentState;
-  const setSent = (channel: string) => {
-    setSentState(channel);
-    if (saved) return;
-    setSaved(true);
-    void supabase.auth
-      .getSession()
-      .then(({ data: auth }) =>
-        supabase
-          .from("quote_requests")
-          .insert({
+  const setSent = async (channel: "email" | "whatsapp") => {
+    if (busy) return;
+    setBusy(true); setError("");
+    const target = channel === "whatsapp" ? window.open("", "_blank") : null;
+    try {
+      if (!saved) {
+        const { data: auth } = await supabase.auth.getSession();
+        const { error: saveError } = await supabase.from("quote_requests").insert({
             user_id: auth.session?.user.id ?? null,
             pole: data.pole,
             name: data.name.trim(),
@@ -62,8 +61,19 @@ export function QuoteWizard() {
             needs: data.needs.trim(),
             place: data.place.trim(),
             desired_date: data.dates || null,
-          }),
-      );
+          });
+        if (saveError) throw saveError;
+        setSaved(true);
+      }
+      setSentState(channel);
+      const url = channel === "email" ? mailtoLink(`Demande de devis FORMA — ${data.pole} — ${data.name}`, body) : whatsappLink(body);
+      if (channel === "email") window.location.href = url;
+      else if (target) target.location.href = url;
+      else setError("Votre demande est enregistrée. Autorisez l’ouverture de WhatsApp puis réessayez.");
+    } catch {
+      target?.close();
+      setError("La demande n’a pas pu être enregistrée. Réessayez avant de l’envoyer.");
+    } finally { setBusy(false); }
   };
   const set = (key: keyof Data, value: string) => setData((v) => ({ ...v, [key]: value }));
   const valid = useMemo(
@@ -221,25 +231,14 @@ export function QuoteWizard() {
           </dl>
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
             <Button
-              asChild
+              disabled={busy}
+              onClick={() => void setSent("email")}
               className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
             >
-              <a
-                href={mailtoLink(`Demande de devis FORMA — ${data.pole} — ${data.name}`, body)}
-                onClick={() => setSent("email")}
-              >
                 <Mail /> Envoyer par Email
-              </a>
             </Button>
-            <Button asChild variant="outline" className="h-12 w-full">
-              <a
-                href={whatsappLink(body)}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setSent("whatsapp")}
-              >
+            <Button disabled={busy} onClick={() => void setSent("whatsapp")} variant="outline" className="h-12 w-full">
                 <Send /> Transmettre sur WhatsApp
-              </a>
             </Button>
           </div>
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
@@ -251,9 +250,7 @@ export function QuoteWizard() {
           </p>
           {sent && (
             <p className="mt-4 border-l-2 border-accent pl-3 text-sm font-semibold text-accent">
-              Demande transmise{" "}
-              {sent === "email" ? `par email à ${FORMA_EMAIL}` : "sur WhatsApp au +243 977 528 234"}
-              . FORMA vous recontacte rapidement.
+              Demande enregistrée dans FORMA Admin. {sent === "email" ? "Terminez l’envoi dans votre messagerie." : "Terminez l’envoi dans WhatsApp."}
             </p>
           )}
         </div>
