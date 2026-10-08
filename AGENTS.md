@@ -16,3 +16,4 @@
 - Store optional mission team names inside the offer JSON and share role definitions across editing and rendering, so legacy offers remain readable and client/print output stays consistent.
 
 - Generate client-side offer downloads from the original PDF template, preserving annexes; embed PDF pages in PowerPoint to retain the exact visual layout without external account connections.
+- Keep partner mission orders in an admin-RLS-protected table; derive payment status and balance from persisted amounts to prevent conflicting financial states.
