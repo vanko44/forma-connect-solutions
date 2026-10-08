@@ -5,7 +5,6 @@ import {
   X,
   ArrowUpRight,
   Mail,
-  MessageCircle,
   Moon,
   Sun,
   UserRound,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import whatsappIcon from "@/assets/forma-whatsapp.png.asset.json";
 const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
 
@@ -272,9 +272,9 @@ export function FormaFrame({ children }: { children: ReactNode }) {
         rel="noreferrer"
         aria-label="Contacter FORMA sur WhatsApp"
         title="WhatsApp"
-        className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-accent-foreground/15 bg-accent text-accent-foreground shadow-soft transition-transform hover:scale-105 md:left-auto md:right-5"
+        className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center shadow-soft transition-transform motion-safe:hover:scale-105 md:left-auto md:right-5"
       >
-        <MessageCircle className="h-5 w-5" />
+        <img src={whatsappIcon.url} alt="" width="44" height="44" className="h-11 w-11 object-contain" />
       </a>
     </div>
   );

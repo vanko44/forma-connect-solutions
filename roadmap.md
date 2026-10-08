@@ -21,3 +21,6 @@
 - [x] Ajouter la Section 04, son édition manuelle et vérifier sa restitution dans l’offre client et le PDF.
 - [x] Intégrer les photos de surveillance et de l’équipe cynophile sur l’accueil et Sécurité.
 - [x] Remplacer le bouton PDF par des téléchargements PDF et PowerPoint fondés sur le document original et vérifier l’impression.
+- [x] Remplacer l’icône de contact flottante par le logo WhatsApp fourni.
+- [ ] Fiabiliser l’enregistrement des devis avant ouverture email ou WhatsApp : correction appliquée, confirmation d’un nouvel envoi à vérifier.
+- [ ] Notifications automatiques email et WhatsApp : domaine d’envoi et compte WhatsApp Business à configurer.
