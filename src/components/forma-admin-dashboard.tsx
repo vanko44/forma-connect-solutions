@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { FormaOfferEditor } from "@/components/forma-offer-editor";
 import { PENDING_STATUS, APPROVED_STATUS } from "@/lib/forma-offer";
+import { MissionOrders } from "@/components/mission-orders";
 
 type Quote = {
   id: string;
@@ -319,6 +320,7 @@ export function FormaAdminDashboard() {
                 ["devis", `Devis (${quotes.length})`],
                 ["operations", `Postes de sécurité (${sites.length})`],
                 ["partners", `Partenaires (${partners.length})`],
+                ["missions", "Ordres de mission"],
               ] as const
             ).map(([v, l]) => (
               <TabsTrigger
@@ -332,6 +334,7 @@ export function FormaAdminDashboard() {
           </TabsList>
         </div>
 
+        <TabsContent value="missions" className="m-0"><MissionOrders partners={partners} search={search} /></TabsContent>
         <TabsContent value="devis" className="m-0">
           {vQuotes.length === 0 ? (
             <p className="p-10 text-center text-sm text-muted-foreground">

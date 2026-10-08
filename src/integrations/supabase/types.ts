@@ -14,6 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      mission_orders: {
+        Row: {
+          amount: number
+          client_site: string
+          created_at: string
+          due_date: string | null
+          end_date: string
+          id: string
+          instructions: string
+          location: string
+          order_number: string
+          paid_amount: number
+          partner_email: string
+          partner_id: string | null
+          partner_name: string
+          partner_phone: string
+          pole: string
+          start_date: string
+          status: string
+          supervisor: string
+          title: string
+        }
+        Insert: {
+          amount?: number
+          client_site: string
+          created_at?: string
+          due_date?: string | null
+          end_date: string
+          id?: string
+          instructions?: string
+          location?: string
+          order_number?: string
+          paid_amount?: number
+          partner_email?: string
+          partner_id?: string | null
+          partner_name: string
+          partner_phone?: string
+          pole: string
+          start_date: string
+          status?: string
+          supervisor?: string
+          title: string
+        }
+        Update: {
+          amount?: number
+          client_site?: string
+          created_at?: string
+          due_date?: string | null
+          end_date?: string
+          id?: string
+          instructions?: string
+          location?: string
+          order_number?: string
+          paid_amount?: number
+          partner_email?: string
+          partner_id?: string | null
+          partner_name?: string
+          partner_phone?: string
+          pole?: string
+          start_date?: string
+          status?: string
+          supervisor?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mission_orders_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_applications: {
         Row: {
           business_name: string
