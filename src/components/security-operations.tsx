@@ -80,7 +80,8 @@ export function SecurityOperations({ sites }: { sites: SecuritySite[] }) {
 
   useEffect(() => {
     setInstructions(Object.fromEntries(sites.map((site) => [site.id, site.instructions])));
-    if (!entry.site_id && sites[0]) setEntry((current) => ({ ...current, site_id: sites[0].id }));
+    const firstSite = sites[0];
+    if (!entry.site_id && firstSite) setEntry((current) => ({ ...current, site_id: firstSite.id }));
   }, [sites, entry.site_id]);
 
   const load = useCallback(async () => {
