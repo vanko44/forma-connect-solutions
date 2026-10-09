@@ -25,5 +25,5 @@
 - [ ] Fiabiliser l’enregistrement des devis avant ouverture email ou WhatsApp : correction appliquée, confirmation d’un nouvel envoi à vérifier.
 - [ ] Notifications automatiques email et WhatsApp : domaine d’envoi et compte WhatsApp Business à configurer.
 - [x] Ordres de mission partenaires : gestion privée, règlements, PDF, impression et transmission préformatée ; création et solde vérifiés connecté, PDF relu, ordre test supprimé.
-- [ ] Repositionner l’icône WhatsApp plus bas sans chevaucher la navigation mobile.
-- [ ] Ajouter la main courante sécurité dans FORMA Admin : prises de poste jour/nuit, consignes par site, incidents et rondes.
+- [x] Repositionner l’icône WhatsApp plus bas sans chevaucher la navigation mobile.
+- [x] Ajouter la main courante sécurité dans FORMA Admin : prises de poste jour/nuit, consignes par site, incidents et rondes.
