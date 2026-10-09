@@ -181,11 +181,65 @@ export type Database = {
         }
         Relationships: []
       }
+      security_operations: {
+        Row: {
+          action_taken: string
+          agent_name: string
+          created_at: string
+          details: string
+          entry_type: string
+          id: string
+          occurred_at: string
+          severity: string
+          shift_type: string | null
+          site_id: string
+          summary: string
+          supervisor: string
+        }
+        Insert: {
+          action_taken?: string
+          agent_name: string
+          created_at?: string
+          details?: string
+          entry_type: string
+          id?: string
+          occurred_at?: string
+          severity?: string
+          shift_type?: string | null
+          site_id: string
+          summary: string
+          supervisor?: string
+        }
+        Update: {
+          action_taken?: string
+          agent_name?: string
+          created_at?: string
+          details?: string
+          entry_type?: string
+          id?: string
+          occurred_at?: string
+          severity?: string
+          shift_type?: string | null
+          site_id?: string
+          summary?: string
+          supervisor?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_operations_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "security_sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       security_sites: {
         Row: {
           created_at: string
           day_posts: number
           id: string
+          instructions: string
           last_report: string | null
           location: string
           night_posts: number
@@ -197,6 +251,7 @@ export type Database = {
           created_at?: string
           day_posts?: number
           id?: string
+          instructions?: string
           last_report?: string | null
           location: string
           night_posts?: number
@@ -208,6 +263,7 @@ export type Database = {
           created_at?: string
           day_posts?: number
           id?: string
+          instructions?: string
           last_report?: string | null
           location?: string
           night_posts?: number
