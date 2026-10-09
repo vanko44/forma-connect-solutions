@@ -27,6 +27,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { FormaOfferEditor } from "@/components/forma-offer-editor";
 import { PENDING_STATUS, APPROVED_STATUS } from "@/lib/forma-offer";
 import { MissionOrders } from "@/components/mission-orders";
+import { SecurityOperations } from "@/components/security-operations";
 
 type Quote = {
   id: string;
@@ -60,6 +61,7 @@ type Site = {
   location: string;
   day_posts: number;
   night_posts: number;
+  instructions: string;
   supervisor: string | null;
   last_report: string | null;
   status: string;
@@ -319,6 +321,7 @@ export function FormaAdminDashboard() {
               [
                 ["devis", `Devis (${quotes.length})`],
                 ["operations", `Postes de sécurité (${sites.length})`],
+                ["field-log", "Main courante"],
                 ["partners", `Partenaires (${partners.length})`],
                 ["missions", "Ordres de mission"],
               ] as const
@@ -335,6 +338,9 @@ export function FormaAdminDashboard() {
         </div>
 
         <TabsContent value="missions" className="m-0"><MissionOrders partners={partners} search={search} /></TabsContent>
+        <TabsContent value="field-log" className="m-0">
+          <SecurityOperations sites={sites} />
+        </TabsContent>
         <TabsContent value="devis" className="m-0">
           {vQuotes.length === 0 ? (
             <p className="p-10 text-center text-sm text-muted-foreground">

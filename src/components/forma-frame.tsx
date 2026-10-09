@@ -272,7 +272,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
         rel="noreferrer"
         aria-label="Contacter FORMA sur WhatsApp"
         title="WhatsApp"
-        className="fixed bottom-24 left-4 z-40 flex h-11 w-11 items-center justify-center shadow-soft transition-transform motion-safe:hover:scale-105 md:left-auto md:right-5"
+        className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 flex h-11 w-11 items-center justify-center shadow-soft transition-transform motion-safe:hover:scale-105 md:left-auto md:right-5"
       >
         <img src={whatsappIcon.url} alt="" width="44" height="44" className="h-11 w-11 object-contain" />
       </a>
