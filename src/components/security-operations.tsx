@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { AlertTriangle, BookOpenCheck, ClipboardList, Moon, Plus, RefreshCw, ShieldCheck, Sun } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -312,6 +312,6 @@ export function SecurityOperations({ sites }: { sites: SecuritySite[] }) {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return <div className="grid gap-2"><Label>{label}</Label>{children}</div>;
 }
