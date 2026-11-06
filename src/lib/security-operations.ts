@@ -13,7 +13,7 @@ export const securityOperationSchema = z
     site_id: z.string().uuid("Sélectionnez un site."),
     entry_type: z.enum(SECURITY_ENTRY_TYPES),
     shift_type: z.enum(SECURITY_SHIFT_TYPES).nullable(),
-    occurred_at: z.string().min(1, "Indiquez la date et l’heure."),
+    occurred_at: z.string().min(1, "Indiquez la date et l’heure.").refine((value) => Number.isFinite(new Date(value).getTime()), "Indiquez une date valide."),
     agent_name: z.string().trim().min(2, "Indiquez le nom de l’agent.").max(120),
     supervisor: z.string().trim().max(120),
     severity: z.enum(SECURITY_SEVERITIES),
