@@ -18,3 +18,4 @@
 - Generate client-side offer downloads from the original PDF template, preserving annexes; embed PDF pages in PowerPoint to retain the exact visual layout without external account connections.
 - Keep partner mission orders in an admin-RLS-protected table; derive payment status and balance from persisted amounts to prevent conflicting financial states.
 - Keep security field logs and per-site instructions admin-RLS-protected and linked to existing security sites so operational history remains attributable.
+- Recover stale route-module loads with a session-scoped bounded reload and retain a visible retry screen so deployment updates cannot cause reload loops.

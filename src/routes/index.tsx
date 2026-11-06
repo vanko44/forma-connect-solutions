@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { SecurityAssessment } from "@/components/security-assessment";
 import { FormaSecurityPhotography } from "@/components/forma-security-photography";
 const hero = "/images/forma-security-hero.jpg";
-const media = "/images/forma-media.jpg";
+const media = "/images/forma-cameraman-conference.jpg";
 const wedding = { url: "/images/forma-event-mariage.jpeg" };
 const training = { url: "/images/forma-training-equipe.jpeg" };
 
@@ -392,10 +392,10 @@ function Home() {
             <img
               src={media}
               loading="lazy"
-              width="1280"
-              height="960"
+              width="1671"
+              height="941"
               alt="Couverture vidéo professionnelle d’un événement institutionnel"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-left md:object-center"
             />
           </div>
           <div className="scroll-reveal flex flex-col justify-center">

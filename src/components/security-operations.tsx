@@ -79,7 +79,7 @@ export function SecurityOperations({ sites }: { sites: SecuritySite[] }) {
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
-    setInstructions(Object.fromEntries(sites.map((site) => [site.id, site.instructions])));
+    setInstructions((current) => ({ ...Object.fromEntries(sites.map((site) => [site.id, site.instructions])), ...current }));
     const firstSite = sites[0];
     if (!entry.site_id && firstSite) setEntry((current) => ({ ...current, site_id: firstSite.id }));
   }, [sites, entry.site_id]);
@@ -150,7 +150,7 @@ export function SecurityOperations({ sites }: { sites: SecuritySite[] }) {
       setError("L’enregistrement dans la main courante a échoué.");
       return;
     }
-    setOperations((current) => [data as SecurityOperation, ...current]);
+    setOperations((current) => [data as SecurityOperation, ...current].sort((a, b) => new Date(b.occurred_at).getTime() - new Date(a.occurred_at).getTime()));
     setEntry(initialEntry(parsed.data.site_id));
     setNotice("Entrée enregistrée dans la main courante.");
   };
@@ -212,43 +212,43 @@ export function SecurityOperations({ sites }: { sites: SecuritySite[] }) {
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <Field label="Site client">
               <Select value={entry.site_id} onValueChange={(site_id) => setEntry({ ...entry, site_id })}>
-                <SelectTrigger><SelectValue placeholder="Sélectionner un site" /></SelectTrigger>
+                <SelectTrigger aria-label="Site client terrain"><SelectValue placeholder="Sélectionner un site" /></SelectTrigger>
                 <SelectContent>{sites.map((site) => <SelectItem key={site.id} value={site.id}>{site.site} · {site.location}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
             <Field label="Date et heure">
-              <Input type="datetime-local" value={entry.occurred_at} onChange={(event) => setEntry({ ...entry, occurred_at: event.target.value })} />
+              <Input aria-label="Date et heure terrain" type="datetime-local" value={entry.occurred_at} onChange={(event) => setEntry({ ...entry, occurred_at: event.target.value })} />
             </Field>
             <Field label="Agent / chef de poste">
-              <Input maxLength={120} value={entry.agent_name} onChange={(event) => setEntry({ ...entry, agent_name: event.target.value })} placeholder="Nom complet" />
+              <Input aria-label="Agent / chef de poste" maxLength={120} value={entry.agent_name} onChange={(event) => setEntry({ ...entry, agent_name: event.target.value })} placeholder="Nom complet" />
             </Field>
             <Field label="Superviseur FORMA">
-              <Input maxLength={120} value={entry.supervisor} onChange={(event) => setEntry({ ...entry, supervisor: event.target.value })} placeholder="Nom du superviseur" />
+              <Input aria-label="Superviseur FORMA terrain" maxLength={120} value={entry.supervisor} onChange={(event) => setEntry({ ...entry, supervisor: event.target.value })} placeholder="Nom du superviseur" />
             </Field>
             {entry.entry_type === "Prise de poste" && (
               <Field label="Service">
                 <Select value={entry.shift_type ?? "Jour"} onValueChange={(shift_type) => setEntry({ ...entry, shift_type: shift_type as SecurityOperationInput["shift_type"] })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger aria-label="Service jour ou nuit"><SelectValue /></SelectTrigger>
                   <SelectContent>{SECURITY_SHIFT_TYPES.map((shift) => <SelectItem key={shift} value={shift}>{shift === "Jour" ? <Sun className="mr-2 inline h-4 w-4" /> : <Moon className="mr-2 inline h-4 w-4" />}{shift}</SelectItem>)}</SelectContent>
                 </Select>
               </Field>
             )}
             <Field label="Niveau">
               <Select value={entry.severity} onValueChange={(severity) => setEntry({ ...entry, severity: severity as SecurityOperationInput["severity"] })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger aria-label="Niveau terrain"><SelectValue /></SelectTrigger>
                 <SelectContent>{SECURITY_SEVERITIES.map((severity) => <SelectItem key={severity} value={severity}>{severity}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
           </div>
           <div className="mt-4 grid gap-4">
             <Field label="Résumé">
-              <Input maxLength={180} value={entry.summary} onChange={(event) => setEntry({ ...entry, summary: event.target.value })} />
+              <Input aria-label="Résumé terrain" maxLength={180} value={entry.summary} onChange={(event) => setEntry({ ...entry, summary: event.target.value })} />
             </Field>
             <Field label={entry.entry_type === "Incident" ? "Description détaillée de l’incident" : "Observations terrain"}>
-              <Textarea rows={4} maxLength={3000} value={entry.details} onChange={(event) => setEntry({ ...entry, details: event.target.value })} placeholder="Faits observés, personnes présentes, matériel ou points contrôlés…" />
+              <Textarea aria-label="Observations terrain" rows={4} maxLength={3000} value={entry.details} onChange={(event) => setEntry({ ...entry, details: event.target.value })} placeholder="Faits observés, personnes présentes, matériel ou points contrôlés…" />
             </Field>
             <Field label="Mesures prises / suite à donner">
-              <Textarea rows={3} maxLength={1500} value={entry.action_taken} onChange={(event) => setEntry({ ...entry, action_taken: event.target.value })} placeholder="Action immédiate, information transmise, suivi requis…" />
+              <Textarea aria-label="Mesures prises terrain" rows={3} maxLength={1500} value={entry.action_taken} onChange={(event) => setEntry({ ...entry, action_taken: event.target.value })} placeholder="Action immédiate, information transmise, suivi requis…" />
             </Field>
           </div>
           {(error || notice) && <p role="status" className={`mt-4 border-l-2 pl-3 text-sm ${error ? "border-destructive text-destructive" : "border-accent text-foreground"}`}>{error || notice}</p>}
