@@ -27,3 +27,4 @@
 - [x] Ordres de mission partenaires : gestion privée, règlements, PDF, impression et transmission préformatée ; création et solde vérifiés connecté, PDF relu, ordre test supprimé.
 - [x] Repositionner l’icône WhatsApp plus bas sans chevaucher la navigation mobile.
 - [x] Ajouter la main courante sécurité dans FORMA Admin : prises de poste jour/nuit, consignes par site, incidents et rondes.
+- [ ] Remplacer la photo du caméraman sur l’accueil par la nouvelle photo fournie.
