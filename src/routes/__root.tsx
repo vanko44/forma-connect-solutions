@@ -15,7 +15,7 @@ import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FormaFrame } from "../components/forma-frame";
-import { recoverModuleLoad } from "../lib/module-load-recovery";
+import { isModuleLoadError, recoverModuleLoad } from "../lib/module-load-recovery";
 import { Button } from "../components/ui/button";
 
 function NotFoundComponent() {
@@ -60,7 +60,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <Button
             onClick={() => {
-              if (isModuleErrorForRetry(error)) { window.location.reload(); return; }
+              if (isModuleLoadError(error)) { window.location.reload(); return; }
               router.invalidate();
               reset();
             }}
