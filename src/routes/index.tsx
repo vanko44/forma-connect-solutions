@@ -395,7 +395,7 @@ function Home() {
               width="1671"
               height="941"
               alt="Couverture vidéo professionnelle d’un événement institutionnel"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-left md:object-center"
             />
           </div>
           <div className="scroll-reveal flex flex-col justify-center">
