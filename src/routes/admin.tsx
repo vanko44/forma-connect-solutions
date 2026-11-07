@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LockKeyhole, LogOut, ShieldCheck } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormaAdminDashboard } from "@/components/forma-admin-dashboard";
@@ -110,6 +110,7 @@ function AdminPage() {
 function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const submit = async (e: React.FormEvent) => {
@@ -135,6 +136,7 @@ function AdminLogin() {
             className="mt-2"
             type="email"
             required
+            disabled={busy}
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -142,21 +144,31 @@ function AdminLogin() {
         </label>
         <label className="mt-4 block text-xs font-bold uppercase text-muted-foreground">
           Mot de passe
+          <div className="relative mt-2">
           <Input
-            className="mt-2"
-            type="password"
+            className="pr-10"
+            type={showPassword ? "text" : "password"}
             required
+            disabled={busy}
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0" disabled={busy}
+            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            title={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            onClick={() => setShowPassword((value) => !value)}>
+            {showPassword ? <EyeOff /> : <Eye />}
+          </Button>
+          </div>
         </label>
         {error && (
-          <p className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
+          <p role="alert" className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
             {error}
           </p>
         )}
         <Button type="submit" disabled={busy} className="mt-6 h-11 w-full">
+          {busy && <LoaderCircle className="motion-safe:animate-spin" />}
           {busy ? "Connexion…" : "Se connecter"}
         </Button>
         <p className="mt-4 text-xs text-muted-foreground">

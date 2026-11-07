@@ -35,6 +35,7 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>({
         return;
       }
       element.dataset.motion = element.dataset.motion || "up";
+      element.dataset.visible = "false";
       element.style.setProperty("--reveal-delay", `${Math.max(0, delay)}ms`);
       observer = new IntersectionObserver(([entry]) => {
         if (!entry) return;
