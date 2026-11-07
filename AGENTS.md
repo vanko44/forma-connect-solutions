@@ -19,3 +19,5 @@
 - Keep partner mission orders in an admin-RLS-protected table; derive payment status and balance from persisted amounts to prevent conflicting financial states.
 - Keep security field logs and per-site instructions admin-RLS-protected and linked to existing security sites so operational history remains attributable.
 - Recover stale route-module loads with a session-scoped bounded reload and retain a visible retry screen so deployment updates cannot cause reload loops.
+- Keep page motion in one shared IntersectionObserver controller and reusable scroll hook; exclude forms and official documents from automatic reveals, and immediately expose content under reduced motion.
+- Use shared FormField for floating text labels while keeping native date, numeric, select and multiline labels persistent; preserve existing validation and submission rules.

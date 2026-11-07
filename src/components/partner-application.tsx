@@ -3,6 +3,7 @@ import { CheckCircle2, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { FormField } from "@/components/ui/form-field";
 import {
   Select,
   SelectContent,
@@ -456,7 +457,7 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
       {sent && (
         <div
           role="status"
-          className="mt-5 flex gap-3 border border-accent/40 bg-accent/10 p-4 text-sm"
+          className="form-success mt-5 flex gap-3 border border-accent/40 bg-accent/10 p-4 text-sm"
         >
           <CheckCircle2 className="h-5 w-5 shrink-0 text-accent" />
           <div>
@@ -494,10 +495,7 @@ function FormSection({
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <label className="mt-5 block text-xs font-bold uppercase text-muted-foreground first:mt-0">
-      {label}
-      <div className="mt-2">{children}</div>
-    </label>
+    <div className="mt-5 first:mt-0"><FormField label={label}>{children}</FormField></div>
   );
 }
 

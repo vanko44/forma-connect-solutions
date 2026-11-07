@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import { FormField as Field } from "@/components/ui/form-field";
 import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -153,12 +154,12 @@ function Contact() {
               .
             </p>
             {error && (
-              <p className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
+              <p role="alert" className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
                 {error}
               </p>
             )}
             {sent && (
-              <p className="mt-4 text-sm font-semibold text-accent">
+              <p role="status" className="form-success mt-4 text-sm font-semibold text-accent">
                 Message transmis à {FORMA_EMAIL}. Pour un traitement immédiat, utilisez aussi
                 WhatsApp.
               </p>
@@ -197,13 +198,5 @@ function Info({
     </a>
   ) : (
     body
-  );
-}
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <label className="block text-xs font-bold uppercase text-muted-foreground">
-      {label}
-      <div className="mt-2">{children}</div>
-    </label>
   );
 }

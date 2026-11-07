@@ -63,12 +63,13 @@ export function PageMotion() {
     // Discover async-loaded content without observing animation attribute changes.
     const mutations = new MutationObserver(discover);
     mutations.observe(main, { childList: true, subtree: true });
-    main.addEventListener("focusin", (event) => {
+    const onFocus = (event: FocusEvent) => {
       if (event.target instanceof HTMLElement) {
         const parent = event.target.closest<HTMLElement>("[data-motion]");
         if (parent) reveal(parent);
       }
-    }, { signal: (function () { return undefined; })() });
+    };
+    main.addEventListener("focusin", onFocus);
     window.addEventListener("scroll", scheduleScroll, { passive: true });
     window.addEventListener("resize", scheduleScroll);
     media.addEventListener("change", setup);
@@ -76,6 +77,7 @@ export function PageMotion() {
       observer?.disconnect(); mutations.disconnect(); cancelAnimationFrame(frame);
       window.removeEventListener("scroll", scheduleScroll);
       window.removeEventListener("resize", scheduleScroll);
+      main.removeEventListener("focusin", onFocus);
       media.removeEventListener("change", setup);
       tracked.forEach((element) => { element.removeAttribute("data-motion"); element.removeAttribute("data-visible"); });
       hero?.style.removeProperty("transform");
