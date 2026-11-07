@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import whatsappIcon from "@/assets/forma-whatsapp.png.asset.json";
+const whatsappIcon = { url: "/images/forma-whatsapp.png" };
 const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
 
