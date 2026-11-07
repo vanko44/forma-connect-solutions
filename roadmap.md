@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Ajouter et vérifier les animations sobres au défilement, les interactions de formulaires et le respect du mouvement réduit.
+
 - [x] Remplacer la description du premier écran d’accueil.
 - [x] Rendre le bouton WhatsApp flottant compact et discret.
 - [x] Ajouter la connexion et la création gratuite de compte client.
