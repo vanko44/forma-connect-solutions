@@ -34,13 +34,13 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>({
         setIsInView(true);
         return;
       }
-      element.dataset.motion = element.dataset.motion || "up";
-      element.dataset.visible = "false";
+      element.dataset["motion"] = element.dataset["motion"] || "up";
+      element.dataset["visible"] = "false";
       element.style.setProperty("--reveal-delay", `${Math.max(0, delay)}ms`);
       observer = new IntersectionObserver(([entry]) => {
         if (!entry) return;
         setIsInView(entry.isIntersecting);
-        element.dataset.visible = String(entry.isIntersecting);
+        element.dataset["visible"] = String(entry.isIntersecting);
         if (entry.isIntersecting) {
           setHasAnimated(true);
           if (once) observer?.unobserve(element);

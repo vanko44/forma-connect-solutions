@@ -15,7 +15,7 @@ export function PageMotion() {
     const tracked = new Set<HTMLElement>();
     const hero = main.querySelector<HTMLElement>("[data-parallax]");
     const reveal = (element: HTMLElement) => {
-      element.dataset.visible = "true";
+      element.dataset["visible"] = "true";
       observer?.unobserve(element);
     };
     const discover = () => {
@@ -28,11 +28,11 @@ export function PageMotion() {
         const rect = element.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.85 || rect.height > window.innerHeight * 0.8) return;
         const index = Array.from(element.parentElement?.children ?? []).indexOf(element);
-        element.dataset.motion = element.classList.contains("media-reveal") ? "scale" : "up";
-        element.dataset.visible = "false";
+        element.dataset["motion"] = element.classList.contains("media-reveal") ? "scale" : "up";
+        element.dataset["visible"] = "false";
         element.style.setProperty("--reveal-delay", `${index >= 0 && index < 8 ? index * 100 : 0}ms`);
         tracked.add(element);
-        observer.observe(element);
+        observer?.observe(element);
       });
     };
     const updateScroll = () => {

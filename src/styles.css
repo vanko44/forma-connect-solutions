@@ -237,6 +237,7 @@
   transform: translateY(-0.8rem) scale(0.857143);
 }
 .floating-field:focus-within .floating-label { color: var(--foreground); }
+.floating-field:focus-within .floating-label { color: var(--ring); }
 .floating-field input::placeholder { color: transparent; }
 .field-hint {
   display: block;
@@ -244,6 +245,13 @@
   font-size: 0.6875rem;
   line-height: 1.4;
   color: var(--muted-foreground);
+}
+input, textarea, [role="combobox"] { scroll-margin-top: 7rem; }
+@media (max-width: 767px) {
+  body:has(main input:focus, main textarea:focus, main [role="combobox"]:focus) a[aria-label="Contacter FORMA sur WhatsApp"] {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-motion] {
