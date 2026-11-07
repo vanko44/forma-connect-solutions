@@ -236,7 +236,6 @@
 .floating-field:has(input:not(:placeholder-shown)) .floating-label {
   transform: translateY(-0.8rem) scale(0.857143);
 }
-.floating-field:focus-within .floating-label { color: var(--foreground); }
 .floating-field:focus-within .floating-label { color: var(--ring); }
 .floating-field input::placeholder { color: transparent; }
 .field-hint {
