@@ -116,6 +116,7 @@ function Home() {
           decoding="async"
           width="1920"
           height="1200"
+          data-parallax="subtle"
           className="absolute inset-0 h-full w-full object-cover object-center opacity-55"
         />
         <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />

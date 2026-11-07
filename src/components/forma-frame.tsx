@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { PageMotion } from "@/components/page-motion";
 const whatsappIcon = { url: "/images/forma-whatsapp.png" };
 const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
@@ -42,6 +43,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
   };
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <PageMotion />
       <header className="sticky top-0 z-50 border-b border-border/60 bg-primary/95 text-primary-foreground backdrop-blur-xl">
         <div className="section-shell flex h-20 items-center gap-5">
           <Link to="/" className="mr-auto flex items-center gap-3" aria-label="FORMA — Accueil">

@@ -1,5 +1,6 @@
-import { useMemo, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, Check, Mail, Send } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight, Check, LoaderCircle, Mail, Send } from "lucide-react";
+import { FormField as Field } from "@/components/ui/form-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -110,21 +111,24 @@ export function QuoteWizard() {
           </div>
         ))}
       </div>
+      <div key={step} className="form-step">
       {step === 1 && (
         <div>
           <p className="eyebrow">Étape 1</p>
           <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Quel pôle vous concerne ?</h2>
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
             {poles.map((p) => (
-              <button
+              <Button
                 type="button"
                 key={p}
                 onClick={() => set("pole", p)}
-                className={`flex min-h-14 items-center justify-between border p-4 text-left text-sm font-bold transition-colors ${data.pole === p ? "border-accent bg-accent/10" : "border-border hover:border-accent"}`}
+                variant="outline"
+                aria-pressed={data.pole === p}
+                className={`flex h-auto min-h-14 items-center justify-between whitespace-normal border p-4 text-left text-sm font-bold transition-colors hover:bg-accent/10 hover:text-foreground ${data.pole === p ? "border-accent bg-accent/10" : "border-border hover:border-accent"}`}
               >
                 {p}
                 {data.pole === p && <Check className="h-4 w-4 text-accent" />}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -235,10 +239,10 @@ export function QuoteWizard() {
               onClick={() => void setSent("email")}
               className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
             >
-                <Mail /> Envoyer par Email
+                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Mail />} {busy ? "Enregistrement…" : "Envoyer par Email"}
             </Button>
             <Button disabled={busy} onClick={() => void setSent("whatsapp")} variant="outline" className="h-12 w-full">
-                <Send /> Transmettre sur WhatsApp
+                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Send />} {busy ? "Enregistrement…" : "Transmettre sur WhatsApp"}
             </Button>
           </div>
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
@@ -249,14 +253,15 @@ export function QuoteWizard() {
             ou au +243 977 528 234.
           </p>
           {sent && (
-            <p className="mt-4 border-l-2 border-accent pl-3 text-sm font-semibold text-accent">
+            <p role="status" className="form-success mt-4 border-l-2 border-accent pl-3 text-sm font-semibold text-accent">
               Demande enregistrée dans FORMA Admin. {sent === "email" ? "Terminez l’envoi dans votre messagerie." : "Terminez l’envoi dans WhatsApp."}
             </p>
           )}
         </div>
       )}
+      </div>
       {error && (
-        <p className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>
+        <p role="alert" className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>
       )}
       <div className="mt-8 flex justify-between gap-3">
         {step > 1 ? (
@@ -279,13 +284,5 @@ export function QuoteWizard() {
         )}
       </div>
     </div>
-  );
-}
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <label className="block text-xs font-bold uppercase text-muted-foreground">
-      {label}
-      <div className="mt-2">{children}</div>
-    </label>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, Building2, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
+import { ArrowRight, Building2, Check, Eye, EyeOff, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -161,6 +161,7 @@ function ClientConnection() {
             </Button>
           </div>
           <form className="mt-7 grid gap-5" onSubmit={submit}>
+            <fieldset disabled={loading} className="grid min-w-0 gap-5 disabled:opacity-60">
             <div>
               <Label htmlFor="client-email">Email</Label>
               <div className="relative mt-2">
@@ -202,16 +203,29 @@ function ClientConnection() {
                 </Button>
               </div>
             </div>
+            {mode === "signup" && password.length > 0 && (
+              <div className="text-xs text-muted-foreground" aria-live="polite">
+                <div className="mb-2 flex gap-1" aria-hidden="true">
+                  {[1, 2, 3, 4, 5, 6].map((part) => <span key={part} className={`h-1 flex-1 transition-colors duration-200 ${password.length >= part ? "bg-success" : "bg-muted"}`} />)}
+                </div>
+                <p className="flex items-center gap-2">
+                  <Check className={`h-3 w-3 transition-opacity ${password.length >= 6 ? "text-success opacity-100" : "opacity-30"}`} />
+                  6 caractères minimum
+                </p>
+              </div>
+            )}
             <Button
               className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
               disabled={loading}
             >
+              {loading && <LoaderCircle className="motion-safe:animate-spin" />}
               {loading
                 ? "Connexion…"
                 : mode === "login"
                   ? "Accéder à mon espace"
                   : "Créer mon compte client gratuit"}
             </Button>
+            </fieldset>
           </form>
           <div className="my-6 flex items-center gap-3 text-xs font-semibold uppercase text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
