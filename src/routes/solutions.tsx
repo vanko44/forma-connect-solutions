@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/service-page";
+import { FormaDomains } from "@/components/forma-institutional";
 export const Route = createFileRoute("/solutions")({
   head: () => ({
     meta: [
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/solutions")({
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/solutions" }],
   }),
   component: () => (
+    <>
+    <FormaDomains />
     <ServicePage
       eyebrow="Solutions intégrées"
       title="Vos enjeux ne rentrent pas toujours dans une seule case."
@@ -35,5 +38,6 @@ export const Route = createFileRoute("/solutions")({
         "Reporting consolidé",
       ]}
     />
+    </>
   ),
 });
