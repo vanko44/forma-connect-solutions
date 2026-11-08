@@ -21,3 +21,4 @@
 - Recover stale route-module loads with a session-scoped bounded reload and retain a visible retry screen so deployment updates cannot cause reload loops.
 - Keep page motion in one shared IntersectionObserver controller and reusable scroll hook; exclude forms and official documents from automatic reveals, and immediately expose content under reduced motion.
 - Use shared FormField for floating text labels while keeping native date, numeric, select and multiline labels persistent; preserve existing validation and submission rules.
+- Keep public institutional identity, service domains and commitments in shared presentation components so homepage and corporate pages stay consistent without changing private workflows.

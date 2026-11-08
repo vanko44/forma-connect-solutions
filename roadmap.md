@@ -1,5 +1,8 @@
 # Roadmap
 
+- [x] Renforcer la présentation institutionnelle, les six pôles et les engagements qualité sur l’accueil, À propos et Solutions, sans modification des espaces privés et formulaires.
+- [x] Vérifier les pages modifiées en 390, 768 et 1280 px, en clair/sombre ; six liens de services parcourus, diagnostic rempli et transmission préformatée vérifiée, mouvement réduit et 3 tests validés.
+
 - [x] Ajouter et vérifier les animations sobres au défilement, les interactions de formulaires et le respect du mouvement réduit : 15 pages, devis sans envoi, sélecteur partenaire, mots de passe, clair/sombre et mobile ; 9 tests réussis.
 
 - [x] Remplacer la description du premier écran d’accueil.

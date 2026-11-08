@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Eye, Target, Scale, ShieldCheck } from "lucide-react";
 import { CtaBand, PageIntro } from "@/components/page-shell";
+import { FormaIdentity, FormaCommitments } from "@/components/forma-institutional";
 
 export const Route = createFileRoute("/a-propos")({
   head: () => ({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/a-propos")({
       {
         name: "description",
         content:
-          "Mission, vision, engagements qualité, éthique et conformité légale de FORMA à Kinshasa.",
+           "Découvrez l’identité, la mission et les engagements de FORMA : sécurité et services intégrés pour les organisations en RDC.",
       },
       { property: "og:title", content: "À propos de FORMA" },
       {
@@ -26,46 +26,19 @@ export const Route = createFileRoute("/a-propos")({
   component: About,
 });
 function About() {
-  const cards = [
-    {
-      i: Target,
-      t: "Mission",
-      x: "Protéger, coordonner et simplifier les opérations de nos clients avec des solutions adaptées au terrain.",
-    },
-    {
-      i: Eye,
-      t: "Vision",
-      x: "Devenir un partenaire multiservices de référence en RDC, reconnu pour sa fiabilité et sa discipline d’exécution.",
-    },
-    {
-      i: ShieldCheck,
-      t: "Engagement qualité",
-      x: "Diagnostiquer avant d’agir, encadrer les équipes, contrôler les interventions et rendre compte clairement.",
-    },
-    {
-      i: Scale,
-      t: "Charte éthique",
-      x: "Respect des personnes, confidentialité, transparence commerciale et stricte conformité aux obligations légales.",
-    },
-  ];
   return (
     <>
       <PageIntro
         eyebrow="Notre entreprise"
-        title="Une exigence professionnelle ancrée à Kinshasa."
-        text="ETS FORMA EVENT AND SECURITY développe des réponses concrètes pour protéger les personnes et les actifs, coordonner les événements et structurer les services opérationnels."
+        title="FORMA Event & Security"
+        text="Sécurité et services intégrés : une approche professionnelle pour accompagner les organisations et les particuliers en République démocratique du Congo."
       />
-      <section className="py-20">
-        <div className="section-shell">
-          <div className="grid gap-px bg-border md:grid-cols-2">
-            {cards.map(({ i: Icon, t, x }) => (
-              <article key={t} className="bg-card p-8 md:p-10">
-                <Icon className="h-6 w-6 text-accent" />
-                <h2 className="mt-8 text-2xl font-bold">{t}</h2>
-                <p className="mt-4 leading-7 text-muted-foreground">{x}</p>
-              </article>
-            ))}
-          </div>
+      <FormaIdentity detailed />
+      <FormaCommitments />
+      <section className="py-12 md:py-16">
+        <div className="section-shell grid gap-5 md:grid-cols-2">
+          <h2 className="text-2xl font-bold">Notre charte éthique</h2>
+          <p className="leading-7 text-muted-foreground">Respect des personnes, confidentialité, transparence commerciale et stricte conformité aux obligations légales : ces principes encadrent notre manière de travailler et nos relations avec les clients et partenaires.</p>
         </div>
       </section>
       <section className="bg-primary py-20 text-primary-foreground">

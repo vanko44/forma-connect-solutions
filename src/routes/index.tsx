@@ -2,12 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Check,
-  Shield,
-  Camera,
-  CalendarDays,
-  GraduationCap,
-  Building2,
-  Megaphone,
   ClipboardCheck,
   UserRoundCheck,
   FileSignature,
@@ -16,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SecurityAssessment } from "@/components/security-assessment";
 import { FormaSecurityPhotography } from "@/components/forma-security-photography";
+import { FormaIdentity, FormaDomains, FormaCommitments } from "@/components/forma-institutional";
 const hero = "/images/forma-security-hero.jpg";
 const media = "/images/forma-cameraman-conference.jpg";
 const wedding = { url: "/images/forma-event-mariage.jpeg" };
@@ -65,45 +60,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Home,
 });
-
-const services = [
-  {
-    icon: Shield,
-    title: "FORMA Security",
-    text: "Gardiennage, protection, contrôle d’accès, rondes et audits de site.",
-    to: "/securite" as const,
-  },
-  {
-    icon: CalendarDays,
-    title: "FORMA Events",
-    text: "Organisation, protocole, accueil, coordination, décoration et logistique.",
-    to: "/evenements" as const,
-  },
-  {
-    icon: Camera,
-    title: "Media & Coverage",
-    text: "Photo, vidéo, streaming live et couverture médiatique professionnelle.",
-    to: "/media-publicite" as const,
-  },
-  {
-    icon: Megaphone,
-    title: "FORMA Advertising",
-    text: "Image de dirigeants, publicité, création visuelle et campagnes digitales.",
-    to: "/media-publicite" as const,
-  },
-  {
-    icon: GraduationCap,
-    title: "FORMA Training",
-    text: "Langues, informatique, développement, marketing et métiers créatifs.",
-    to: "/formations" as const,
-  },
-  {
-    icon: Building2,
-    title: "FORMA Facility",
-    text: "Sélection, coordination et contrôle qualité de services opérationnels.",
-    to: "/facility" as const,
-  },
-];
 
 function Home() {
   return (
@@ -227,42 +183,9 @@ function Home() {
         </div>
       </section>
       <FormaSecurityPhotography />
-      <section className="py-20 md:py-28">
-        <div className="section-shell">
-          <div className="scroll-reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="eyebrow">Un écosystème coordonné</p>
-              <h2 className="mt-3 max-w-2xl text-3xl font-extrabold md:text-5xl">
-                Des expertises distinctes. Un même niveau d’exigence.
-              </h2>
-            </div>
-            <Button asChild variant="outline">
-              <Link to="/solutions">
-                Voir toutes les solutions <ArrowRight />
-              </Link>
-            </Button>
-          </div>
-          <div className="mt-12 grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
-            {services.map(({ icon: Icon, title, text, to }, i) => (
-              <Link
-                key={title}
-                to={to}
-                className="service-card group bg-card p-7 transition-colors hover:bg-primary hover:text-primary-foreground"
-              >
-                <div className="flex justify-between">
-                  <Icon className="h-6 w-6 text-accent" />
-                  <span className="text-xs font-bold text-muted-foreground">0{i + 1}</span>
-                </div>
-                <h3 className="mt-14 text-xl font-bold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-primary-foreground/65">
-                  {text}
-                </p>
-                <ArrowRight className="mt-6 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FormaIdentity />
+      <FormaDomains />
+      <FormaCommitments />
       <section className="bg-primary py-20 text-primary-foreground md:py-28">
         <div className="section-shell">
           <div className="scroll-reveal max-w-4xl">

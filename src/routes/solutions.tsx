@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ServicePage } from "@/components/service-page";
+import { CtaBand, PageIntro } from "@/components/page-shell";
+import { CheckCircle2 } from "lucide-react";
+import { FormaDomains } from "@/components/forma-institutional";
 export const Route = createFileRoute("/solutions")({
   head: () => ({
     meta: [
@@ -21,11 +23,17 @@ export const Route = createFileRoute("/solutions")({
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/solutions" }],
   }),
   component: () => (
-    <ServicePage
+    <>
+    <PageIntro
       eyebrow="Solutions intégrées"
-      title="Vos enjeux ne rentrent pas toujours dans une seule case."
-      intro="FORMA construit un dispositif combiné et cohérent autour d’un responsable de coordination unique."
-      items={[
+      title="Les services intégrés FORMA"
+      text="FORMA construit un dispositif combiné et cohérent autour d’un responsable de coordination unique, pour répondre aux besoins des organisations en RDC."
+    />
+    <FormaDomains />
+    <section className="border-t border-border py-16 md:py-24">
+      <div className="section-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
+        <div><p className="eyebrow">Un pilotage commun</p><h2 className="mt-4 text-3xl font-bold">Une coordination rigoureuse, du besoin au reporting.</h2><p className="mt-5 leading-7 text-muted-foreground">Les prestations retenues s’articulent dans un dispositif défini avec vous, suivi par FORMA et adapté à votre organisation.</p></div>
+        <ul className="grid content-start gap-5 sm:grid-cols-2">{[
         "Diagnostic initial",
         "Sécurité du site",
         "Accueil & protocole",
@@ -33,7 +41,10 @@ export const Route = createFileRoute("/solutions")({
         "Communication digitale",
         "Services opérationnels",
         "Reporting consolidé",
-      ]}
-    />
+        ].map(item => <li key={item} className="flex gap-3 border-b border-border pb-5 text-sm font-medium"><CheckCircle2 className="h-5 w-5 shrink-0 text-accent" aria-hidden="true" />{item}</li>)}</ul>
+      </div>
+    </section>
+    <CtaBand />
+    </>
   ),
 });
