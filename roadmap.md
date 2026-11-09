@@ -1,5 +1,10 @@
 # Roadmap
 
+- [ ] Create independent client, provider and staff dashboards without changing public design.
+- [ ] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.
+- [ ] Connect role-based login, staff account management, provider actions and validated financial workflows.
+- [ ] Verify authenticated workflows, role isolation and mobile layouts.
+
 - [x] Renforcer la présentation institutionnelle, les six pôles et les engagements qualité sur l’accueil, À propos et Solutions, sans modification des espaces privés et formulaires.
 - [x] Vérifier les pages modifiées en 390, 768 et 1280 px, en clair/sombre ; six liens de services parcourus, diagnostic rempli et transmission préformatée vérifiée, mouvement réduit et 3 tests validés.
 
