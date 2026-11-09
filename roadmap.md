@@ -1,9 +1,11 @@
 # Roadmap
 
-- [ ] Create independent client, provider and staff dashboards without changing public design.
-- [ ] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.
-- [ ] Connect role-based login, staff account management, provider actions and validated financial workflows.
-- [ ] Verify authenticated workflows, role isolation and mobile layouts.
+- [x] Create independent client, provider and staff dashboards without changing public design.
+- [x] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.
+- [x] Connect role-based login, staff account management, provider actions and validated financial workflows.
+- [x] Verify authenticated direction contract creation and mobile layout; 5 portal rules and 18 existing business tests pass.
+- [ ] Complete client/provider end-to-end isolation and document/payment checks: requires identified client and provider test accounts; only a direction account currently exists.
+- [ ] Complete separately delegated super-administrator versus direction roles: authority distribution not yet defined; existing direction allowlist preserved.
 
 - [x] Renforcer la présentation institutionnelle, les six pôles et les engagements qualité sur l’accueil, À propos et Solutions, sans modification des espaces privés et formulaires.
 - [x] Vérifier les pages modifiées en 390, 768 et 1280 px, en clair/sombre ; six liens de services parcourus, diagnostic rempli et transmission préformatée vérifiée, mouvement réduit et 3 tests validés.
