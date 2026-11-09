@@ -29,6 +29,13 @@
       "when": 1794211654363,
       "tag": "0003_portal_business_records",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794211672526,
+      "tag": "0004_portal_validation_documents",
+      "breakpoints": true
     }
   ]
 }

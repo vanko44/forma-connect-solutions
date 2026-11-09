@@ -151,6 +151,41 @@ export type Database = {
         }
         Relationships: []
       }
+      portal_documents: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          record_id: string
+          storage_path: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          record_id: string
+          storage_path: string
+          uploaded_by?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          record_id?: string
+          storage_path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_documents_record_id_fkey"
+            columns: ["record_id"]
+            isOneToOne: false
+            referencedRelation: "portal_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portal_records: {
         Row: {
           amount: number
@@ -462,6 +497,10 @@ export type Database = {
       }
       portal_can: { Args: { permission: string }; Returns: boolean }
       portal_record_staff: { Args: { k: string }; Returns: boolean }
+      provider_mission_action: {
+        Args: { action: string; mission_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "user"
