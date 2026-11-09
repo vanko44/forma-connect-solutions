@@ -47,7 +47,7 @@ function ClientConnection() {
 
   useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void navigate({ to: "/espace-client", replace: true });
+      if (data.session) void navigate({ to: "/portal", replace: true });
     });
   }, [navigate]);
 
@@ -63,7 +63,7 @@ function ClientConnection() {
         setError("Email ou mot de passe incorrect.");
         return;
       }
-      await navigate({ to: "/espace-client" });
+      await navigate({ to: "/portal" });
       return;
     }
     const { data, error: signUpError } = await supabase.auth.signUp({
@@ -77,7 +77,7 @@ function ClientConnection() {
       return;
     }
     if (data.session) {
-      await navigate({ to: "/espace-client" });
+      await navigate({ to: "/portal" });
       return;
     }
     setMessage(
@@ -97,7 +97,7 @@ function ClientConnection() {
       setLoading(false);
       return;
     }
-    if (!result.redirected) await navigate({ to: "/espace-client" });
+    if (!result.redirected) await navigate({ to: "/portal" });
   };
 
   return (

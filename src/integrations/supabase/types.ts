@@ -127,6 +127,197 @@ export type Database = {
         }
         Relationships: []
       }
+      portal_audit: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: string
+          record_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          record_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          record_id?: string | null
+        }
+        Relationships: []
+      }
+      portal_documents: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          record_id: string
+          storage_path: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          record_id: string
+          storage_path: string
+          uploaded_by?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          record_id?: string
+          storage_path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_documents_record_id_fkey"
+            columns: ["record_id"]
+            isOneToOne: false
+            referencedRelation: "portal_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_records: {
+        Row: {
+          amount: number
+          attributes: Json
+          created_at: string
+          created_by: string
+          due_date: string | null
+          end_date: string | null
+          id: string
+          kind: string
+          owner_id: string | null
+          parent_id: string | null
+          provider_id: string | null
+          reference: string
+          start_date: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          attributes?: Json
+          created_at?: string
+          created_by?: string
+          due_date?: string | null
+          end_date?: string | null
+          id?: string
+          kind: string
+          owner_id?: string | null
+          parent_id?: string | null
+          provider_id?: string | null
+          reference?: string
+          start_date?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          attributes?: Json
+          created_at?: string
+          created_by?: string
+          due_date?: string | null
+          end_date?: string | null
+          id?: string
+          kind?: string
+          owner_id?: string | null
+          parent_id?: string | null
+          provider_id?: string | null
+          reference?: string
+          start_date?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_records_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_records_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "portal_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_records_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string
+          company: string
+          created_at: string
+          display_name: string
+          id: string
+          phone: string
+        }
+        Insert: {
+          avatar_url?: string
+          company?: string
+          created_at?: string
+          display_name?: string
+          id: string
+          phone?: string
+        }
+        Update: {
+          avatar_url?: string
+          company?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          phone?: string
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           amount: string | null
@@ -303,6 +494,12 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      portal_can: { Args: { permission: string }; Returns: boolean }
+      portal_record_staff: { Args: { k: string }; Returns: boolean }
+      provider_mission_action: {
+        Args: { action: string; mission_id: string }
+        Returns: undefined
       }
     }
     Enums: {

@@ -15,6 +15,34 @@
       "when": 1791504507584,
       "tag": "0001_security_field_operations",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794211638556,
+      "tag": "0002_portal_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794211654363,
+      "tag": "0003_portal_business_records",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794211672526,
+      "tag": "0004_portal_validation_documents",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794212034251,
+      "tag": "0005_portal_storage_read_fix",
+      "breakpoints": true
     }
   ]
 }

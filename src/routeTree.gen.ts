@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ConnexionClientRouteImport } from './routes/connexion-client'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DevisRouteImport } from './routes/devis'
@@ -25,10 +27,18 @@ import { Route as PlateformeRouteImport } from './routes/plateforme'
 import { Route as RejoindreRouteImport } from './routes/rejoindre'
 import { Route as SecuriteRouteImport } from './routes/securite'
 import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
+import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin.dashboard'
+import { Route as AuthenticatedClientDashboardRouteImport } from './routes/_authenticated/client.dashboard'
+import { Route as AuthenticatedProviderDashboardRouteImport } from './routes/_authenticated/provider.dashboard'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AProposRoute = AProposRouteImport.update({
@@ -39,6 +49,11 @@ const AProposRoute = AProposRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConnexionClientRoute = ConnexionClientRouteImport.update({
@@ -106,11 +121,35 @@ const SolutionsRoute = SolutionsRouteImport.update({
   path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminDashboardRoute =
+  AuthenticatedAdminDashboardRouteImport.update({
+    id: '/admin/dashboard',
+    path: '/admin/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedClientDashboardRoute =
+  AuthenticatedClientDashboardRouteImport.update({
+    id: '/client/dashboard',
+    path: '/client/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProviderDashboardRoute =
+  AuthenticatedProviderDashboardRouteImport.update({
+    id: '/provider/dashboard',
+    path: '/provider/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
   '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -124,11 +163,16 @@ export interface FileRoutesByFullPath {
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
+  '/portal': typeof AuthenticatedPortalRoute
+  '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/client/dashboard': typeof AuthenticatedClientDashboardRoute
+  '/provider/dashboard': typeof AuthenticatedProviderDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
   '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -142,12 +186,18 @@ export interface FileRoutesByTo {
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
+  '/portal': typeof AuthenticatedPortalRoute
+  '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/client/dashboard': typeof AuthenticatedClientDashboardRoute
+  '/provider/dashboard': typeof AuthenticatedProviderDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/a-propos': typeof AProposRoute
   '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/connexion-client': typeof ConnexionClientRoute
   '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
@@ -161,6 +211,10 @@ export interface FileRoutesById {
   '/rejoindre': typeof RejoindreRoute
   '/securite': typeof SecuriteRoute
   '/solutions': typeof SolutionsRoute
+  '/_authenticated/portal': typeof AuthenticatedPortalRoute
+  '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
+  '/_authenticated/client/dashboard': typeof AuthenticatedClientDashboardRoute
+  '/_authenticated/provider/dashboard': typeof AuthenticatedProviderDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -168,6 +222,7 @@ export interface FileRouteTypes {
     | '/'
     | '/a-propos'
     | '/admin'
+    | '/auth'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -181,11 +236,16 @@ export interface FileRouteTypes {
     | '/rejoindre'
     | '/securite'
     | '/solutions'
+    | '/portal'
+    | '/admin/dashboard'
+    | '/client/dashboard'
+    | '/provider/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/a-propos'
     | '/admin'
+    | '/auth'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -199,11 +259,17 @@ export interface FileRouteTypes {
     | '/rejoindre'
     | '/securite'
     | '/solutions'
+    | '/portal'
+    | '/admin/dashboard'
+    | '/client/dashboard'
+    | '/provider/dashboard'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/a-propos'
     | '/admin'
+    | '/auth'
     | '/connexion-client'
     | '/contact'
     | '/devis'
@@ -217,12 +283,18 @@ export interface FileRouteTypes {
     | '/rejoindre'
     | '/securite'
     | '/solutions'
+    | '/_authenticated/portal'
+    | '/_authenticated/admin/dashboard'
+    | '/_authenticated/client/dashboard'
+    | '/_authenticated/provider/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AProposRoute: typeof AProposRoute
   AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
   ConnexionClientRoute: typeof ConnexionClientRoute
   ContactRoute: typeof ContactRoute
   DevisRoute: typeof DevisRoute
@@ -247,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/a-propos': {
       id: '/a-propos'
       path: '/a-propos'
@@ -259,6 +338,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/connexion-client': {
@@ -352,13 +438,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/portal': {
+      id: '/_authenticated/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof AuthenticatedPortalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/dashboard': {
+      id: '/_authenticated/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AuthenticatedAdminDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/client/dashboard': {
+      id: '/_authenticated/client/dashboard'
+      path: '/client/dashboard'
+      fullPath: '/client/dashboard'
+      preLoaderRoute: typeof AuthenticatedClientDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/provider/dashboard': {
+      id: '/_authenticated/provider/dashboard'
+      path: '/provider/dashboard'
+      fullPath: '/provider/dashboard'
+      preLoaderRoute: typeof AuthenticatedProviderDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
+  AuthenticatedAdminDashboardRoute: typeof AuthenticatedAdminDashboardRoute
+  AuthenticatedClientDashboardRoute: typeof AuthenticatedClientDashboardRoute
+  AuthenticatedProviderDashboardRoute: typeof AuthenticatedProviderDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPortalRoute: AuthenticatedPortalRoute,
+  AuthenticatedAdminDashboardRoute: AuthenticatedAdminDashboardRoute,
+  AuthenticatedClientDashboardRoute: AuthenticatedClientDashboardRoute,
+  AuthenticatedProviderDashboardRoute: AuthenticatedProviderDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AProposRoute: AProposRoute,
   AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
   ConnexionClientRoute: ConnexionClientRoute,
   ContactRoute: ContactRoute,
   DevisRoute: DevisRoute,

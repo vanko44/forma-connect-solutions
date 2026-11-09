@@ -1,0 +1,1 @@
+ALTER POLICY portal_storage_read ON storage.objects TO authenticated USING(bucket_id='portal-documents' AND EXISTS(SELECT 1 FROM public.portal_documents d WHERE d.storage_path=storage.objects.name));
