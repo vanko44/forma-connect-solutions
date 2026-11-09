@@ -127,6 +127,59 @@ export type Database = {
         }
         Relationships: []
       }
+      portal_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string
+          company: string
+          created_at: string
+          display_name: string
+          id: string
+          phone: string
+        }
+        Insert: {
+          avatar_url?: string
+          company?: string
+          created_at?: string
+          display_name?: string
+          id: string
+          phone?: string
+        }
+        Update: {
+          avatar_url?: string
+          company?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          phone?: string
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           amount: string | null
@@ -304,6 +357,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      portal_can: { Args: { permission: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"
