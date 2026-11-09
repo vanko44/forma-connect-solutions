@@ -22,3 +22,5 @@
 - Keep page motion in one shared IntersectionObserver controller and reusable scroll hook; exclude forms and official documents from automatic reveals, and immediately expose content under reduced motion.
 - Use shared FormField for floating text labels while keeping native date, numeric, select and multiline labels persistent; preserve existing validation and submission rules.
 - Keep public institutional identity, service domains and commitments in shared presentation components so homepage and corporate pages stay consistent without changing private workflows.
+- Keep private portal routes under the authenticated gate, with independent navigation and user-scoped server functions; public presentation remains unchanged.
+- Store portal business dossiers in typed records with owner/provider links, validated lifecycle triggers and private document metadata; retain legacy operational modules for sensitive direction workflows.

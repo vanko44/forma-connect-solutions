@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Building2,
@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ClientQuotes } from "@/components/client-quotes";
 
 export const Route = createFileRoute("/espace-client")({
+  beforeLoad: () => { throw redirect({ to: '/portal' }); },
   head: () => ({
     meta: [
       { title: "Tableau de bord client — FORMA" },

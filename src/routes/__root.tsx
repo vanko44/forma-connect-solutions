@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -134,12 +135,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const path = useLocation({ select: (location) => location.pathname });
+  const privatePage = path.startsWith('/client/') || path.startsWith('/provider/') || path.startsWith('/admin/') || path === '/portal';
 
   return (
     <QueryClientProvider client={queryClient}>
-      <FormaFrame>
-        <Outlet />
-      </FormaFrame>
+      {privatePage ? <Outlet /> : <FormaFrame><Outlet /></FormaFrame>}
     </QueryClientProvider>
   );
 }
