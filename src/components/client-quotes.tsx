@@ -21,14 +21,21 @@ type Row = {
 export function ClientQuotes({ userId }: { userId: string }) {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [open, setOpen] = useState<Offer | null>(null);
+  const [error, setError] = useState(false);
   useEffect(() => {
+    setRows(null);
+    setError(false);
     void supabase
-      .from("quote_requests")
+      .from("portal_quotes")
       .select("id, created_at, pole, place, status, offer, amount")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
-      .then(({ data }) => setRows((data as Row[]) ?? []));
+      .then(({ data, error }) => {
+        setError(Boolean(error));
+        setRows((data as Row[]) ?? []);
+      });
   }, [userId]);
+  if (error) return <p role="alert" className="text-sm text-destructive">Impossible de charger vos devis. Réessayez en rouvrant cet onglet.</p>;
   if (!rows) return <p className="text-sm text-muted-foreground">Chargement de vos devis…</p>;
   if (!rows.length)
     return (

@@ -24,3 +24,4 @@
 - Keep public institutional identity, service domains and commitments in shared presentation components so homepage and corporate pages stay consistent without changing private workflows.
 - Keep private portal routes under the authenticated gate, with independent navigation and user-scoped server functions; public presentation remains unchanged.
 - Store portal business dossiers in typed records with owner/provider links, validated lifecycle triggers and private document metadata; retain legacy operational modules for sensitive direction workflows.
+- Read quote details through the caller-scoped portal_quotes view, not unrestricted offer columns, so unapproved offers remain inaccessible through direct browser requests.

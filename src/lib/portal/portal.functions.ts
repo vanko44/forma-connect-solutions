@@ -15,7 +15,7 @@ export const getPortal = createServerFn({ method: "GET" })
       s.from("portal_documents").select("*"),
       s.from("portal_audit").select("*").order("created_at", { ascending: false }).limit(100),
     ]);
-    if (profile.error || roles.error || admin.error || records.error || documents.error)
+    if (profile.error || roles.error || admin.error || records.error || people.error || documents.error || audit.error)
       throw new Error("Impossible de charger votre espace. Réessayez.");
     return {
       userId: context.userId,

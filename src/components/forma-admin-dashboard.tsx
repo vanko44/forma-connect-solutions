@@ -143,7 +143,7 @@ export function FormaAdminDashboard() {
     setLoading(true);
     setError("");
     const [q, p, s] = await Promise.all([
-      supabase.from("quote_requests").select("*").order("created_at", { ascending: false }),
+      supabase.from("portal_quotes").select("*").order("created_at", { ascending: false }),
       supabase.from("partner_applications").select("*").order("created_at", { ascending: false }),
       supabase.from("security_sites").select("*").order("created_at", { ascending: false }),
     ]);

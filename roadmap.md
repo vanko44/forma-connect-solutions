@@ -3,6 +3,7 @@
 - [x] Create independent client, provider and staff dashboards without changing public design.
 - [x] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.
 - [x] Connect role-based login, staff account management, provider actions and validated financial workflows.
+- [x] Protect unpublished offer content at database level and correct provider report insertion authorization.
 - [x] Verify authenticated direction contract creation and mobile layout; 5 portal rules and 18 existing business tests pass.
 - [ ] Complete client/provider end-to-end isolation and document/payment checks: requires identified client and provider test accounts; only a direction account currently exists.
 - [ ] Complete separately delegated super-administrator versus direction roles: authority distribution not yet defined; existing direction allowlist preserved.
