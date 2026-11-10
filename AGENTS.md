@@ -25,3 +25,5 @@
 - Keep private portal routes under the authenticated gate, with independent navigation and user-scoped server functions; public presentation remains unchanged.
 - Store portal business dossiers in typed records with owner/provider links, validated lifecycle triggers and private document metadata; retain legacy operational modules for sensitive direction workflows.
 - Read quote details through the caller-scoped portal_quotes view, not unrestricted offer columns, so unapproved offers remain inaccessible through direct browser requests.
+- Authorize each portal environment server-side before loading dossiers; keep delegated staff separate from the confirmed Direction portal to prevent mixed-privilege screens and cache reuse.
+- Use a local typed translation catalog and shared language context; preserve French fallback and original official documents rather than translating stored business content.

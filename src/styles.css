@@ -167,6 +167,23 @@
   --radius: 0.375rem;
 }
 
+.portal-provider {
+  --primary: oklch(0.32 0.06 165);
+  --sidebar: oklch(0.23 0.035 165);
+  --sidebar-accent: oklch(0.37 0.05 165);
+  --sidebar-border: oklch(0.38 0.03 165);
+}
+.portal-admin {
+  --primary: oklch(0.24 0.015 75);
+  --sidebar: oklch(0.19 0.012 75);
+  --sidebar-accent: oklch(0.42 0.055 68);
+  --sidebar-border: oklch(0.35 0.018 75);
+}
+.portal-staff {
+  --primary: oklch(0.35 0.05 225);
+  --sidebar: oklch(0.25 0.04 225);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
