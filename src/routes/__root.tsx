@@ -19,6 +19,7 @@ import { FormaFrame } from "../components/forma-frame";
 import { isModuleLoadError, recoverModuleLoad } from "../lib/module-load-recovery";
 import { Button } from "../components/ui/button";
 import { supabase } from '@/integrations/supabase/client';
+import { LanguageProvider } from '@/components/language-provider';
 
 function NotFoundComponent() {
   return (
@@ -150,7 +151,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
       {privatePage ? <Outlet /> : <FormaFrame><Outlet /></FormaFrame>}
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

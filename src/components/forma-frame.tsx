@@ -13,6 +13,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { PageMotion } from "@/components/page-motion";
+import { LanguageSelect,useLanguage } from '@/components/language-provider';
 const whatsappIcon = { url: "/images/forma-whatsapp.png" };
 const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
@@ -30,6 +31,7 @@ const nav = [
 ] as const;
 
 export function FormaFrame({ children }: { children: ReactNode }) {
+  const {t}=useLanguage();
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   useEffect(() => {
@@ -67,7 +69,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
                 activeProps={{ className: "text-accent" }}
                 className="text-xs font-semibold text-primary-foreground/75 transition-colors hover:text-primary-foreground"
               >
-                {label}
+                {t(label)}
               </Link>
             ))}
             <Link
@@ -75,14 +77,14 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               activeProps={{ className: "text-accent" }}
               className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
             >
-              Espace Client
+              {t('Espace Client')}
             </Link>
             <Link
               to="/rejoindre"
               activeProps={{ className: "text-accent" }}
               className="text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
             >
-              Prestataire
+              {t('Prestataire')}
             </Link>
           </nav>
           <Button
@@ -91,7 +93,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             className="hidden px-2 text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
           >
             <Link to="/connexion-client">
-              <UserRound /> Espace Client
+              <UserRound /> {t('Espace Client')}
             </Link>
           </Button>
           <Button
@@ -100,15 +102,16 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
           >
             <Link to="/rejoindre">
-              <Users /> Espace Prestataire
+              <Users /> {t('Espace Prestataire')}
             </Link>
           </Button>
           <Button
             asChild
             className="hidden bg-accent text-accent-foreground hover:bg-accent/90 md:inline-flex"
           >
-            <Link to="/devis">Demander un devis</Link>
+            <Link to="/devis">{t('Demander un devis')}</Link>
           </Button>
+          <LanguageSelect/>
           <Button
             variant="ghost"
             size="icon"
@@ -142,7 +145,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
                   onClick={() => setOpen(false)}
                   className="border-b border-primary-foreground/10 py-3 text-sm font-medium"
                 >
-                  {label}
+                  {t(label)}
                 </Link>
               ))}
             </div>
@@ -193,7 +196,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               </Button>
               <Button asChild className="w-full bg-accent text-accent-foreground">
                 <Link to="/devis" onClick={() => setOpen(false)}>
-                  Demander un devis
+                  {t('Demander un devis')}
                 </Link>
               </Button>
             </div>
@@ -239,9 +242,9 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               <Link to="/a-propos">À propos</Link>
               <Link to="/devis">Demander un devis (clients)</Link>
               <Link to="/plateforme">
-                Future plateforme <ArrowUpRight className="ml-1 inline h-3 w-3" />
+                {t('Portails professionnels')} <ArrowUpRight className="ml-1 inline h-3 w-3" />
               </Link>
-              <Link to="/admin">Espace Direction</Link>
+              <Link to="/admin">{t('Espace Direction')}</Link>
               <Link to="/mentions-legales">Mentions légales</Link>
               <Link to="/contact">Contact</Link>
             </div>
