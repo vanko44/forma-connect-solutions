@@ -18,6 +18,8 @@ export function canAccessSection(admin:boolean, roles:string[], section:string):
  return false;
 }
 export function settlement(record:Pick<PortalRecord,'id'|'amount'>,payments:Pick<PortalRecord,'parent_id'|'kind'|'status'|'amount'>[]) {const paid=payments.filter(p=>p.kind==='payment'&&p.status==='validé'&&p.parent_id===record.id).reduce((s,p)=>s+Number(p.amount),0);return {paid,balance:Math.max(0,Number(record.amount)-paid)};}
+export function invoiceAging(records:PortalRecord[],today:string){const buckets=[{label:'Non échues',amount:0},{label:'1–30 jours',amount:0},{label:'31–60 jours',amount:0},{label:'61–90 jours',amount:0},{label:'90+ jours',amount:0}];for(const invoice of records.filter(r=>r.kind==='invoice'&&r.status==='émise')){const balance=settlement(invoice,records).balance;const days=invoice.due_date?Math.floor((Date.parse(today)-Date.parse(invoice.due_date))/86400000):0;const index=days<=0?0:days<=30?1:days<=60?2:days<=90?3:4;const bucket=buckets[index];if(bucket)bucket.amount+=balance;}return buckets;}
+export function serviceProgress(service:PortalRecord,records:PortalRecord[]){const related=records.filter(r=>r.kind==='mission'&&r.parent_id===service.id);return related.length?{completed:related.filter(r=>r.status==='terminée').length,total:related.length}:null;}
 export function missionActions(status:string) {return status==='attribuée'?['accept','refuse']:status==='acceptée'?['start']:status==='en cours'?['finish']:[];}
 export const money=(n:number)=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'USD'}).format(n);
 export const date=(v:string|null)=>v?new Date(v).toLocaleDateString('fr-CD'):'—';

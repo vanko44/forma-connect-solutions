@@ -94,7 +94,7 @@ export function RecordEditor({
       setBusy(false);
     }
   }
-  const staff = environment === "admin";
+  const staff = environment === "admin" || environment === "staff";
   const field = (key: string, label: string, type = "text") => (
     <label className="grid gap-2 text-xs font-semibold" key={key}>
       {label}
@@ -180,12 +180,12 @@ export function RecordEditor({
                 )}
               </div>
             )}
-            {["report", "payment", "service"].includes(kind) && (
+            {["report", "payment", "service", "mission"].includes(kind) && (
               <label className="grid gap-2 text-xs font-semibold">
                 {kind === "report" ? "Mission" : "Dossier associé"}
                 <select
                   name="parent_id"
-                  required={kind !== "service"}
+                  required={['report','payment'].includes(kind)}
                   defaultValue={record?.parent_id ?? ""}
                   className="h-10 rounded-md border border-input bg-background px-3"
                 >
@@ -196,7 +196,7 @@ export function RecordEditor({
                         ? r.kind === "mission"
                         : kind === "payment"
                           ? ["invoice", "mission"].includes(r.kind)
-                          : r.kind === "contract",
+                          : kind==='mission'?r.kind==='service':r.kind === "contract",
                     )
                     .map((r) => (
                       <option value={r.id} key={r.id}>
