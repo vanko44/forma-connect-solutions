@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { lazy, Suspense, useState, type FormEvent } from "react";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useRouter } from "@tanstack/react-router";
@@ -19,7 +19,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { PortalLayout } from "./portal-layout";
 import { RecordEditor } from "./record-editor";
 import { ClientQuotes } from "@/components/client-quotes";
-import { FormaAdminDashboard } from "@/components/forma-admin-dashboard";
+const FormaAdminDashboard = lazy(() =>
+  import("@/components/forma-admin-dashboard").then((m) => ({ default: m.FormaAdminDashboard })),
+);
+import { PortalInsights } from "./portal-insights";
+import { useLanguage } from "@/components/language-provider";
 import {
   getPortal,
   actOnMission,
@@ -40,8 +44,14 @@ import {
   type Environment,
   type PortalProfile,
 } from "@/lib/portal/model";
-export const portalQuery = (environment:Environment)=>queryOptions({ queryKey: ["portal",environment], queryFn: () => getPortal({data:{environment}}), staleTime:30_000 });
+export const portalQuery = (environment: Environment) =>
+  queryOptions({
+    queryKey: ["portal", environment],
+    queryFn: () => getPortal({ data: { environment } }),
+    staleTime: 30_000,
+  });
 export function PortalDashboard({ environment }: { environment: Environment }) {
+  const { t } = useLanguage();
   const { data, refetch } = useSuspenseQuery(portalQuery(environment));
   const [section, setSection] = useState("dashboard");
   const [search, setSearch] = useState("");
@@ -50,15 +60,21 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
   const [error, setError] = useState("");
   const act = useServerFn(actOnMission);
   const download = useServerFn(documentUrl);
-  const allowed = portalAllowed(environment,data.admin,data.roles);
+  const allowed = portalAllowed(environment, data.admin, data.roles);
   const refresh = async () => {
     await refetch();
   };
   const canEdit = (kind: string) =>
-    data.admin ||
-    (data.roles.includes("finance") && ["invoice", "payment"].includes(kind)) ||
-    (data.roles.includes("operations") && ["mission", "service", "report"].includes(kind)) ||
-    (data.roles.includes("customer") && ["contract", "complaint", "notification"].includes(kind));
+    (environment === "admin" && data.admin) ||
+    (environment === "staff" &&
+      data.roles.includes("finance") &&
+      ["invoice", "payment"].includes(kind)) ||
+    (environment === "staff" &&
+      data.roles.includes("operations") &&
+      ["mission", "service", "report"].includes(kind)) ||
+    (environment === "staff" &&
+      data.roles.includes("customer") &&
+      ["contract", "complaint", "notification"].includes(kind));
   const notifications = data.records.filter(
     (r) => r.kind === "notification" && r.status === "nouvelle",
   );
@@ -212,8 +228,8 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
               </p>
               <h1 className="text-2xl font-bold md:text-3xl">
                 {section === "dashboard"
-                  ? `Bonjour${data.profile?.display_name ? ", " + data.profile.display_name : ""}.`
-                  : sectionTitle}
+                  ? `${t("Bonjour")}${data.profile?.display_name ? ", " + data.profile.display_name : ""}.`
+                  : t(sectionTitle)}
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
                 {section === "dashboard"
@@ -229,13 +245,13 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 }}
               >
                 <Plus />
-                Nouvelle réclamation
+                {t("Nouvelle réclamation")}
               </Button>
             )}
             {canEdit(section) && labels[section] && (
               <Button onClick={() => setEditor({ kind: section, record: null })}>
                 <Plus />
-                Créer un dossier
+                {t("Créer un dossier")}
               </Button>
             )}
           </div>
@@ -252,10 +268,12 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   return (
                     <article
                       className="rounded-md border border-border bg-card p-5 shadow-soft"
-                      key={String(label)}
+                      key={t(String(label))}
                     >
                       <div className="flex justify-between">
-                        <p className="text-xs font-medium text-muted-foreground">{String(label)}</p>
+                        <p className="text-xs font-medium text-muted-foreground">
+                          {t(String(label))}
+                        </p>
                         <I className="h-4 w-4 text-accent" />
                       </div>
                       <p className="mt-5 text-3xl font-bold">{String(value)}</p>
@@ -266,32 +284,39 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
               <div className="mb-8 grid gap-8 xl:grid-cols-[1.5fr_1fr]">
                 <section className="min-w-0">
                   <div className="mb-5 flex justify-between">
-                    <h2 className="font-bold">Activité des six derniers mois</h2>
-                    <span className="text-xs text-muted-foreground">Dossiers enregistrés</span>
+                    <h2 className="font-bold">{t("Activité des six derniers mois")}</h2>
+                    <span className="text-xs text-muted-foreground">
+                      {t("Dossiers enregistrés")}
+                    </span>
                   </div>
                   <ActivityChart records={data.records} />
                 </section>
                 <section className="border-l border-border pl-6">
-                  {(environment !== 'admin' || canAccessSection(data.admin,data.roles,'invoice')) && <>
-                  <h2 className="font-bold">Situation financière</h2>
-                  <p className="mt-5 text-3xl font-bold">
-                    {money(environment === "provider" ? providerDue : outstanding)}
-                  </p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    {environment === "provider"
-                      ? "Montants restant à régler sur les missions"
-                      : "Solde des factures émises"}
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="mt-5"
-                    onClick={() => setSection(environment === "provider" ? "payment" : "invoice")}
-                  >
-                    Consulter les règlements
-                    <ArrowUpRight />
-                  </Button>
-                  </>}
-                  <h3 className="mt-6 text-sm font-semibold">Notifications importantes</h3>
+                  {(!["admin", "staff"].includes(environment) ||
+                    canAccessSection(data.admin, data.roles, "invoice")) && (
+                    <>
+                      <h2 className="font-bold">{t("Situation financière")}</h2>
+                      <p className="mt-5 text-3xl font-bold">
+                        {money(environment === "provider" ? providerDue : outstanding)}
+                      </p>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {environment === "provider"
+                          ? "Montants restant à régler sur les missions"
+                          : "Solde des factures émises"}
+                      </p>
+                      <Button
+                        variant="outline"
+                        className="mt-5"
+                        onClick={() =>
+                          setSection(environment === "provider" ? "payment" : "invoice")
+                        }
+                      >
+                        {t("Consulter les règlements")}
+                        <ArrowUpRight />
+                      </Button>
+                    </>
+                  )}
+                  <h3 className="mt-6 text-sm font-semibold">{t("Notifications importantes")}</h3>
                   {notifications.length ? (
                     notifications.slice(0, 2).map((n) => (
                       <p className="mt-2 text-sm text-muted-foreground" key={n.id}>
@@ -300,18 +325,56 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                     ))
                   ) : (
                     <p className="mt-2 text-sm text-muted-foreground">
-                      Aucune nouvelle notification.
+                      {t("Aucune nouvelle notification.")}
                     </p>
                   )}
                 </section>
               </div>
             </>
           )}
-          {section === "quotes" ? (
+          {section === "dashboard" && (
+            <PortalInsights
+              records={data.records}
+              financial={
+                environment === "client" || canAccessSection(data.admin, data.roles, "invoice")
+              }
+              onOpen={setDetail}
+            />
+          )}
+          {section === "documents" ? (
+            <section>
+              <h2 className="mb-5 font-bold">{t("Mes documents")}</h2>
+              {data.documents.length ? (
+                data.documents.map((d) => (
+                  <div
+                    key={d.id}
+                    className="flex flex-wrap items-center justify-between gap-4 border-t border-border py-4"
+                  >
+                    <div>
+                      <p className="font-semibold">{d.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {data.records.find((r) => r.id === d.record_id)?.reference}
+                      </p>
+                    </div>
+                    <Button variant="outline" onClick={() => void getDocument(d.id)}>
+                      <Download />
+                      {t("Télécharger")}
+                    </Button>
+                  </div>
+                ))
+              ) : (
+                <p className="border-t border-border py-5 text-sm text-muted-foreground">
+                  {t("Aucun document joint.")}
+                </p>
+              )}
+            </section>
+          ) : section === "quotes" ? (
             <ClientQuotes userId={data.userId} />
           ) : section === "legacy" ? (
             data.admin ? (
-              <FormaAdminDashboard />
+              <Suspense fallback={<p>{t("Chargement…")}</p>}>
+                <FormaAdminDashboard />
+              </Suspense>
             ) : (
               <p>Ce module est réservé à la direction.</p>
             )
@@ -352,7 +415,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
             <section>
               <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
                 <h2 className="font-bold">
-                  {section === "dashboard" ? "Dernières activités" : sectionTitle}
+                  {section === "dashboard" ? "Dernières activités" : t(sectionTitle)}
                 </h2>
                 <div className="relative w-full sm:w-72">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -368,9 +431,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
               {!rows.length ? (
                 <div className="rounded-md border border-dashed border-border py-14 text-center">
                   <FileText className="mx-auto h-8 w-8 text-muted-foreground/50" />
-                  <h3 className="mt-4 font-semibold">Aucun dossier pour le moment</h3>
+                  <h3 className="mt-4 font-semibold">{t("Aucun dossier pour le moment")}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Les dossiers attribués à votre compte apparaîtront ici.
+                    {t("Les dossiers attribués à votre compte apparaîtront ici.")}
                   </p>
                 </div>
               ) : (
@@ -378,11 +441,11 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   <table className="w-full min-w-[650px] text-sm">
                     <thead className="bg-secondary/50 text-left text-xs text-muted-foreground">
                       <tr>
-                        <th className="px-5 py-4">Référence / dossier</th>
-                        <th className="px-4">Statut</th>
-                        <th className="px-4">Dates</th>
-                        <th className="px-4">Montant / solde</th>
-                        <th className="px-4 text-right">Actions</th>
+                        <th className="px-5 py-4">{t("Référence / dossier")}</th>
+                        <th className="px-4">{t("Statut")}</th>
+                        <th className="px-4">{t("Dates")}</th>
+                        <th className="px-4">{t("Montant / solde")}</th>
+                        <th className="px-4 text-right">{t("Actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -393,7 +456,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                             <td className="px-5 py-4">
                               <p className="text-xs text-muted-foreground">{r.reference}</p>
                               <p className="mt-1 font-semibold">{r.title}</p>
-                              <p className="mt-1 text-xs text-muted-foreground">{labels[r.kind]}</p>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {t(labels[r.kind] ?? r.kind)}
+                              </p>
                             </td>
                             <td className="px-4">
                               <span
@@ -402,8 +467,8 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                                 {r.kind === "invoice" &&
                                 r.status === "émise" &&
                                 finance.balance === 0
-                                  ? "Soldée"
-                                  : r.status}
+                                  ? t("Soldée")
+                                  : t(r.status)}
                               </span>
                             </td>
                             <td className="px-4 text-xs text-muted-foreground">
@@ -428,7 +493,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                             <td className="px-4">
                               <div className="flex flex-wrap justify-end gap-2">
                                 <Button variant="outline" size="sm" onClick={() => setDetail(r)}>
-                                  Consulter
+                                  {t("Consulter")}
                                 </Button>
                                 {canEdit(r.kind) &&
                                   !(r.kind === "payment" && r.status === "validé") && (
@@ -437,7 +502,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                                       variant="ghost"
                                       onClick={() => setEditor({ kind: r.kind, record: r })}
                                     >
-                                      Modifier
+                                      {t("Modifier")}
                                     </Button>
                                   )}
                                 {environment === "provider" &&
@@ -473,7 +538,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   onClick={() => setEditor({ kind: "report", record: null })}
                 >
                   <Plus />
-                  Transmettre un rapport
+                  {t("Transmettre un rapport")}
                 </Button>
               )}
               {canEdit("payment") && section === "invoice" && (
@@ -482,7 +547,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   onClick={() => setEditor({ kind: "payment", record: null })}
                 >
                   <Plus />
-                  Enregistrer un règlement
+                  {t("Enregistrer un règlement")}
                 </Button>
               )}
             </section>
@@ -541,7 +606,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                     {money(settlement(detail, data.records).balance)}
                   </p>
                 )}
-                <h3 className="mt-3 font-semibold">Documents</h3>
+                <h3 className="mt-3 font-semibold">{t("Documents")}</h3>
                 {data.documents
                   .filter((d) => d.record_id === detail.id)
                   .map((d) => (
@@ -556,18 +621,24 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                     </Button>
                   ))}
                 {!data.documents.some((d) => d.record_id === detail.id) && (
-                  <p className="text-sm text-muted-foreground">Aucun document joint.</p>
+                  <p className="text-sm text-muted-foreground">{t("Aucun document joint.")}</p>
                 )}
                 {["contract", "invoice"].includes(detail.kind) && (
                   <Button
                     variant="outline"
-                    onClick={() => void downloadRecordPdf(detail, data.people.find(p=>p.id===detail.owner_id) ?? null, data.records)}
+                    onClick={() =>
+                      void downloadRecordPdf(
+                        detail,
+                        data.people.find((p) => p.id === detail.owner_id) ?? null,
+                        data.records,
+                      )
+                    }
                   >
                     <Download />
-                    Télécharger la fiche PDF
+                    {t("Télécharger la fiche PDF")}
                   </Button>
                 )}
-                <h3 className="mt-3 font-semibold">Dossiers associés</h3>
+                <h3 className="mt-3 font-semibold">{t("Dossiers associés")}</h3>
                 {data.records
                   .filter((r) => r.parent_id === detail.id)
                   .map((r) => (
@@ -577,7 +648,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                       key={r.id}
                       onClick={() => setDetail(r)}
                     >
-                      {r.title} · {r.status}
+                      {r.title} · {t(r.status)}
                     </Button>
                   ))}
               </DialogContent>
@@ -646,6 +717,7 @@ function ProfileForm({
   profile: PortalProfile | null;
   refresh: () => Promise<void>;
 }) {
+  const { t } = useLanguage();
   const save = useServerFn(saveProfile);
   const [message, setMessage] = useState("");
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -674,7 +746,7 @@ function ProfileForm({
         ["phone", "Téléphone"],
       ].map(([key, label]) => (
         <label key={key} className="grid gap-2 text-sm font-semibold">
-          {label}
+          {t(label ?? "")}
           <Input
             name={key}
             required={key === "display_name"}
@@ -682,7 +754,7 @@ function ProfileForm({
           />
         </label>
       ))}
-      <Button>Enregistrer mon profil</Button>
+      <Button>{t("Enregistrer mon profil")}</Button>
       {message && (
         <p role="status" className="text-sm">
           {message}
@@ -692,6 +764,7 @@ function ProfileForm({
   );
 }
 function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () => Promise<void> }) {
+  const { t } = useLanguage();
   const manage = useServerFn(manageAccount);
   const [person, setPerson] = useState<PortalProfile | null>(null);
   const [message, setMessage] = useState("");
@@ -722,7 +795,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
   return (
     <div className="grid gap-8 xl:grid-cols-2">
       <div>
-        <h2 className="mb-4 font-bold">Comptes enregistrés</h2>
+        <h2 className="mb-4 font-bold">{t("Comptes enregistrés")}</h2>
         {people.map((p) => (
           <div key={p.id} className="flex justify-between gap-3 border-b border-border py-4">
             <div>
@@ -732,7 +805,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
               </p>
             </div>
             <Button variant="outline" size="sm" onClick={() => setPerson(p)}>
-              Gérer
+              {t("Gérer")}
             </Button>
           </div>
         ))}
@@ -741,7 +814,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
         <h2 className="font-bold">{person ? "Modifier le compte" : "Inviter un utilisateur"}</h2>
         {!person && (
           <label className="grid gap-2 text-sm">
-            Email
+            {t("Email")}
             <Input type="email" name="email" required />
           </label>
         )}
@@ -760,13 +833,13 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
           </label>
         ))}
         <label className="grid gap-2 text-sm">
-          Niveau d’accès
+          {t("Niveau d’accès")}
           <select name="role" className="h-10 rounded-md border border-input bg-background px-3">
-            <option value="client">Client</option>
-            <option value="provider">Prestataire</option>
-            <option value="operations">Responsable des opérations</option>
-            <option value="finance">Responsable financier</option>
-            <option value="customer">Gestionnaire clientèle</option>
+            <option value="client">{t("Client")}</option>
+            <option value="provider">{t("Prestataire")}</option>
+            <option value="operations">{t("Responsable des opérations")}</option>
+            <option value="finance">{t("Responsable financier")}</option>
+            <option value="customer">{t("Gestionnaire clientèle")}</option>
           </select>
         </label>
         <Button disabled={busy}>
@@ -774,7 +847,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
         </Button>
         {person && (
           <Button variant="ghost" type="button" onClick={() => setPerson(null)}>
-            Nouvelle invitation
+            {t("Nouvelle invitation")}
           </Button>
         )}
         {message && (

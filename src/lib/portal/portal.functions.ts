@@ -4,7 +4,11 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { recordSchema, portalAllowed } from "./model";
 export const getPortal = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((v:unknown)=>z.object({environment:z.enum(['client','provider','admin','staff']).optional()}).parse(v??{}))
+  .inputValidator((v: unknown) =>
+    z
+      .object({ environment: z.enum(["client", "provider", "admin", "staff"]).optional() })
+      .parse(v ?? {}),
+  )
   .handler(async ({ context, data: input }) => {
     const s = context.supabase;
     const [profile, roles, admin] = await Promise.all([
@@ -12,17 +16,33 @@ export const getPortal = createServerFn({ method: "GET" })
       s.from("portal_roles").select("role").eq("user_id", context.userId),
       s.rpc("has_role", { _user_id: context.userId, _role: "admin" }),
     ]);
-    if(profile.error||roles.error||admin.error)throw new Error('Impossible de vérifier votre compte.');
-    const roleNames=roles.data?.map(r=>r.role)??[];
-    if(input.environment&&!portalAllowed(input.environment,Boolean(admin.data),roleNames))throw new Error('Accès non autorisé à cet espace.');
-    const staff=Boolean(admin.data)||roleNames.some(r=>['operations','finance','customer'].includes(r));
-    const [records, people, documents, audit]=await Promise.all([
-      s.from('portal_records').select('*').order('created_at',{ascending:false}),
-      staff?s.from('profiles').select('*').order('display_name'):s.from('profiles').select('*').eq('id',context.userId),
-      s.from('portal_documents').select('*'),
-      admin.data?s.from('portal_audit').select('*').order('created_at',{ascending:false}).limit(100):Promise.resolve({data:[],error:null}),
+    if (profile.error || roles.error || admin.error)
+      throw new Error("Impossible de vérifier votre compte.");
+    const roleNames = roles.data?.map((r) => r.role) ?? [];
+    if (input.environment && !portalAllowed(input.environment, Boolean(admin.data), roleNames))
+      throw new Error("Accès non autorisé à cet espace.");
+    const staff =
+      Boolean(admin.data) ||
+      roleNames.some((r) => ["operations", "finance", "customer"].includes(r));
+    const [records, people, documents, audit] = await Promise.all([
+      s.from("portal_records").select("*").order("created_at", { ascending: false }),
+      staff
+        ? s.from("profiles").select("*").order("display_name")
+        : s.from("profiles").select("*").eq("id", context.userId),
+      s.from("portal_documents").select("*"),
+      admin.data
+        ? s.from("portal_audit").select("*").order("created_at", { ascending: false }).limit(100)
+        : Promise.resolve({ data: [], error: null }),
     ]);
-    if (profile.error || roles.error || admin.error || records.error || people.error || documents.error || audit.error)
+    if (
+      profile.error ||
+      roles.error ||
+      admin.error ||
+      records.error ||
+      people.error ||
+      documents.error ||
+      audit.error
+    )
       throw new Error("Impossible de charger votre espace. Réessayez.");
     return {
       userId: context.userId,

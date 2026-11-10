@@ -1,10 +1,88 @@
-import { Button } from '@/components/ui/button';
-import { attributes,invoiceAging,money,serviceProgress,type PortalRecord } from '@/lib/portal/model';
-import { useLanguage } from '@/components/language-provider';
-export function PortalInsights({records,financial,onOpen}:{records:PortalRecord[],financial:boolean,onOpen:(record:PortalRecord)=>void}){
- const {t}=useLanguage();
- const services=records.filter(r=>['service','mission'].includes(r.kind)&&['planifiée','attribuée','acceptée','en cours','en attente de validation'].includes(r.status));
- const aging=invoiceAging(records,new Date().toISOString().slice(0,10));
- const total=aging.reduce((sum,b)=>sum+b.amount,0);
- return <div className="mb-8 grid gap-8 xl:grid-cols-2"><section><h2 className="mb-4 font-bold">{t('Prestations en cours')}</h2>{services.length?services.slice(0,4).map(r=>{const progress=serviceProgress(r,records);return <div key={r.id} className="border-t border-border py-4"><div className="flex items-start justify-between gap-4"><div className="min-w-0"><p className="truncate font-semibold">{r.title}</p><p className="mt-1 text-xs text-muted-foreground">{t(r.status)} · {attributes(r)['site']||r.reference}</p></div><Button variant="outline" size="sm" onClick={()=>onOpen(r)}>{t('Consulter')}</Button></div>{progress&&<div className="mt-3"><progress value={progress.completed} max={progress.total} className="h-2 w-full accent-primary"/><p className="mt-1 text-xs text-muted-foreground">{progress.completed} / {progress.total} {t('Terminées')}</p></div>}</div>;}):<p className="border-t border-border py-5 text-sm text-muted-foreground">{t('Aucun dossier pour le moment')}</p>}</section>{financial&&<section><h2 className="mb-4 font-bold">{t('Échéances des factures')}</h2><div className="divide-y divide-border border-y border-border">{aging.map(b=><div key={b.label} className="flex items-center justify-between gap-4 py-3 text-sm"><span>{t(b.label)}</span><span className="font-semibold">{money(b.amount)}</span></div>)}</div><p className="mt-3 text-xs text-muted-foreground">{t('Solde des factures émises')} : {money(total)}</p></section>}</div>;
+import { Button } from "@/components/ui/button";
+import {
+  attributes,
+  invoiceAging,
+  money,
+  serviceProgress,
+  type PortalRecord,
+} from "@/lib/portal/model";
+import { useLanguage } from "@/components/language-provider";
+export function PortalInsights({
+  records,
+  financial,
+  onOpen,
+}: {
+  records: PortalRecord[];
+  financial: boolean;
+  onOpen: (record: PortalRecord) => void;
+}) {
+  const { t } = useLanguage();
+  const services = records.filter(
+    (r) =>
+      ["service", "mission"].includes(r.kind) &&
+      ["planifiée", "attribuée", "acceptée", "en cours", "en attente de validation"].includes(
+        r.status,
+      ),
+  );
+  const aging = invoiceAging(records, new Date().toISOString().slice(0, 10));
+  const total = aging.reduce((sum, b) => sum + b.amount, 0);
+  return (
+    <div className="mb-8 grid gap-8 xl:grid-cols-2">
+      <section>
+        <h2 className="mb-4 font-bold">{t("Prestations en cours")}</h2>
+        {services.length ? (
+          services.slice(0, 4).map((r) => {
+            const progress = serviceProgress(r, records);
+            return (
+              <div key={r.id} className="border-t border-border py-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold">{r.title}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {t(r.status)} · {attributes(r)["site"] || r.reference}
+                    </p>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={() => onOpen(r)}>
+                    {t("Consulter")}
+                  </Button>
+                </div>
+                {progress && (
+                  <div className="mt-3">
+                    <progress
+                      value={progress.completed}
+                      max={progress.total}
+                      className="h-2 w-full accent-primary"
+                    />
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {progress.completed} / {progress.total} {t("Terminées")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <p className="border-t border-border py-5 text-sm text-muted-foreground">
+            {t("Aucun dossier pour le moment")}
+          </p>
+        )}
+      </section>
+      {financial && (
+        <section>
+          <h2 className="mb-4 font-bold">{t("Échéances des factures")}</h2>
+          <div className="divide-y divide-border border-y border-border">
+            {aging.map((b) => (
+              <div key={b.label} className="flex items-center justify-between gap-4 py-3 text-sm">
+                <span>{t(b.label)}</span>
+                <span className="font-semibold">{money(b.amount)}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            {t("Solde des factures émises")} : {money(total)}
+          </p>
+        </section>
+      )}
+    </div>
+  );
 }
