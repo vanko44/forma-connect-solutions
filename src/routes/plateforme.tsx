@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import { Building2, ClipboardList, LayoutDashboard, WalletCards } from "lucide-react";
 import { PageIntro, CtaBand } from "@/components/page-shell";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,13 +8,13 @@ export const Route = createFileRoute("/plateforme")({
   head: () => ({
     meta: [
       { property: "og:url", content: "https://forma-connect-solutions.lovable.app/plateforme" },
-      { title: "Future plateforme digitale — FORMA" },
+      { title: "Portails professionnels — FORMA" },
       {
         name: "description",
         content:
-          "Aperçu interactif des futurs espaces Client, Prestataire et Admin de la plateforme FORMA.",
+          "Accédez aux espaces privés Client, Prestataire et Direction de FORMA Event & Security.",
       },
-      { property: "og:title", content: "Future plateforme digitale FORMA" },
+      { property: "og:title", content: "Portails professionnels FORMA" },
       {
         property: "og:description",
         content:
@@ -82,12 +83,15 @@ function Platform() {
             </div>
             <TabsContent value="client" className="mt-6">
               <DashboardPreview dashboard={dashboards[0]} />
+              <Button asChild className="mt-5"><Link to="/client/dashboard">Accéder à mon espace client</Link></Button>
             </TabsContent>
             <TabsContent value="partner" className="mt-6">
               <DashboardPreview dashboard={dashboards[1]} />
+              <Button asChild className="mt-5"><Link to="/provider/dashboard">Accéder à mon espace prestataire</Link></Button>
             </TabsContent>
             <TabsContent value="admin" className="mt-6">
               <DashboardPreview dashboard={dashboards[2]} />
+              <Button asChild className="mt-5"><Link to="/admin/dashboard">Accéder à l’espace Direction</Link></Button>
             </TabsContent>
           </Tabs>
         </div>

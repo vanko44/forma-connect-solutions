@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION public.portal_report_allowed(mission uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$ SELECT EXISTS(SELECT 1 FROM public.portal_records m WHERE m.id=mission AND m.kind='mission' AND m.provider_id=auth.uid() AND m.status IN ('acceptée','en cours','en attente de validation')) AND EXISTS(SELECT 1 FROM public.portal_roles WHERE user_id=auth.uid() AND role='provider') $$;
+REVOKE ALL ON FUNCTION public.portal_report_allowed(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.portal_report_allowed(uuid) TO authenticated;
+DROP POLICY records_insert ON public.portal_records;
+CREATE POLICY records_insert ON public.portal_records FOR INSERT TO authenticated WITH CHECK(public.portal_record_staff(kind) OR (kind='complaint' AND owner_id=auth.uid() AND provider_id IS NULL AND status='nouvelle' AND amount=0 AND created_by=auth.uid() AND EXISTS(SELECT 1 FROM public.portal_roles WHERE user_id=auth.uid() AND role='client')) OR (kind='report' AND provider_id=auth.uid() AND status='soumis' AND amount=0 AND created_by=auth.uid() AND public.portal_report_allowed(parent_id)));
+CREATE VIEW public.portal_quotes WITH (security_barrier=true) AS SELECT id,created_at,pole,name,organization,phone,email,needs,place,desired_date,status,user_id, CASE WHEN public.has_role(auth.uid(),'admin') OR (status='Offre approuvée' AND approved_at IS NOT NULL) THEN offer ELSE NULL END AS offer, CASE WHEN public.has_role(auth.uid(),'admin') OR (status='Offre approuvée' AND approved_at IS NOT NULL) THEN amount ELSE NULL END AS amount, CASE WHEN public.has_role(auth.uid(),'admin') OR status='Offre approuvée' THEN approved_at ELSE NULL END AS approved_at FROM public.quote_requests WHERE public.has_role(auth.uid(),'admin') OR user_id=auth.uid();
+GRANT SELECT ON public.portal_quotes TO authenticated;
+GRANT ALL ON public.portal_quotes TO service_role;
+REVOKE SELECT ON public.quote_requests FROM authenticated,anon;
+GRANT SELECT(id,created_at,pole,name,organization,phone,email,needs,place,desired_date,status,user_id) ON public.quote_requests TO authenticated;
+COMMENT ON VIEW public.portal_quotes IS 'Caller-scoped quotes; unpublished offer and pricing are direction-only, including direct Data API access.';

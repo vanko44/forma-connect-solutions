@@ -35,6 +35,7 @@ import {
   attributes,
   missionActions,
   destination,
+  canAccessSection,
   type PortalRecord,
   type Environment,
   type PortalProfile,
@@ -188,6 +189,8 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
   return (
     <PortalLayout
       environment={environment}
+      admin={data.admin}
+      roles={data.roles}
       name={data.profile?.display_name || data.profile?.company || "Mon compte"}
       section={section}
       onSection={(s) => {
@@ -274,6 +277,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   <ActivityChart records={data.records} />
                 </section>
                 <section className="border-l border-border pl-6">
+                  {(environment !== 'admin' || canAccessSection(data.admin,data.roles,'invoice')) && <>
                   <h2 className="font-bold">Situation financière</h2>
                   <p className="mt-5 text-3xl font-bold">
                     {money(environment === "provider" ? providerDue : outstanding)}
@@ -291,6 +295,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                     Consulter les règlements
                     <ArrowUpRight />
                   </Button>
+                  </>}
                   <h3 className="mt-6 text-sm font-semibold">Notifications importantes</h3>
                   {notifications.length ? (
                     notifications.slice(0, 2).map((n) => (
@@ -561,7 +566,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 {["contract", "invoice"].includes(detail.kind) && (
                   <Button
                     variant="outline"
-                    onClick={() => void downloadRecordPdf(detail, data.profile, data.records)}
+                    onClick={() => void downloadRecordPdf(detail, data.people.find(p=>p.id===detail.owner_id) ?? null, data.records)}
                   >
                     <Download />
                     Télécharger la fiche PDF
