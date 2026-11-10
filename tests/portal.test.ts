@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { settlement,destination,missionActions,recordSchema,canAccessSection } from '../src/lib/portal/model';
+import { settlement,destination,missionActions,recordSchema,canAccessSection,portalAllowed } from '../src/lib/portal/model';
 describe('portals',()=>{
+ it('never allows clients or providers into Direction',()=>{expect(portalAllowed('admin',false,['client'])).toBe(false);expect(portalAllowed('admin',false,['provider'])).toBe(false);});
+ it('keeps delegated staff separate from Direction',()=>{expect(destination(false,['operations'])).toBe('staff');expect(portalAllowed('admin',false,['finance'])).toBe(false);expect(portalAllowed('staff',false,['finance'])).toBe(true);});
+ it('does not show management data inside a client or provider portal',()=>{expect(portalAllowed('client',true,['client'])).toBe(false);expect(portalAllowed('provider',true,['provider'])).toBe(false);});
  it('restricts operations to operational functions, not finance or account permissions',()=>{expect(canAccessSection(false,['operations'],'mission')).toBe(true);expect(canAccessSection(false,['operations'],'invoice')).toBe(false);expect(canAccessSection(false,['operations'],'accounts')).toBe(false);});
  it('restricts finance to financial functions, not field reports',()=>{expect(canAccessSection(false,['finance'],'invoice')).toBe(true);expect(canAccessSection(false,['finance'],'report')).toBe(false);});
  it('restricts customer management to contracts and complaints',()=>{expect(canAccessSection(false,['customer'],'complaint')).toBe(true);expect(canAccessSection(false,['customer'],'contract')).toBe(true);expect(canAccessSection(false,['customer'],'legacy')).toBe(false);});
