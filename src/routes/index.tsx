@@ -87,8 +87,7 @@ function Home() {
               {t("et solutions multiservices.")}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">
-              Des solutions professionnelles en sécurité, événementiel, formation et services
-              multiservices en RDC.
+              {t('Des solutions professionnelles en sécurité, événementiel, formation et services multiservices en RDC.')}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button

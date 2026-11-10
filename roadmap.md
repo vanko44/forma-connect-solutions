@@ -1,9 +1,10 @@
 # Roadmap
 
-- [ ] Clarify direction/client/provider separation, reject incorrect portal access before loading data, and separate delegated staff from Direction.
-- [ ] Add relevant reference features: shared document views, execution progress and invoice aging using persisted records only.
-- [ ] Add French-default language selection with English, Portuguese and Swahili; verify translated surfaces and document preservation.
-- [ ] Verify authorization rules, public/private loading and mobile layout after changes.
+- [x] Clarify direction/client/provider separation, reject incorrect portal access before loading data, and separate delegated staff from Direction. Confirmed allowlist enforced inside has_role.
+- [x] Add relevant reference features: shared document views, execution progress and invoice aging using persisted records only.
+- [x] Add French-default selector with English, Portuguese and Swahili for navigation and principal portal commands; preserve official documents.
+- [ ] Complete translation of remaining public descriptions, legacy operational modules and forms; catalog integration is in place but full multilingual coverage remains unfinished.
+- [x] Verify direction login, incorrect client portal rejection, role redirect, English selection and mobile width; 14 tests pass and no browser runtime errors.
 
 - [x] Create independent client, provider and staff dashboards without changing public design.
 - [x] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.

@@ -221,10 +221,10 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
             <div>
               <p className="mb-2 text-xs font-semibold uppercase text-accent">
                 {environment === "admin"
-                  ? "Direction & contrôle interne"
+                  ? t("Direction & contrôle interne")
                   : environment === "provider"
-                    ? "Opérations partenaires"
-                    : "Relation client"}
+                    ? t("Opérations partenaires")
+                    : environment==='staff'?t('Espace collaborateurs'):t("Relation client")}
               </p>
               <h1 className="text-2xl font-bold md:text-3xl">
                 {section === "dashboard"
@@ -233,7 +233,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
                 {section === "dashboard"
-                  ? "Votre activité FORMA, en un regard."
+                  ? t("Votre activité FORMA, en un regard.")
                   : data.profile?.company || "FORMA Event & Security"}
               </p>
             </div>
