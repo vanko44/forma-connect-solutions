@@ -34,15 +34,15 @@ import {
   settlement,
   attributes,
   missionActions,
-  destination,
+  portalAllowed,
   canAccessSection,
   type PortalRecord,
   type Environment,
   type PortalProfile,
 } from "@/lib/portal/model";
-export const portalQuery = queryOptions({ queryKey: ["portal"], queryFn: () => getPortal() });
+export const portalQuery = (environment:Environment)=>queryOptions({ queryKey: ["portal",environment], queryFn: () => getPortal({data:{environment}}), staleTime:30_000 });
 export function PortalDashboard({ environment }: { environment: Environment }) {
-  const { data, refetch } = useSuspenseQuery(portalQuery);
+  const { data, refetch } = useSuspenseQuery(portalQuery(environment));
   const [section, setSection] = useState("dashboard");
   const [search, setSearch] = useState("");
   const [editor, setEditor] = useState<{ kind: string; record: PortalRecord | null } | null>(null);
@@ -50,12 +50,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
   const [error, setError] = useState("");
   const act = useServerFn(actOnMission);
   const download = useServerFn(documentUrl);
-  const allowed =
-    environment === "client"
-      ? data.roles.includes("client")
-      : environment === "provider"
-        ? data.roles.includes("provider")
-        : destination(data.admin, data.roles) === "admin";
+  const allowed = portalAllowed(environment,data.admin,data.roles);
   const refresh = async () => {
     await refetch();
   };
