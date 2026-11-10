@@ -4,8 +4,9 @@
 - [x] Persist profiles, contracts, services, complaints, invoices, payments, assignments and reports with tenant RLS, private documents and audit logs.
 - [x] Connect role-based login, staff account management, provider actions and validated financial workflows.
 - [x] Protect unpublished offer content at database level and correct provider report insertion authorization.
-- [x] Verify authenticated direction contract creation and mobile layout; 5 portal rules and 18 existing business tests pass.
-- [ ] Complete client/provider end-to-end isolation and document/payment checks: requires identified client and provider test accounts; only a direction account currently exists.
+- [x] Verify authenticated direction contract creation, pending/validated payment balances, real PDF download and mobile layout; 8 portal rules and 20 existing business tests pass. Temporary financial records removed.
+- [x] Connect public platform access buttons to the live private portals and replace future-platform metadata.
+- [ ] Complete client/provider end-to-end isolation and protected attachment checks: requires identified non-direction client and provider accounts; no provider account exists.
 - [ ] Complete separately delegated super-administrator versus direction roles: authority distribution not yet defined; existing direction allowlist preserved.
 
 - [x] Renforcer la présentation institutionnelle, les six pôles et les engagements qualité sur l’accueil, À propos et Solutions, sans modification des espaces privés et formulaires.
