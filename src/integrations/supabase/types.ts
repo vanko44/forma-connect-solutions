@@ -484,7 +484,60 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      portal_quotes: {
+        Row: {
+          amount: string | null
+          approved_at: string | null
+          created_at: string | null
+          desired_date: string | null
+          email: string | null
+          id: string | null
+          name: string | null
+          needs: string | null
+          offer: Json | null
+          organization: string | null
+          phone: string | null
+          place: string | null
+          pole: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount?: never
+          approved_at?: never
+          created_at?: string | null
+          desired_date?: string | null
+          email?: string | null
+          id?: string | null
+          name?: string | null
+          needs?: string | null
+          offer?: never
+          organization?: string | null
+          phone?: string | null
+          place?: string | null
+          pole?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: never
+          approved_at?: never
+          created_at?: string | null
+          desired_date?: string | null
+          email?: string | null
+          id?: string | null
+          name?: string | null
+          needs?: string | null
+          offer?: never
+          organization?: string | null
+          phone?: string | null
+          place?: string | null
+          pole?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       claim_direction_admin: { Args: never; Returns: boolean }
@@ -497,6 +550,7 @@ export type Database = {
       }
       portal_can: { Args: { permission: string }; Returns: boolean }
       portal_record_staff: { Args: { k: string }; Returns: boolean }
+      portal_report_allowed: { Args: { mission: string }; Returns: boolean }
       provider_mission_action: {
         Args: { action: string; mission_id: string }
         Returns: undefined
