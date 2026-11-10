@@ -2,12 +2,13 @@ import { z } from 'zod';
 import type { Tables } from '@/integrations/supabase/types';
 export type PortalRecord = Tables<'portal_records'>;
 export type PortalProfile = Tables<'profiles'>;
-export type Environment = 'client' | 'provider' | 'admin';
+export type Environment = 'client' | 'provider' | 'admin' | 'staff';
 export const kinds = ['contract','service','mission','report','complaint','invoice','payment','notification'] as const;
 export const labels: Record<string,string> = {contract:'Contrats',service:'Prestations',mission:'Missions',report:'Rapports',complaint:'Réclamations',invoice:'Factures',payment:'Règlements',notification:'Notifications'};
 export const statuses: Record<string,string[]> = {contract:['brouillon','actif','terminé','résilié'],service:['planifiée','en cours','terminée'],mission:['brouillon','attribuée','acceptée','refusée','en cours','en attente de validation','terminée'],report:['soumis','en attente','validé','rejeté'],complaint:['nouvelle','en cours de traitement','en attente','clôturée'],invoice:['brouillon','émise','annulée'],payment:['en attente','validé','rejeté'],notification:['nouvelle','lue']};
 export const recordSchema = z.object({id:z.string().uuid().optional(),kind:z.enum(kinds),title:z.string().trim().min(2).max(200),status:z.string(),owner_id:z.string().uuid().nullable(),provider_id:z.string().uuid().nullable(),parent_id:z.string().uuid().nullable(),start_date:z.string().nullable(),end_date:z.string().nullable(),due_date:z.string().nullable(),amount:z.number().nonnegative(),attributes:z.record(z.string(),z.string()).default({})}).superRefine((r,c)=>{if(!statuses[r.kind]?.includes(r.status)) c.addIssue({code:'custom',message:'Statut invalide'}); if(r.start_date&&r.end_date&&r.end_date<r.start_date)c.addIssue({code:'custom',message:'Dates incohérentes'});});
-export function destination(admin:boolean, roles:string[]):Environment {return admin||roles.some(r=>['operations','finance','customer'].includes(r))?'admin':roles.includes('provider')?'provider':'client';}
+export function destination(admin:boolean, roles:string[]):Environment {return admin?'admin':roles.some(r=>['operations','finance','customer'].includes(r))?'staff':roles.includes('provider')?'provider':'client';}
+export function portalAllowed(environment:Environment,admin:boolean,roles:string[]):boolean {return destination(admin,roles)===environment;}
 export function canAccessSection(admin:boolean, roles:string[], section:string):boolean {
  if(admin)return true;
  if(['dashboard','profile','notification'].includes(section))return true;
