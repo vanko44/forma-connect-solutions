@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { settlement,destination,missionActions,recordSchema } from '../src/lib/portal/model';
+import { settlement,destination,missionActions,recordSchema,canAccessSection } from '../src/lib/portal/model';
 describe('portals',()=>{
+ it('restricts operations to operational functions, not finance or account permissions',()=>{expect(canAccessSection(false,['operations'],'mission')).toBe(true);expect(canAccessSection(false,['operations'],'invoice')).toBe(false);expect(canAccessSection(false,['operations'],'accounts')).toBe(false);});
+ it('restricts finance to financial functions, not field reports',()=>{expect(canAccessSection(false,['finance'],'invoice')).toBe(true);expect(canAccessSection(false,['finance'],'report')).toBe(false);});
+ it('restricts customer management to contracts and complaints',()=>{expect(canAccessSection(false,['customer'],'complaint')).toBe(true);expect(canAccessSection(false,['customer'],'contract')).toBe(true);expect(canAccessSection(false,['customer'],'legacy')).toBe(false);});
  it('ignores unvalidated payments',()=>{expect(settlement({id:'i',amount:100},[{parent_id:'i',kind:'payment',status:'en attente',amount:100}])).toEqual({paid:0,balance:100});});
  it('deducts only validated payments for this invoice',()=>{expect(settlement({id:'i',amount:100},[{parent_id:'i',kind:'payment',status:'validé',amount:30},{parent_id:'other',kind:'payment',status:'validé',amount:40}])).toEqual({paid:30,balance:70});});
  it('routes client, provider and direction to distinct environments',()=>{expect(destination(false,['client'])).toBe('client');expect(destination(false,['provider'])).toBe('provider');expect(destination(true,['client'])).toBe('admin');});
