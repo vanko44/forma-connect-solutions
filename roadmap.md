@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Complete reference-inspired portal overview: actionable priorities, recent activity, invoice/payment trend, direct client/provider support and searchable accounts using real authorized records only; add working private light/dark themes and translations for the new views.
+- [x] Verify Direction overview with a real temporary complaint created and reopened from priorities (then removed), account search, English, dark theme and 390px layout; Direction rejected from both other portals, 14 tests passed. Separate client/provider account checks remain blocked as noted below.
 - [x] Clarify direction/client/provider separation, reject incorrect portal access before loading data, and separate delegated staff from Direction. Confirmed allowlist enforced inside has_role.
 - [x] Add relevant reference features: shared document views, execution progress and invoice aging using persisted records only.
 - [x] Add French-default selector with English, Portuguese and Swahili for navigation and principal portal commands; preserve official documents.

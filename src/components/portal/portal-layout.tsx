@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -16,6 +16,8 @@ import {
   X,
   ArrowUpRight,
   ClipboardCheck,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -96,6 +98,14 @@ export function PortalLayout({
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [dark, setDark] = useState(false);
+  useEffect(() => { setDark(document.documentElement.classList.contains("dark")); }, []);
+  const toggleTheme = () => {
+    const next = !dark;
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("forma-theme", next ? "dark" : "light");
+    setDark(next);
+  };
   const query = useQueryClient();
   const navigate = useNavigate();
   const title = t(
@@ -224,11 +234,14 @@ export function PortalLayout({
             <span className="text-sm font-semibold text-primary">{title}</span>
           </div>
           <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={t(dark ? "Thème clair" : "Thème sombre")} title={t(dark ? "Thème clair" : "Thème sombre")}>
+              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
             <LanguageSelect />
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Notifications"
+              aria-label={t("Notifications")}
               onClick={() => onSection("notification")}
               className="relative"
             >

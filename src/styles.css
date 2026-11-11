@@ -183,6 +183,20 @@
   --primary: oklch(0.35 0.05 225);
   --sidebar: oklch(0.25 0.04 225);
 }
+.dark .portal-theme {
+  --background: oklch(0.18 0.012 250);
+  --foreground: oklch(0.95 0.006 250);
+  --card: oklch(0.23 0.014 250);
+  --secondary: oklch(0.28 0.016 250);
+  --muted-foreground: oklch(0.73 0.014 250);
+  --border: oklch(0.35 0.016 250);
+  --primary: oklch(0.78 0.065 250);
+  --primary-foreground: oklch(0.18 0.012 250);
+  --success: oklch(0.75 0.12 155);
+}
+.dark .portal-provider { --primary: oklch(0.78 0.09 165); }
+.dark .portal-admin { --primary: oklch(0.81 0.07 75); }
+.dark .portal-staff { --primary: oklch(0.78 0.075 225); }
 
 @layer base {
   * {

@@ -23,6 +23,7 @@ const FormaAdminDashboard = lazy(() =>
   import("@/components/forma-admin-dashboard").then((m) => ({ default: m.FormaAdminDashboard })),
 );
 import { PortalInsights } from "./portal-insights";
+import { PortalOverview } from "./portal-overview";
 import { useLanguage } from "@/components/language-provider";
 import {
   getPortal,
@@ -301,8 +302,8 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                       </p>
                       <p className="mt-2 text-xs text-muted-foreground">
                         {environment === "provider"
-                          ? "Montants restant à régler sur les missions"
-                          : "Solde des factures émises"}
+                          ? t("Montants restant à régler sur les missions")
+                          : t("Solde des factures émises")}
                       </p>
                       <Button
                         variant="outline"
@@ -331,6 +332,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 </section>
               </div>
             </>
+          )}
+          {section === "dashboard" && (
+            <PortalOverview records={data.records} environment={environment} financial={environment === "client" || canAccessSection(data.admin, data.roles, "invoice")} onOpen={setDetail} onSection={setSection} />
           )}
           {section === "dashboard" && (
             <PortalInsights
@@ -415,14 +419,14 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
             <section>
               <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
                 <h2 className="font-bold">
-                  {section === "dashboard" ? "Dernières activités" : t(sectionTitle)}
+                  {section === "dashboard" ? t("Dernières activités") : t(sectionTitle)}
                 </h2>
                 <div className="relative w-full sm:w-72">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    aria-label="Rechercher les dossiers"
+                    aria-label={t("Rechercher les dossiers")}
                     className="pl-10"
-                    placeholder="Rechercher une référence, un dossier…"
+                    placeholder={t("Rechercher une référence, un dossier…")}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
@@ -513,14 +517,14 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                                       key={action}
                                       onClick={() => void missionAction(r, action)}
                                     >
-                                      {
+                                      {t(
                                         {
                                           accept: "Accepter",
                                           refuse: "Refuser",
                                           start: "Démarrer",
                                           finish: "Terminer",
-                                        }[action]
-                                      }
+                                        }[action] ?? action
+                                      )}
                                     </Button>
                                   ))}
                               </div>
@@ -660,6 +664,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
   );
 }
 function ActivityChart({ records }: { records: PortalRecord[] }) {
+  const { language } = useLanguage();
   const now = new Date();
   const months = Array.from(
     { length: 6 },
@@ -694,7 +699,7 @@ function ActivityChart({ records }: { records: PortalRecord[] }) {
             opacity="0.8"
           />
           <text x={59 + i * 92} y="165" textAnchor="middle" fill="currentColor" fontSize="12">
-            {m.toLocaleDateString("fr", { month: "short" })}
+            {m.toLocaleDateString(language, { month: "short" })}
           </text>
           <text
             x={59 + i * 92}
@@ -769,6 +774,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
   const [person, setPerson] = useState<PortalProfile | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [search, setSearch] = useState("");
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
@@ -796,10 +802,11 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
     <div className="grid gap-8 xl:grid-cols-2">
       <div>
         <h2 className="mb-4 font-bold">{t("Comptes enregistrés")}</h2>
-        {people.map((p) => (
+        <Input aria-label={t("Rechercher un compte")} placeholder={t("Rechercher un compte")} value={search} onChange={(event) => setSearch(event.target.value)} className="mb-3" />
+        {people.filter((p) => `${p.display_name} ${p.company} ${p.phone}`.toLowerCase().includes(search.toLowerCase())).map((p) => (
           <div key={p.id} className="flex justify-between gap-3 border-b border-border py-4">
             <div>
-              <p className="font-semibold">{p.display_name || "Profil à compléter"}</p>
+              <p className="font-semibold">{p.display_name || t("Profil à compléter")}</p>
               <p className="text-sm text-muted-foreground">
                 {p.company} · {p.phone}
               </p>
@@ -811,7 +818,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
         ))}
       </div>
       <form onSubmit={submit} key={person?.id ?? "new"} className="grid content-start gap-4">
-        <h2 className="font-bold">{person ? "Modifier le compte" : "Inviter un utilisateur"}</h2>
+        <h2 className="font-bold">{t(person ? "Modifier le compte" : "Inviter un utilisateur")}</h2>
         {!person && (
           <label className="grid gap-2 text-sm">
             {t("Email")}
@@ -824,7 +831,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
           ["phone", "Téléphone"],
         ].map(([key, label]) => (
           <label key={key} className="grid gap-2 text-sm">
-            {label}
+            {t(label ?? "")}
             <Input
               name={key}
               required={key === "display_name"}
@@ -843,7 +850,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
           </select>
         </label>
         <Button disabled={busy}>
-          {busy ? "Enregistrement…" : person ? "Enregistrer les droits" : "Envoyer l’invitation"}
+          {t(busy ? "Enregistrement…" : person ? "Enregistrer les droits" : "Envoyer l’invitation")}
         </Button>
         {person && (
           <Button variant="ghost" type="button" onClick={() => setPerson(null)}>

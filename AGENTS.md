@@ -27,3 +27,4 @@
 - Read quote details through the caller-scoped portal_quotes view, not unrestricted offer columns, so unapproved offers remain inaccessible through direct browser requests.
 - Authorize each portal environment server-side before loading dossiers; keep delegated staff separate from the confirmed Direction portal to prevent mixed-privilege screens and cache reuse.
 - Use a local typed translation catalog and shared language context; preserve French fallback and original official documents rather than translating stored business content.
+- Derive portal overview priorities and charts only from caller-authorized persisted records; keep overview presentation separate from record editing to preserve existing workflows.
