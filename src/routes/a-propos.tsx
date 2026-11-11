@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { CtaBand, PageIntro } from "@/components/page-shell";
 import { FormaIdentity, FormaCommitments } from "@/components/forma-institutional";
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/a-propos")({
       {
         name: "description",
         content:
-           "Découvrez l’identité, la mission et les engagements de FORMA : sécurité et services intégrés pour les organisations en RDC.",
+          "Découvrez l’identité, la mission et les engagements de FORMA : sécurité et services intégrés pour les organisations en RDC.",
       },
       { property: "og:title", content: "À propos de FORMA" },
       {
@@ -26,29 +27,37 @@ export const Route = createFileRoute("/a-propos")({
   component: About,
 });
 function About() {
+  const { t: tr } = useLanguage();
   return (
     <>
       <PageIntro
-        eyebrow="Notre entreprise"
-        title="FORMA Event & Security"
+        eyebrow={tr("Notre entreprise")}
+        title={tr("FORMA Event & Security")}
         text="Sécurité et services intégrés : une approche professionnelle pour accompagner les organisations et les particuliers en République démocratique du Congo."
       />
       <FormaIdentity detailed />
       <FormaCommitments />
       <section className="py-12 md:py-16">
         <div className="section-shell grid gap-5 md:grid-cols-2">
-          <h2 className="text-2xl font-bold">Notre charte éthique</h2>
-          <p className="leading-7 text-muted-foreground">Respect des personnes, confidentialité, transparence commerciale et stricte conformité aux obligations légales : ces principes encadrent notre manière de travailler et nos relations avec les clients et partenaires.</p>
+          <h2 className="text-2xl font-bold">{tr("Notre charte éthique")}</h2>
+          <p className="leading-7 text-muted-foreground">
+            {tr(
+              "Respect des personnes, confidentialité, transparence commerciale et stricte conformité aux obligations légales : ces principes encadrent notre manière de travailler et nos relations avec les clients et partenaires.",
+            )}
+          </p>
         </div>
       </section>
       <section className="bg-primary py-20 text-primary-foreground">
         <div className="section-shell grid gap-12 lg:grid-cols-2">
           <div>
-            <p className="eyebrow">Conformité légale</p>
-            <h2 className="mt-3 text-3xl font-bold">Une existence administrative vérifiable.</h2>
+            <p className="eyebrow">{tr("Conformité légale")}</p>
+            <h2 className="mt-3 text-3xl font-bold">
+              {tr("Une existence administrative vérifiable.")}
+            </h2>
             <p className="mt-5 leading-7 text-primary-foreground/60">
-              Aucune certification commerciale n’est revendiquée. Les références ci-contre
-              correspondent aux documents officiels d’enregistrement de l’établissement.
+              {tr(
+                "Aucune certification commerciale n’est revendiquée. Les références ci-contre correspondent aux documents officiels d’enregistrement de l’établissement.",
+              )}
             </p>
           </div>
           <dl className="divide-y divide-primary-foreground/15 border-y border-primary-foreground/15 text-sm">
@@ -67,9 +76,10 @@ function About() {
   );
 }
 function Row({ k, v }: { k: string; v: string }) {
+  const { t: tr } = useLanguage();
   return (
     <div className="grid gap-2 py-4 sm:grid-cols-[180px_1fr]">
-      <dt className="text-primary-foreground/45">{k}</dt>
+      <dt className="text-primary-foreground/45">{tr(k)}</dt>
       <dd className="font-semibold">{v}</dd>
     </div>
   );

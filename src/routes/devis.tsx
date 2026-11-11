@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { QuoteWizard } from "@/components/quote-wizard";
 import { PageIntro } from "@/components/page-shell";
@@ -27,17 +28,18 @@ export const Route = createFileRoute("/devis")({
 });
 
 function Quote() {
+  const { t: tr } = useLanguage();
   return (
     <>
       <PageIntro
-        eyebrow="Demande de devis — clients"
-        title="Structurez votre besoin en quelques étapes."
+        eyebrow={tr("Demande de devis — clients")}
+        title={tr("Structurez votre besoin en quelques étapes.")}
         text="Votre demande est préparée avec les informations utiles, puis transmise directement à FORMA par email ou WhatsApp."
       />
       <section className="py-16 md:py-24">
         <div className="section-shell">
           <p className="mx-auto mb-8 max-w-3xl text-sm text-muted-foreground">
-            Contact direct :{" "}
+            {tr("Contact direct :")}{" "}
             <a className="font-semibold text-foreground underline" href={`mailto:${FORMA_EMAIL}`}>
               {FORMA_EMAIL}
             </a>{" "}
@@ -48,8 +50,9 @@ function Quote() {
           </p>
           <QuoteWizard />
           <p className="mx-auto mt-8 max-w-3xl border-l-2 border-accent pl-4 text-sm leading-6 text-muted-foreground">
-            Vous êtes artisan ou technicien et souhaitez travailler avec FORMA ? Passez plutôt par
-            l’espace prestataires « Rejoindre le réseau ».
+            {tr(
+              "Vous êtes artisan ou technicien et souhaitez travailler avec FORMA ? Passez plutôt par l’espace prestataires « Rejoindre le réseau ».",
+            )}
           </p>
         </div>
       </section>

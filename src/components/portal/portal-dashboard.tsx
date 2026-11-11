@@ -52,6 +52,7 @@ export const portalQuery = (environment: Environment) =>
     staleTime: 30_000,
   });
 export function PortalDashboard({ environment }: { environment: Environment }) {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   const { data, refetch } = useSuspenseQuery(portalQuery(environment));
   const [section, setSection] = useState("dashboard");
@@ -213,8 +214,10 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
     >
       {!allowed ? (
         <div role="alert" className="border border-destructive p-6">
-          <h1 className="text-xl font-bold">Accès non autorisé</h1>
-          <p className="mt-2 text-sm">Votre compte ne dispose pas des droits pour cet espace.</p>
+          <h1 className="text-xl font-bold">{tr("Accès non autorisé")}</h1>
+          <p className="mt-2 text-sm">
+            {tr("Votre compte ne dispose pas des droits pour cet espace.")}
+          </p>
         </div>
       ) : (
         <>
@@ -225,7 +228,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   ? t("Direction & contrôle interne")
                   : environment === "provider"
                     ? t("Opérations partenaires")
-                    : environment==='staff'?t('Espace collaborateurs'):t("Relation client")}
+                    : environment === "staff"
+                      ? t("Espace collaborateurs")
+                      : t("Relation client")}
               </p>
               <h1 className="text-2xl font-bold md:text-3xl">
                 {section === "dashboard"
@@ -258,7 +263,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
           </div>
           {error && (
             <p role="alert" className="mb-5 text-sm text-destructive">
-              {error}
+              {tr(error)}
             </p>
           )}
           {section === "dashboard" && (
@@ -334,7 +339,15 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
             </>
           )}
           {section === "dashboard" && (
-            <PortalOverview records={data.records} environment={environment} financial={environment === "client" || canAccessSection(data.admin, data.roles, "invoice")} onOpen={setDetail} onSection={setSection} />
+            <PortalOverview
+              records={data.records}
+              environment={environment}
+              financial={
+                environment === "client" || canAccessSection(data.admin, data.roles, "invoice")
+              }
+              onOpen={setDetail}
+              onSection={setSection}
+            />
           )}
           {section === "dashboard" && (
             <PortalInsights
@@ -380,7 +393,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 <FormaAdminDashboard />
               </Suspense>
             ) : (
-              <p>Ce module est réservé à la direction.</p>
+              <p>{tr("Ce module est réservé à la direction.")}</p>
             )
           ) : section === "profile" ? (
             <ProfileForm profile={data.profile} refresh={refresh} />
@@ -388,16 +401,16 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
             data.admin ? (
               <Accounts people={data.people} refresh={refresh} />
             ) : (
-              <p>Gestion des comptes réservée à la direction.</p>
+              <p>{tr("Gestion des comptes réservée à la direction.")}</p>
             )
           ) : section === "audit" ? (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="p-3">Date</th>
-                    <th>Action</th>
-                    <th>Auteur</th>
+                    <th className="p-3">{tr("Date")}</th>
+                    <th>{tr("Action")}</th>
+                    <th>{tr("Auteur")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -477,8 +490,16 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                             </td>
                             <td className="px-4 text-xs text-muted-foreground">
                               {date(r.start_date || r.created_at)}
-                              {r.end_date && <p className="mt-1">au {date(r.end_date)}</p>}
-                              {r.due_date && <p className="mt-1">Échéance : {date(r.due_date)}</p>}
+                              {r.end_date && (
+                                <p className="mt-1">
+                                  {tr("au")} {date(r.end_date)}
+                                </p>
+                              )}
+                              {r.due_date && (
+                                <p className="mt-1">
+                                  {tr("Échéance :")} {date(r.due_date)}
+                                </p>
+                              )}
                             </td>
                             <td className="px-4">
                               {["invoice", "mission", "payment"].includes(r.kind) ? (
@@ -486,7 +507,8 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                                   <p className="font-semibold">{money(r.amount)}</p>
                                   {r.kind !== "payment" && (
                                     <p className="mt-1 text-xs text-muted-foreground">
-                                      Solde : {money(finance.balance)}
+                                      {tr("Solde :")}
+                                      {money(finance.balance)}
                                     </p>
                                   )}
                                 </>
@@ -523,7 +545,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                                           refuse: "Refuser",
                                           start: "Démarrer",
                                           finish: "Terminer",
-                                        }[action] ?? action
+                                        }[action] ?? action,
                                       )}
                                     </Button>
                                   ))}
@@ -573,11 +595,15 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                   <DialogTitle>{detail.title}</DialogTitle>
                 </DialogHeader>
                 <p className="text-xs text-muted-foreground">
-                  {detail.reference} · {detail.status}
+                  {detail.reference} · {tr(detail.status)}
                 </p>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <p className="text-sm">Début : {date(detail.start_date)}</p>
-                  <p className="text-sm">Fin : {date(detail.end_date)}</p>
+                  <p className="text-sm">
+                    {tr("Début :")} {date(detail.start_date)}
+                  </p>
+                  <p className="text-sm">
+                    {tr("Fin :")} {date(detail.end_date)}
+                  </p>
                   {Object.entries(attributes(detail))
                     .filter(([, v]) => v)
                     .map(([k, v]) => (
@@ -605,8 +631,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 </div>
                 {["invoice", "mission"].includes(detail.kind) && (
                   <p className="border-t border-border pt-4 text-sm">
-                    Montant : {money(detail.amount)} · Règlements validés :{" "}
-                    {money(settlement(detail, data.records).paid)} · Solde :{" "}
+                    {tr("Montant :")}
+                    {money(detail.amount)} {tr("· Règlements validés :")}{" "}
+                    {money(settlement(detail, data.records).paid)} {tr("· Solde :")}{" "}
                     {money(settlement(detail, data.records).balance)}
                   </p>
                 )}
@@ -722,6 +749,7 @@ function ProfileForm({
   profile: PortalProfile | null;
   refresh: () => Promise<void>;
 }) {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   const save = useServerFn(saveProfile);
   const [message, setMessage] = useState("");
@@ -762,13 +790,14 @@ function ProfileForm({
       <Button>{t("Enregistrer mon profil")}</Button>
       {message && (
         <p role="status" className="text-sm">
-          {message}
+          {tr(message)}
         </p>
       )}
     </form>
   );
 }
 function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () => Promise<void> }) {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   const manage = useServerFn(manageAccount);
   const [person, setPerson] = useState<PortalProfile | null>(null);
@@ -802,20 +831,32 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
     <div className="grid gap-8 xl:grid-cols-2">
       <div>
         <h2 className="mb-4 font-bold">{t("Comptes enregistrés")}</h2>
-        <Input aria-label={t("Rechercher un compte")} placeholder={t("Rechercher un compte")} value={search} onChange={(event) => setSearch(event.target.value)} className="mb-3" />
-        {people.filter((p) => `${p.display_name} ${p.company} ${p.phone}`.toLowerCase().includes(search.toLowerCase())).map((p) => (
-          <div key={p.id} className="flex justify-between gap-3 border-b border-border py-4">
-            <div>
-              <p className="font-semibold">{p.display_name || t("Profil à compléter")}</p>
-              <p className="text-sm text-muted-foreground">
-                {p.company} · {p.phone}
-              </p>
+        <Input
+          aria-label={t("Rechercher un compte")}
+          placeholder={t("Rechercher un compte")}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          className="mb-3"
+        />
+        {people
+          .filter((p) =>
+            `${p.display_name} ${p.company} ${p.phone}`
+              .toLowerCase()
+              .includes(search.toLowerCase()),
+          )
+          .map((p) => (
+            <div key={p.id} className="flex justify-between gap-3 border-b border-border py-4">
+              <div>
+                <p className="font-semibold">{p.display_name || t("Profil à compléter")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {p.company} · {p.phone}
+                </p>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setPerson(p)}>
+                {t("Gérer")}
+              </Button>
             </div>
-            <Button variant="outline" size="sm" onClick={() => setPerson(p)}>
-              {t("Gérer")}
-            </Button>
-          </div>
-        ))}
+          ))}
       </div>
       <form onSubmit={submit} key={person?.id ?? "new"} className="grid content-start gap-4">
         <h2 className="font-bold">{t(person ? "Modifier le compte" : "Inviter un utilisateur")}</h2>
@@ -859,7 +900,7 @@ function Accounts({ people, refresh }: { people: PortalProfile[]; refresh: () =>
         )}
         {message && (
           <p role="status" className="text-sm">
-            {message}
+            {tr(message)}
           </p>
         )}
       </form>

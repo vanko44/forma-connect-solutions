@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogOut, ShieldCheck } from "lucide-react";
@@ -7,7 +8,9 @@ import { FormaAdminDashboard } from "@/components/forma-admin-dashboard";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
-  beforeLoad: () => { throw redirect({ to: '/admin/dashboard' }); },
+  beforeLoad: () => {
+    throw redirect({ to: "/admin/dashboard" });
+  },
   ssr: false,
   head: () => ({
     meta: [
@@ -26,6 +29,7 @@ export const Route = createFileRoute("/admin")({
 type State = "checking" | "signed-out" | "forbidden" | "admin";
 
 function AdminPage() {
+  const { t: tr } = useLanguage();
   const [state, setState] = useState<State>("checking");
   const [email, setEmail] = useState("");
 
@@ -66,7 +70,7 @@ function AdminPage() {
   if (state === "checking")
     return (
       <section className="section-shell py-24 text-center text-sm text-muted-foreground">
-        Vérification de l’accès…
+        {tr("Vérification de l’accès…")}
       </section>
     );
   if (state === "signed-out") return <AdminLogin />;
@@ -75,12 +79,13 @@ function AdminPage() {
       <section className="section-shell max-w-lg py-24">
         <div className="border border-border bg-card p-8 shadow-soft">
           <LockKeyhole className="h-6 w-6 text-accent" />
-          <h1 className="mt-5 text-2xl font-bold">Accès non autorisé</h1>
+          <h1 className="mt-5 text-2xl font-bold">{tr("Accès non autorisé")}</h1>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            Le compte {email} n’a pas les droits d’administration FORMA.
+            {tr("Le compte")}
+            {email} {tr("n’a pas les droits d’administration FORMA.")}
           </p>
           <Button className="mt-6" variant="outline" onClick={() => void signOut()}>
-            <LogOut /> Se déconnecter
+            <LogOut /> {tr("Se déconnecter")}
           </Button>
         </div>
       </section>
@@ -91,15 +96,19 @@ function AdminPage() {
       <div className="section-shell">
         <div className="mb-6 flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="eyebrow">FORMA Admin</p>
-            <h1 className="mt-2 text-3xl font-bold md:text-4xl">Centre de pilotage opérationnel</h1>
+            <p className="eyebrow">{tr("FORMA Admin")}</p>
+            <h1 className="mt-2 text-3xl font-bold md:text-4xl">
+              {tr("Centre de pilotage opérationnel")}
+            </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Bienvenue dans l’espace de direction FORMA. Votre accès administrateur est
-              déverrouillé pour {email}.
+              {tr(
+                "Bienvenue dans l’espace de direction FORMA. Votre accès administrateur est déverrouillé pour",
+              )}
+              {email}.
             </p>
           </div>
           <Button variant="outline" onClick={() => void signOut()}>
-            <LogOut /> Se déconnecter
+            <LogOut /> {tr("Se déconnecter")}
           </Button>
         </div>
         <FormaAdminDashboard />
@@ -109,6 +118,7 @@ function AdminPage() {
 }
 
 function AdminLogin() {
+  const { t: tr } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -126,13 +136,13 @@ function AdminLogin() {
     <section className="section-shell max-w-md py-20">
       <form onSubmit={submit} className="border border-border bg-card p-8 shadow-soft">
         <ShieldCheck className="h-7 w-7 text-accent" />
-        <p className="eyebrow mt-6">Accès réservé</p>
-        <h1 className="mt-2 text-2xl font-bold">Connexion FORMA Admin</h1>
+        <p className="eyebrow mt-6">{tr("Accès réservé")}</p>
+        <h1 className="mt-2 text-2xl font-bold">{tr("Connexion FORMA Admin")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Réservé à la direction et aux superviseurs FORMA.
+          {tr("Réservé à la direction et aux superviseurs FORMA.")}
         </p>
         <label className="mt-6 block text-xs font-bold uppercase text-muted-foreground">
-          Email
+          {tr("Email")}
           <Input
             className="mt-2"
             type="email"
@@ -144,37 +154,47 @@ function AdminLogin() {
           />
         </label>
         <label className="mt-4 block text-xs font-bold uppercase text-muted-foreground">
-          Mot de passe
+          {tr("Mot de passe")}
           <div className="relative mt-2">
-          <Input
-            className="pr-10"
-            type={showPassword ? "text" : "password"}
-            required
-            disabled={busy}
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0" disabled={busy}
-            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-            title={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-            onClick={() => setShowPassword((value) => !value)}>
-            {showPassword ? <EyeOff /> : <Eye />}
-          </Button>
+            <Input
+              className="pr-10"
+              type={showPassword ? "text" : "password"}
+              required
+              disabled={busy}
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 top-0"
+              disabled={busy}
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              title={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              {showPassword ? <EyeOff /> : <Eye />}
+            </Button>
           </div>
         </label>
         {error && (
-          <p role="alert" className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
+          <p
+            role="alert"
+            className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive"
+          >
             {error}
           </p>
         )}
         <Button type="submit" disabled={busy} className="mt-6 h-11 w-full">
           {busy && <LoaderCircle className="motion-safe:animate-spin" />}
-          {busy ? "Connexion…" : "Se connecter"}
+          {tr(busy ? "Connexion…" : "Se connecter")}
         </Button>
         <p className="mt-4 text-xs text-muted-foreground">
-          Première connexion : créez votre compte avec l’email propriétaire depuis l’Espace Client,
-          puis revenez ici.
+          {tr(
+            "Première connexion : créez votre compte avec l’email propriétaire depuis l’Espace Client, puis revenez ici.",
+          )}
         </p>
       </form>
     </section>

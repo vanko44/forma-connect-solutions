@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { useMemo, useState, type ReactNode } from "react";
 import { CheckCircle2, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -108,6 +109,7 @@ const initialForm: FormState = {
 };
 
 export function PartnerApplication() {
+  const { t: tr } = useLanguage();
   const [form, setForm] = useState(initialForm);
   const [services, setServices] = useState<string[]>([]);
   const [availability, setAvailability] = useState<string[]>([]);
@@ -167,17 +169,15 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
       setError("");
       if (!saved) {
         setSaved(true);
-        void supabase
-          .from("partner_applications")
-          .insert({
-            business_name: form.businessName.trim(),
-            manager_name: form.managerName.trim(),
-            trade: form.mainDomain,
-            phone: form.phone.trim(),
-            email: form.email.trim(),
-            documents: form.documents || null,
-            details: body.slice(0, 6000),
-          });
+        void supabase.from("partner_applications").insert({
+          business_name: form.businessName.trim(),
+          manager_name: form.managerName.trim(),
+          trade: form.mainDomain,
+          phone: form.phone.trim(),
+          email: form.email.trim(),
+          documents: form.documents || null,
+          details: body.slice(0, 6000),
+        });
       }
       return true;
     }
@@ -206,34 +206,34 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
     >
       <div className="flex flex-col gap-3 border-b border-border pb-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="eyebrow">Candidature professionnelle</p>
+          <p className="eyebrow">{tr("Candidature professionnelle")}</p>
           <h2 className="mt-3 text-2xl font-bold md:text-3xl">
-            Présentez votre structure et vos capacités.
+            {tr("Présentez votre structure et vos capacités.")}
           </h2>
         </div>
-        <p className="text-xs text-muted-foreground">* Champs obligatoires</p>
+        <p className="text-xs text-muted-foreground">{tr("* Champs obligatoires")}</p>
       </div>
 
-      <FormSection number="01" title="Identité">
+      <FormSection number="01" title={tr("Identité")}>
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Type de structure *">
+          <Field label={tr("Type de structure *")}>
             <Select
               value={form.structureType}
               onValueChange={(value) => set("structureType", value)}
             >
               <SelectTrigger className="h-11">
-                <SelectValue placeholder="Sélectionner" />
+                <SelectValue placeholder={tr("Sélectionner")} />
               </SelectTrigger>
               <SelectContent>
                 {structureTypes.map((type) => (
                   <SelectItem key={type} value={type}>
-                    {type}
+                    {tr(type)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </Field>
-          <Field label="Raison sociale / Nom commercial *">
+          <Field label={tr("Raison sociale / Nom commercial *")}>
             <Input
               required
               maxLength={120}
@@ -241,7 +241,7 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
               onChange={(event) => set("businessName", event.target.value)}
             />
           </Field>
-          <Field label="Nom et prénom du responsable *">
+          <Field label={tr("Nom et prénom du responsable *")}>
             <Input
               required
               maxLength={120}
@@ -249,18 +249,18 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
               onChange={(event) => set("managerName", event.target.value)}
             />
           </Field>
-          <Field label="Téléphone & WhatsApp *">
+          <Field label={tr("Téléphone & WhatsApp *")}>
             <Input
               required
               type="tel"
               inputMode="tel"
               maxLength={24}
-              placeholder="0977528234 ou +243 977 528 234"
+              placeholder={tr("0977528234 ou +243 977 528 234")}
               value={form.phone}
               onChange={(event) => set("phone", event.target.value.replace(/[^+0-9 ().-]/g, ""))}
             />
           </Field>
-          <Field label="Email professionnel *">
+          <Field label={tr("Email professionnel *")}>
             <Input
               required
               type="email"
@@ -269,16 +269,16 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
               onChange={(event) => set("email", event.target.value)}
             />
           </Field>
-          <Field label="Adresse / Commune d’implantation *">
+          <Field label={tr("Adresse / Commune d’implantation *")}>
             <Input
               required
               maxLength={180}
-              placeholder="Kinshasa ou province"
+              placeholder={tr("Kinshasa ou province")}
               value={form.address}
               onChange={(event) => set("address", event.target.value)}
             />
           </Field>
-          <Field label="Site web ou page professionnelle (facultatif)">
+          <Field label={tr("Site web ou page professionnelle (facultatif)")}>
             <Input
               type="url"
               maxLength={300}
@@ -290,16 +290,16 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
         </div>
       </FormSection>
 
-      <FormSection number="02" title="Activité & capacités">
-        <Field label="Domaine principal *">
+      <FormSection number="02" title={tr("Activité & capacités")}>
+        <Field label={tr("Domaine principal *")}>
           <Select value={form.mainDomain} onValueChange={(value) => set("mainDomain", value)}>
             <SelectTrigger className="h-11">
-              <SelectValue placeholder="Sélectionner le domaine principal" />
+              <SelectValue placeholder={tr("Sélectionner le domaine principal")} />
             </SelectTrigger>
             <SelectContent>
               {serviceGroups.map((group) => (
                 <SelectItem key={group.title} value={group.title}>
-                  {group.title}
+                  {tr(group.title)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -307,12 +307,12 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
         </Field>
         <fieldset className="mt-6">
           <legend className="text-xs font-bold uppercase text-muted-foreground">
-            Services proposés * — plusieurs choix possibles
+            {tr("Services proposés * — plusieurs choix possibles")}
           </legend>
           <div className="mt-3 grid gap-4 lg:grid-cols-2">
             {serviceGroups.map((group) => (
               <div key={group.title} className="border border-border p-4">
-                <h3 className="text-sm font-bold">{group.title}</h3>
+                <h3 className="text-sm font-bold">{tr(group.title)}</h3>
                 <div className="mt-3 grid gap-3">
                   {group.services.map((service) => (
                     <CheckOption
@@ -327,16 +327,16 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
             ))}
           </div>
         </fieldset>
-        <Field label="Autres services spécialisés">
+        <Field label={tr("Autres services spécialisés")}>
           <Input
             maxLength={180}
-            placeholder="Précisez une expertise complémentaire"
+            placeholder={tr("Précisez une expertise complémentaire")}
             value={form.otherService}
             onChange={(event) => set("otherService", event.target.value)}
           />
         </Field>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
-          <Field label="Description de l’activité *">
+          <Field label={tr("Description de l’activité *")}>
             <Textarea
               required
               maxLength={1500}
@@ -346,45 +346,45 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
             />
           </Field>
           <div className="grid gap-5">
-            <Field label="Années d’expérience *">
+            <Field label={tr("Années d’expérience *")}>
               <Select value={form.experience} onValueChange={(value) => set("experience", value)}>
                 <SelectTrigger className="h-11">
-                  <SelectValue placeholder="Sélectionner" />
+                  <SelectValue placeholder={tr("Sélectionner")} />
                 </SelectTrigger>
                 <SelectContent>
                   {["Moins d’un an", "1 à 3 ans", "4 à 7 ans", "8 à 12 ans", "Plus de 12 ans"].map(
                     (item) => (
                       <SelectItem key={item} value={item}>
-                        {item}
+                        {tr(item)}
                       </SelectItem>
                     ),
                   )}
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Taille de la structure / effectif *">
+            <Field label={tr("Taille de la structure / effectif *")}>
               <Input
                 required
                 maxLength={80}
-                placeholder="Ex. Indépendant, équipe de 8 personnes"
+                placeholder={tr("Ex. Indépendant, équipe de 8 personnes")}
                 value={form.teamSize}
                 onChange={(event) => set("teamSize", event.target.value)}
               />
             </Field>
           </div>
         </div>
-        <Field label="Zones habituelles d’intervention *">
+        <Field label={tr("Zones habituelles d’intervention *")}>
           <Input
             required
             maxLength={240}
-            placeholder="Communes, Kinshasa, provinces…"
+            placeholder={tr("Communes, Kinshasa, provinces…")}
             value={form.areas}
             onChange={(event) => set("areas", event.target.value)}
           />
         </Field>
         <fieldset className="mt-6">
           <legend className="text-xs font-bold uppercase text-muted-foreground">
-            Disponibilités *
+            {tr("Disponibilités *")}
           </legend>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
             {availabilityOptions.map((item) => (
@@ -399,8 +399,8 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
         </fieldset>
       </FormSection>
 
-      <FormSection number="03" title="Qualification & conformité">
-        <Field label="Références de réalisations / clients précédents *">
+      <FormSection number="03" title={tr("Qualification & conformité")}>
+        <Field label={tr("Références de réalisations / clients précédents *")}>
           <Textarea
             required
             maxLength={1800}
@@ -410,23 +410,25 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
           />
         </Field>
         <div className="mt-5 grid gap-5 md:grid-cols-2">
-          <Field label="Documents professionnels / agréments disponibles">
+          <Field label={tr("Documents professionnels / agréments disponibles")}>
             <Textarea
               maxLength={800}
               className="min-h-28"
-              placeholder="RCCM, Identification Nationale, attestations, assurances, certifications métier…"
+              placeholder={tr(
+                "RCCM, Identification Nationale, attestations, assurances, certifications métier…",
+              )}
               value={form.documents}
               onChange={(event) => set("documents", event.target.value)}
             />
             <span className="mt-2 block text-xs font-normal normal-case leading-5 text-muted-foreground">
-              Facultatifs selon la forme juridique et la nature de l’activité.
+              {tr("Facultatifs selon la forme juridique et la nature de l’activité.")}
             </span>
           </Field>
-          <Field label="Liens vers portfolio ou documents">
+          <Field label={tr("Liens vers portfolio ou documents")}>
             <Textarea
               maxLength={800}
               className="min-h-28"
-              placeholder="Un lien par ligne"
+              placeholder={tr("Un lien par ligne")}
               value={form.portfolio}
               onChange={(event) => set("portfolio", event.target.value)}
             />
@@ -435,15 +437,16 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
       </FormSection>
 
       <div className="mt-8 border-l-2 border-accent bg-muted p-4 text-sm leading-6 text-muted-foreground">
-        En transmettant ce dossier, vous confirmez l’exactitude des informations fournies. Une
-        candidature n’entraîne ni validation automatique ni promesse de mission.
+        {tr(
+          "En transmettant ce dossier, vous confirmez l’exactitude des informations fournies. Une candidature n’entraîne ni validation automatique ni promesse de mission.",
+        )}
       </div>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <Button type="submit" className="h-12">
-          <Mail /> Envoyer par email
+          <Mail /> {tr("Envoyer par email")}
         </Button>
         <Button type="button" variant="outline" className="h-12" onClick={sendWhatsApp}>
-          <MessageCircle /> Confirmer sur WhatsApp
+          <MessageCircle /> {tr("Confirmer sur WhatsApp")}
         </Button>
       </div>
       {error && (
@@ -451,7 +454,7 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
           role="alert"
           className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive"
         >
-          {error}
+          {tr(error)}
         </p>
       )}
       {sent && (
@@ -461,10 +464,11 @@ Portfolio / documents : ${form.portfolio || "Non renseigné"}`,
         >
           <CheckCircle2 className="h-5 w-5 shrink-0 text-accent" />
           <div>
-            <p className="font-bold">Candidature reçue — En attente d’analyse</p>
+            <p className="font-bold">{tr("Candidature reçue — En attente d’analyse")}</p>
             <p className="mt-1 text-muted-foreground">
-              Votre dossier est prêt à être transmis à {FORMA_EMAIL}. FORMA vous contactera si des
-              compléments sont nécessaires.
+              {tr("Votre dossier est prêt à être transmis à")}
+              {FORMA_EMAIL}
+              {tr(". FORMA vous contactera si des compléments sont nécessaires.")}
             </p>
           </div>
         </div>
@@ -482,11 +486,12 @@ function FormSection({
   title: string;
   children: ReactNode;
 }) {
+  const { t: tr } = useLanguage();
   return (
     <section className="border-b border-border py-8 last:border-b-0">
       <div className="mb-6 flex items-center gap-3">
         <span className="text-xs font-bold text-accent">{number}</span>
-        <h3 className="text-xl font-bold">{title}</h3>
+        <h3 className="text-xl font-bold">{tr(title)}</h3>
       </div>
       {children}
     </section>
@@ -495,7 +500,9 @@ function FormSection({
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mt-5 first:mt-0"><FormField label={label}>{children}</FormField></div>
+    <div className="mt-5 first:mt-0">
+      <FormField label={label}>{children}</FormField>
+    </div>
   );
 }
 
@@ -508,10 +515,11 @@ function CheckOption({
   checked: boolean;
   onChange: () => void;
 }) {
+  const { t: tr } = useLanguage();
   return (
     <label className="flex cursor-pointer items-start gap-3 text-sm leading-5">
       <Checkbox checked={checked} onCheckedChange={onChange} className="mt-0.5" />
-      <span>{label}</span>
+      <span>{tr(label)}</span>
     </label>
   );
 }

@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { FormField as Field } from "@/components/ui/form-field";
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const { t: tr } = useLanguage();
   const [form, setForm] = useState({ name: "", phone: "", org: "", email: "", message: "" });
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
@@ -58,8 +60,8 @@ function Contact() {
   return (
     <>
       <PageIntro
-        eyebrow="Contact"
-        title="Parlez directement avec l’équipe FORMA."
+        eyebrow={tr("Contact")}
+        title={tr("Parlez directement avec l’équipe FORMA.")}
         text="Pour une demande urgente, un devis ou une première évaluation, contactez FORMA à Kinshasa."
       />
       <section className="py-20">
@@ -67,31 +69,31 @@ function Contact() {
           <aside className="grid gap-4">
             <Info
               icon={Phone}
-              title="Téléphone / WhatsApp"
+              title={tr("Téléphone / WhatsApp")}
               text="+243 977 528 234"
               href="tel:+243977528234"
             />
             <Info
               icon={Mail}
-              title="Email officiel"
+              title={tr("Email officiel")}
               text={FORMA_EMAIL}
               href={`mailto:${FORMA_EMAIL}`}
             />
             <Info
               icon={MapPin}
-              title="Adresse"
+              title={tr("Adresse")}
               text="144, av. Ngandu, Q/Mpasa I, C/Nsele, Ville de Kinshasa, RDC"
             />
             <Info
               icon={MessageCircle}
-              title="WhatsApp"
+              title={tr("WhatsApp")}
               text="Écrire directement à FORMA"
               href={FORMA_WHATSAPP}
             />
           </aside>
           <form onSubmit={submit} className="border border-border bg-card p-5 sm:p-6 md:p-8">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Nom *">
+              <Field label={tr("Nom *")}>
                 <Input
                   required
                   maxLength={100}
@@ -99,25 +101,25 @@ function Contact() {
                   onChange={(e) => set("name", e.target.value)}
                 />
               </Field>
-              <Field label="Téléphone *">
+              <Field label={tr("Téléphone *")}>
                 <Input
                   required
                   type="tel"
                   inputMode="tel"
-                  placeholder="0977528234 ou +243 977 528 234"
+                  placeholder={tr("0977528234 ou +243 977 528 234")}
                   maxLength={20}
                   value={form.phone}
                   onChange={(e) => set("phone", e.target.value.replace(/[^+0-9 ().-]/g, ""))}
                 />
               </Field>
-              <Field label="Entreprise / Organisation">
+              <Field label={tr("Entreprise / Organisation")}>
                 <Input
                   maxLength={120}
                   value={form.org}
                   onChange={(e) => set("org", e.target.value)}
                 />
               </Field>
-              <Field label="Email">
+              <Field label={tr("Email")}>
                 <Input
                   type="email"
                   inputMode="email"
@@ -127,7 +129,7 @@ function Contact() {
                 />
               </Field>
             </div>
-            <Field label="Message *">
+            <Field label={tr("Message *")}>
               <Textarea
                 required
                 maxLength={1200}
@@ -138,30 +140,34 @@ function Contact() {
             </Field>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Button className="h-12 w-full" type="submit">
-                <Mail /> Envoyer par email
+                <Mail /> {tr("Envoyer par email")}
               </Button>
               <Button asChild variant="outline" className="h-12 w-full">
                 <a href={whatsappLink(body)} target="_blank" rel="noreferrer">
-                  <Send /> Envoyer sur WhatsApp
+                  <Send /> {tr("Envoyer sur WhatsApp")}
                 </a>
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Votre message est adressé à{" "}
+              {tr("Votre message est adressé à")}{" "}
               <a className="font-semibold text-foreground underline" href={`mailto:${FORMA_EMAIL}`}>
                 {FORMA_EMAIL}
               </a>
               .
             </p>
             {error && (
-              <p role="alert" className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive">
+              <p
+                role="alert"
+                className="mt-4 border-l-2 border-destructive pl-3 text-sm text-destructive"
+              >
                 {error}
               </p>
             )}
             {sent && (
               <p role="status" className="form-success mt-4 text-sm font-semibold text-accent">
-                Message transmis à {FORMA_EMAIL}. Pour un traitement immédiat, utilisez aussi
-                WhatsApp.
+                {tr("Message transmis à")}
+                {FORMA_EMAIL}
+                {tr(". Pour un traitement immédiat, utilisez aussi WhatsApp.")}
               </p>
             )}
           </form>
@@ -181,10 +187,11 @@ function Info({
   text: string;
   href?: string;
 }) {
+  const { t: tr } = useLanguage();
   const body = (
     <div className="border border-border bg-card p-6">
       <Icon className="h-5 w-5 text-accent" />
-      <h2 className="mt-8 text-xl font-bold">{title}</h2>
+      <h2 className="mt-8 text-xl font-bold">{tr(title)}</h2>
       <p className="mt-3 break-words text-sm leading-6 text-muted-foreground">{text}</p>
     </div>
   );

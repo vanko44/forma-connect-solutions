@@ -95,11 +95,14 @@ export function PortalLayout({
   admin?: boolean;
   roles?: string[];
 }) {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [dark, setDark] = useState(false);
-  useEffect(() => { setDark(document.documentElement.classList.contains("dark")); }, []);
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
   const toggleTheme = () => {
     const next = !dark;
     document.documentElement.classList.toggle("dark", next);
@@ -133,18 +136,18 @@ export function PortalLayout({
         <div className="flex h-24 items-center gap-3 border-b border-sidebar-border px-3">
           <img
             src="/images/forma-logo.jpeg"
-            alt="FORMA"
+            alt={tr("FORMA")}
             className="h-11 w-11 rounded-sm object-cover"
           />
           <div className={collapsed ? "lg:hidden" : ""}>
-            <p className="font-bold">FORMA</p>
+            <p className="font-bold">{tr("FORMA")}</p>
             <p className="text-xs text-sidebar-foreground/65">{title}</p>
           </div>
           <Button
             className="ml-auto lg:hidden"
             size="icon"
             variant="ghost"
-            aria-label="Fermer le menu"
+            aria-label={tr("Fermer le menu")}
             onClick={() => setOpen(false)}
           >
             <X />
@@ -217,7 +220,7 @@ export function PortalLayout({
               variant="ghost"
               size="icon"
               className="lg:hidden"
-              aria-label="Ouvrir le menu"
+              aria-label={tr("Ouvrir le menu")}
               onClick={() => setOpen(true)}
             >
               <Menu />
@@ -226,7 +229,7 @@ export function PortalLayout({
               variant="ghost"
               size="icon"
               className="hidden lg:inline-flex"
-              aria-label="Réduire ou agrandir le menu"
+              aria-label={tr("Réduire ou agrandir le menu")}
               onClick={() => setCollapsed(!collapsed)}
             >
               <Menu />
@@ -234,7 +237,13 @@ export function PortalLayout({
             <span className="text-sm font-semibold text-primary">{title}</span>
           </div>
           <div className="flex min-w-0 items-center gap-2 sm:gap-4">
-            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={t(dark ? "Thème clair" : "Thème sombre")} title={t(dark ? "Thème clair" : "Thème sombre")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label={t(dark ? "Thème clair" : "Thème sombre")}
+              title={t(dark ? "Thème clair" : "Thème sombre")}
+            >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <LanguageSelect />
@@ -265,7 +274,7 @@ export function PortalLayout({
         </header>
         <main className="mx-auto max-w-[1500px] p-5 md:p-8 lg:p-9">{children}</main>
         <footer className="flex flex-wrap justify-between gap-2 border-t border-border px-6 py-5 text-xs text-muted-foreground">
-          <span>FORMA Event & Security · Kinshasa</span>
+          <span>{tr("FORMA Event & Security · Kinshasa")}</span>
           <span>{t("Espace privé · Données confidentielles")}</span>
         </footer>
       </div>

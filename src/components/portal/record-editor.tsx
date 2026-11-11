@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -31,6 +32,7 @@ export function RecordEditor({
   onClose: () => void;
   onSaved: () => Promise<void>;
 }) {
+  const { t: tr } = useLanguage();
   const save = useServerFn(saveRecord);
   const a = record ? attributes(record) : {};
   const [busy, setBusy] = useState(false);
@@ -97,7 +99,7 @@ export function RecordEditor({
   const staff = environment === "admin" || environment === "staff";
   const field = (key: string, label: string, type = "text") => (
     <label className="grid gap-2 text-xs font-semibold" key={key}>
-      {label}
+      {tr(label ?? "")}
       <Input name={key} type={type} defaultValue={record?.[key as "start_date"] ?? ""} />
     </label>
   );
@@ -106,13 +108,13 @@ export function RecordEditor({
       <DialogContent className="portal-theme max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {record ? "Modifier" : "Nouveau dossier"} · {labels[kind]}
+            {tr(record ? "Modifier" : "Nouveau dossier")} · {tr(labels[kind] ?? kind)}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={submit} className="grid gap-5">
           <fieldset disabled={busy} className="grid gap-5">
             <label className="grid gap-2 text-xs font-semibold">
-              Objet
+              {tr("Objet")}
               <Input
                 name="title"
                 required
@@ -124,13 +126,13 @@ export function RecordEditor({
             {staff && (
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="grid gap-2 text-xs font-semibold">
-                  Client
+                  {tr("Client")}
                   <select
                     name="owner_id"
                     defaultValue={record?.owner_id ?? ""}
                     className="h-10 rounded-md border border-input bg-background px-3"
                   >
-                    <option value="">Sans client</option>
+                    <option value="">{tr("Sans client")}</option>
                     {people.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.display_name || p.company || p.id.slice(0, 8)}
@@ -139,13 +141,13 @@ export function RecordEditor({
                   </select>
                 </label>
                 <label className="grid gap-2 text-xs font-semibold">
-                  Prestataire
+                  {tr("Prestataire")}
                   <select
                     name="provider_id"
                     defaultValue={record?.provider_id ?? ""}
                     className="h-10 rounded-md border border-input bg-background px-3"
                   >
-                    <option value="">Sans prestataire</option>
+                    <option value="">{tr("Sans prestataire")}</option>
                     {people.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.display_name || p.company || p.id.slice(0, 8)}
@@ -154,20 +156,22 @@ export function RecordEditor({
                   </select>
                 </label>
                 <label className="grid gap-2 text-xs font-semibold">
-                  Statut
+                  {tr("Statut")}
                   <select
                     name="status"
                     defaultValue={record?.status ?? statuses[kind]?.[0]}
                     className="h-10 rounded-md border border-input bg-background px-3"
                   >
                     {statuses[kind]?.map((s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {tr(s)}
+                      </option>
                     ))}
                   </select>
                 </label>
                 {["invoice", "mission", "payment"].includes(kind) && (
                   <label className="grid gap-2 text-xs font-semibold">
-                    Montant convenu (USD)
+                    {tr("Montant convenu (USD)")}
                     <Input
                       name="amount"
                       type="number"
@@ -182,21 +186,23 @@ export function RecordEditor({
             )}
             {["report", "payment", "service", "mission"].includes(kind) && (
               <label className="grid gap-2 text-xs font-semibold">
-                {kind === "report" ? "Mission" : "Dossier associé"}
+                {tr(kind === "report" ? "Mission" : "Dossier associé")}
                 <select
                   name="parent_id"
-                  required={['report','payment'].includes(kind)}
+                  required={["report", "payment"].includes(kind)}
                   defaultValue={record?.parent_id ?? ""}
                   className="h-10 rounded-md border border-input bg-background px-3"
                 >
-                  <option value="">Choisir</option>
+                  <option value="">{tr("Choisir")}</option>
                   {records
                     .filter((r) =>
                       kind === "report"
                         ? r.kind === "mission"
                         : kind === "payment"
                           ? ["invoice", "mission"].includes(r.kind)
-                          : kind==='mission'?r.kind==='service':r.kind === "contract",
+                          : kind === "mission"
+                            ? r.kind === "service"
+                            : r.kind === "contract",
                     )
                     .map((r) => (
                       <option value={r.id} key={r.id}>
@@ -214,7 +220,7 @@ export function RecordEditor({
               </div>
             )}
             <label className="grid gap-2 text-xs font-semibold">
-              Description
+              {tr("Description")}
               <Textarea
                 name="description"
                 required={!staff}
@@ -231,12 +237,12 @@ export function RecordEditor({
                   ["hours", "Horaires"],
                 ].map(([key, label]) => (
                   <label className="grid gap-2 text-xs font-semibold" key={key}>
-                    {label}
+                    {tr(label ?? "")}
                     <Input name={key} defaultValue={a[key ?? ""] ?? ""} />
                   </label>
                 ))}
                 <label className="grid gap-2 text-xs font-semibold sm:col-span-2">
-                  Consignes autorisées
+                  {tr("Consignes autorisées")}
                   <Textarea name="instructions" defaultValue={a["instructions"] ?? ""} />
                 </label>
               </div>
@@ -244,16 +250,16 @@ export function RecordEditor({
             {kind === "report" && (
               <>
                 <label className="grid gap-2 text-xs font-semibold">
-                  Incident signalé
+                  {tr("Incident signalé")}
                   <Textarea name="incident" defaultValue={a["incident"] ?? ""} />
                 </label>
                 <label className="grid gap-2 text-xs font-semibold">
-                  Difficultés rencontrées
+                  {tr("Difficultés rencontrées")}
                   <Textarea name="difficulties" defaultValue={a["difficulties"] ?? ""} />
                 </label>
                 {staff && (
                   <label className="grid gap-2 text-xs font-semibold">
-                    Réponse de validation
+                    {tr("Réponse de validation")}
                     <Textarea name="validation" defaultValue={a["validation"] ?? ""} />
                   </label>
                 )}
@@ -261,18 +267,18 @@ export function RecordEditor({
             )}
             {staff && kind === "complaint" && (
               <label className="grid gap-2 text-xs font-semibold">
-                Réponse FORMA
+                {tr("Réponse FORMA")}
                 <Textarea name="response" defaultValue={a["response"] ?? ""} />
               </label>
             )}
             {staff && kind === "payment" && (
               <label className="grid gap-2 text-xs font-semibold">
-                Référence de règlement / preuve
+                {tr("Référence de règlement / preuve")}
                 <Input name="proof" required defaultValue={a["proof"] ?? ""} />
               </label>
             )}
             <label className="grid gap-2 text-xs font-semibold">
-              Pièces justificatives (PDF, photos · 10 Mo par fichier)
+              {tr("Pièces justificatives (PDF, photos · 10 Mo par fichier)")}
               <Input
                 type="file"
                 multiple
@@ -282,15 +288,17 @@ export function RecordEditor({
             </label>
             {error && (
               <p role="alert" className="text-sm text-destructive">
-                {error}
+                {tr(error)}
               </p>
             )}
             <Button type="submit">
-              {busy
-                ? "Enregistrement…"
-                : record
-                  ? "Enregistrer les modifications"
-                  : "Créer et enregistrer"}
+              {tr(
+                busy
+                  ? "Enregistrement…"
+                  : record
+                    ? "Enregistrer les modifications"
+                    : "Créer et enregistrer",
+              )}
             </Button>
           </fieldset>
         </form>

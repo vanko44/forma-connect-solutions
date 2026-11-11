@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/service-page";
 const wedding = { url: "/images/forma-event-mariage.jpeg" };
@@ -21,22 +22,27 @@ export const Route = createFileRoute("/evenements")({
     ],
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/evenements" }],
   }),
-  component: () => (
-    <ServicePage
-      eyebrow="FORMA Events"
-      title="Des événements maîtrisés jusque dans les détails."
-      intro="De la conception au dernier départ, FORMA coordonne les personnes, les prestataires et les temps forts pour une exécution fluide."
-      image={wedding.url}
-      imageAlt="Échange d’alliances lors d’une cérémonie de mariage"
-      items={[
-        "Organisation complète",
-        "Protocole et accueil",
-        "Hôtesses & hôtes",
-        "Maîtres de cérémonie",
-        "Coordination générale",
-        "Décoration",
-        "Logistique événementielle",
-      ]}
-    />
-  ),
+  component: () => {
+    const { t: tr } = useLanguage();
+    return (
+      <ServicePage
+        eyebrow={tr("FORMA Events")}
+        title={tr("Des événements maîtrisés jusque dans les détails.")}
+        intro={tr(
+          "De la conception au dernier départ, FORMA coordonne les personnes, les prestataires et les temps forts pour une exécution fluide.",
+        )}
+        image={wedding.url}
+        imageAlt={tr("Échange d’alliances lors d’une cérémonie de mariage")}
+        items={[
+          "Organisation complète",
+          "Protocole et accueil",
+          "Hôtesses & hôtes",
+          "Maîtres de cérémonie",
+          "Coordination générale",
+          "Décoration",
+          "Logistique événementielle",
+        ]}
+      />
+    );
+  },
 });

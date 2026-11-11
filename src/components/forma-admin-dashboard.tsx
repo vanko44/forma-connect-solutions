@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   CheckCircle2,
@@ -107,6 +108,7 @@ function StatusSelect({
   options: string[];
   onChange: (v: string) => void;
 }) {
+  const { t: tr } = useLanguage();
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className={`h-8 w-[170px] text-xs ${tone(value)}`}>
@@ -115,7 +117,7 @@ function StatusSelect({
       <SelectContent>
         {options.map((o) => (
           <SelectItem key={o} value={o}>
-            {o}
+            {tr(o)}
           </SelectItem>
         ))}
       </SelectContent>
@@ -124,6 +126,7 @@ function StatusSelect({
 }
 
 export function FormaAdminDashboard() {
+  const { t: tr } = useLanguage();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [partners, setPartners] = useState<Partner[]>([]);
   const [sites, setSites] = useState<Site[]>([]);
@@ -262,10 +265,10 @@ export function FormaAdminDashboard() {
           <div key={label} className="bg-card p-5 sm:p-6">
             <div className="flex items-start justify-between">
               <Icon className="h-5 w-5 text-accent" />
-              <span className="text-xs font-semibold text-muted-foreground">{detail}</span>
+              <span className="text-xs font-semibold text-muted-foreground">{tr(detail)}</span>
             </div>
             <p className="mt-5 text-3xl font-bold">{loading ? "…" : value}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{tr(label)}</p>
           </div>
         ))}
       </div>
@@ -273,12 +276,12 @@ export function FormaAdminDashboard() {
       <div className="border-b border-border p-4 sm:p-6">
         <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px_auto]">
           <label className="relative">
-            <span className="sr-only">Rechercher</span>
+            <span className="sr-only">{tr("Rechercher")}</span>
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value.slice(0, 80))}
-              placeholder="Rechercher client, site, commune, métier…"
+              placeholder={tr("Rechercher client, site, commune, métier…")}
               className="h-11 pl-10"
             />
           </label>
@@ -298,18 +301,18 @@ export function FormaAdminDashboard() {
                 "Solution",
               ].map((i) => (
                 <SelectItem key={i} value={i}>
-                  {i}
+                  {tr(i)}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Button variant="outline" className="h-11" onClick={() => void load()}>
-            <RefreshCw /> Actualiser
+            <RefreshCw /> {tr("Actualiser")}
           </Button>
         </div>
         {error && (
           <p className="mt-3 border-l-2 border-destructive pl-3 text-sm text-destructive">
-            {error}
+            {tr(error)}
           </p>
         )}
       </div>
@@ -331,22 +334,26 @@ export function FormaAdminDashboard() {
                 value={v}
                 className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none"
               >
-                {l}
+                {tr(l)}
               </TabsTrigger>
             ))}
           </TabsList>
         </div>
 
-        <TabsContent value="missions" className="m-0"><MissionOrders partners={partners} search={search} /></TabsContent>
+        <TabsContent value="missions" className="m-0">
+          <MissionOrders partners={partners} search={search} />
+        </TabsContent>
         <TabsContent value="field-log" className="m-0">
           <SecurityOperations sites={sites} />
         </TabsContent>
         <TabsContent value="devis" className="m-0">
           {vQuotes.length === 0 ? (
             <p className="p-10 text-center text-sm text-muted-foreground">
-              {loading
-                ? "Chargement…"
-                : "Aucune demande de devis pour le moment. Les demandes envoyées depuis le site apparaissent ici."}
+              {tr(
+                loading
+                  ? "Chargement…"
+                  : "Aucune demande de devis pour le moment. Les demandes envoyées depuis le site apparaissent ici.",
+              )}
             </p>
           ) : (
             <div className="overflow-x-auto">
@@ -364,7 +371,7 @@ export function FormaAdminDashboard() {
                       "Actions",
                     ].map((h) => (
                       <th key={h} className={th}>
-                        {h}
+                        {tr(h)}
                       </th>
                     ))}
                   </tr>
@@ -381,7 +388,7 @@ export function FormaAdminDashboard() {
                           {q.organization ?? "Particulier"} · {q.phone}
                         </p>
                       </td>
-                      <td className={td}>{q.pole}</td>
+                      <td className={td}>{tr(q.pole)}</td>
                       <td className={td}>
                         {q.place}
                         <p className="text-xs text-muted-foreground">{q.desired_date ?? "—"}</p>
@@ -394,7 +401,7 @@ export function FormaAdminDashboard() {
                       <td className={td}>
                         <Input
                           defaultValue={q.amount ?? ""}
-                          placeholder="À chiffrer"
+                          placeholder={tr("À chiffrer")}
                           maxLength={40}
                           className="h-8 w-32 text-xs"
                           onBlur={(e) =>
@@ -420,7 +427,7 @@ export function FormaAdminDashboard() {
                               )
                             }
                           />
-                          <Button asChild size="sm" variant="outline" title="WhatsApp">
+                          <Button asChild size="sm" variant="outline" title={tr("WhatsApp")}>
                             <a
                               href={waTo(
                                 q.phone,
@@ -433,7 +440,7 @@ export function FormaAdminDashboard() {
                             </a>
                           </Button>
                           {q.email && (
-                            <Button asChild size="sm" variant="outline" title="Email">
+                            <Button asChild size="sm" variant="outline" title={tr("Email")}>
                               <a
                                 href={`mailto:${q.email}?subject=${encodeURIComponent(`Votre demande de devis FORMA — ${q.pole}`)}`}
                               >
@@ -443,7 +450,7 @@ export function FormaAdminDashboard() {
                           )}
                           <Button
                             size="sm"
-                            title="Marquer traité"
+                            title={tr("Marquer traité")}
                             disabled={q.status === "Traité"}
                             onClick={() => void updQuote(q.id, { status: "Traité" })}
                           >
@@ -465,13 +472,13 @@ export function FormaAdminDashboard() {
             className="grid gap-3 border-b border-border bg-muted/30 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-[1.4fr_1fr_100px_100px_1fr_auto]"
           >
             <Input
-              placeholder="Site client"
+              placeholder={tr("Site client")}
               maxLength={120}
               value={newSite.site}
               onChange={(e) => setNewSite({ ...newSite, site: e.target.value })}
             />
             <Input
-              placeholder="Commune (ex. Gombe)"
+              placeholder={tr("Commune (ex. Gombe)")}
               maxLength={80}
               value={newSite.location}
               onChange={(e) => setNewSite({ ...newSite, location: e.target.value })}
@@ -479,34 +486,36 @@ export function FormaAdminDashboard() {
             <Input
               type="number"
               min={0}
-              aria-label="Postes jour"
-              title="Postes 12h jour"
+              aria-label={tr("Postes jour")}
+              title={tr("Postes 12h jour")}
               value={newSite.day_posts}
               onChange={(e) => setNewSite({ ...newSite, day_posts: e.target.value })}
             />
             <Input
               type="number"
               min={0}
-              aria-label="Postes nuit"
-              title="Postes 12h nuit"
+              aria-label={tr("Postes nuit")}
+              title={tr("Postes 12h nuit")}
               value={newSite.night_posts}
               onChange={(e) => setNewSite({ ...newSite, night_posts: e.target.value })}
             />
             <Input
-              placeholder="Superviseur"
+              placeholder={tr("Superviseur")}
               maxLength={80}
               value={newSite.supervisor}
               onChange={(e) => setNewSite({ ...newSite, supervisor: e.target.value })}
             />
             <Button type="submit">
-              <Plus /> Ajouter
+              <Plus /> {tr("Ajouter")}
             </Button>
           </form>
           {vSites.length === 0 ? (
             <p className="p-10 text-center text-sm text-muted-foreground">
-              {loading
-                ? "Chargement…"
-                : "Aucun site enregistré. Ajoutez vos sites sous contrat ci-dessus."}
+              {tr(
+                loading
+                  ? "Chargement…"
+                  : "Aucun site enregistré. Ajoutez vos sites sous contrat ci-dessus.",
+              )}
             </p>
           ) : (
             <div className="overflow-x-auto">
@@ -524,7 +533,7 @@ export function FormaAdminDashboard() {
                       "",
                     ].map((h) => (
                       <th key={h} className={th}>
-                        {h}
+                        {tr(h)}
                       </th>
                     ))}
                   </tr>
@@ -580,7 +589,7 @@ export function FormaAdminDashboard() {
                               })
                             }
                           >
-                            Ronde ✓
+                            {tr("Ronde ✓")}
                           </Button>
                         </div>
                       </td>
@@ -595,7 +604,7 @@ export function FormaAdminDashboard() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          title="Supprimer"
+                          title={tr("Supprimer")}
                           onClick={() => void delSite(s.id)}
                         >
                           <Trash2 />
@@ -612,9 +621,11 @@ export function FormaAdminDashboard() {
         <TabsContent value="partners" className="m-0">
           {vPartners.length === 0 ? (
             <p className="p-10 text-center text-sm text-muted-foreground">
-              {loading
-                ? "Chargement…"
-                : "Aucune candidature pour le moment. Les candidatures envoyées depuis « Rejoindre le réseau » apparaissent ici."}
+              {tr(
+                loading
+                  ? "Chargement…"
+                  : "Aucune candidature pour le moment. Les candidatures envoyées depuis « Rejoindre le réseau » apparaissent ici.",
+              )}
             </p>
           ) : (
             <div className="overflow-x-auto">
@@ -631,7 +642,7 @@ export function FormaAdminDashboard() {
                       "Actions",
                     ].map((h) => (
                       <th key={h} className={th}>
-                        {h}
+                        {tr(h)}
                       </th>
                     ))}
                   </tr>
@@ -646,13 +657,13 @@ export function FormaAdminDashboard() {
                         <p className="font-semibold">{p.business_name}</p>
                         <p className="text-xs text-muted-foreground">{p.manager_name}</p>
                       </td>
-                      <td className={td}>{p.trade}</td>
+                      <td className={td}>{tr(p.trade)}</td>
                       <td className={td}>
                         <p>{p.phone}</p>
                         <p className="text-xs text-muted-foreground">{p.email}</p>
                       </td>
                       <td className={`${td} max-w-[200px] text-xs`}>
-                        {p.documents ?? <Badge variant="outline">Non précisés</Badge>}
+                        {p.documents ?? <Badge variant="outline">{tr("Non précisés")}</Badge>}
                       </td>
                       <td className={td}>
                         <StatusSelect
@@ -665,7 +676,7 @@ export function FormaAdminDashboard() {
                         <div className="flex gap-2">
                           <Button
                             size="sm"
-                            title="Valider"
+                            title={tr("Valider")}
                             onClick={() => void updPartner(p.id, "Validé")}
                           >
                             <UserCheck />
@@ -674,7 +685,7 @@ export function FormaAdminDashboard() {
                             asChild
                             size="sm"
                             variant="outline"
-                            title="Demander des pièces par email"
+                            title={tr("Demander des pièces par email")}
                           >
                             <a
                               href={`mailto:${p.email}?subject=${encodeURIComponent("Candidature FORMA — pièces complémentaires")}`}
@@ -683,7 +694,7 @@ export function FormaAdminDashboard() {
                               <Mail />
                             </a>
                           </Button>
-                          <Button asChild size="sm" variant="outline" title="WhatsApp">
+                          <Button asChild size="sm" variant="outline" title={tr("WhatsApp")}>
                             <a
                               href={waTo(
                                 p.phone,

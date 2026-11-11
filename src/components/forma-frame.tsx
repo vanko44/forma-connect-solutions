@@ -1,19 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import {
-  Menu,
-  Phone,
-  X,
-  ArrowUpRight,
-  Mail,
-  Moon,
-  Sun,
-  UserRound,
-  Users,
-} from "lucide-react";
+import { Menu, Phone, X, ArrowUpRight, Mail, Moon, Sun, UserRound, Users } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { PageMotion } from "@/components/page-motion";
-import { LanguageSelect,useLanguage } from '@/components/language-provider';
+import { LanguageSelect, useLanguage } from "@/components/language-provider";
 const whatsappIcon = { url: "/images/forma-whatsapp.png" };
 const logo = { url: "/images/forma-logo.jpeg" };
 import { FORMA_EMAIL, FORMA_WHATSAPP } from "@/lib/forma-contact";
@@ -31,7 +21,8 @@ const nav = [
 ] as const;
 
 export function FormaFrame({ children }: { children: ReactNode }) {
-  const {t}=useLanguage();
+  const { t: tr } = useLanguage();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   useEffect(() => {
@@ -48,20 +39,28 @@ export function FormaFrame({ children }: { children: ReactNode }) {
       <PageMotion />
       <header className="sticky top-0 z-50 border-b border-border/60 bg-primary/95 text-primary-foreground backdrop-blur-xl">
         <div className="section-shell flex h-20 items-center gap-5">
-          <Link to="/" className="mr-auto flex items-center gap-3" aria-label="FORMA — Accueil">
+          <Link
+            to="/"
+            className="mr-auto flex items-center gap-3"
+            aria-label={tr("FORMA — Accueil")}
+          >
             <img
               src={logo.url}
-              alt="FORMA Event Services & Security"
+              alt={tr("FORMA Event Services & Security")}
               className="h-14 w-14 object-cover object-top"
               width="640"
               height="640"
             />
             <span className="hidden border-l border-primary-foreground/20 pl-3 text-[10px] font-semibold uppercase leading-4 text-primary-foreground/70 sm:block">
-              Event Services
-              <br />& Security
+              {tr("Event Services")}
+              <br />
+              {tr("& Security")}
             </span>
           </Link>
-          <nav className="hidden items-center gap-4 xl:flex" aria-label="Navigation principale">
+          <nav
+            className="hidden items-center gap-4 xl:flex"
+            aria-label={tr("Navigation principale")}
+          >
             {nav.map(([label, to]) => (
               <Link
                 key={to}
@@ -77,14 +76,14 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               activeProps={{ className: "text-accent" }}
               className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
             >
-              {t('Espace Client')}
+              {t("Espace Client")}
             </Link>
             <Link
               to="/rejoindre"
               activeProps={{ className: "text-accent" }}
               className="text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
             >
-              {t('Prestataire')}
+              {t("Prestataire")}
             </Link>
           </nav>
           <Button
@@ -93,7 +92,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             className="hidden px-2 text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
           >
             <Link to="/connexion-client">
-              <UserRound /> {t('Espace Client')}
+              <UserRound /> {t("Espace Client")}
             </Link>
           </Button>
           <Button
@@ -102,16 +101,16 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
           >
             <Link to="/rejoindre">
-              <Users /> {t('Espace Prestataire')}
+              <Users /> {t("Espace Prestataire")}
             </Link>
           </Button>
           <Button
             asChild
             className="hidden bg-accent text-accent-foreground hover:bg-accent/90 md:inline-flex"
           >
-            <Link to="/devis">{t('Demander un devis')}</Link>
+            <Link to="/devis">{t("Demander un devis")}</Link>
           </Button>
-          <LanguageSelect/>
+          <LanguageSelect />
           <Button
             variant="ghost"
             size="icon"
@@ -127,7 +126,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             size="icon"
             className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground xl:hidden"
             onClick={() => setOpen(!open)}
-            aria-label="Ouvrir le menu"
+            aria-label={tr("Ouvrir le menu")}
           >
             {open ? <X /> : <Menu />}
           </Button>
@@ -135,7 +134,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
         {open && (
           <nav
             className="max-h-[80vh] overflow-y-auto border-t border-primary-foreground/10 bg-primary px-5 py-5 xl:hidden"
-            aria-label="Navigation mobile"
+            aria-label={tr("Navigation mobile")}
           >
             <div className="grid gap-1">
               {nav.map(([label, to]) => (
@@ -150,7 +149,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               ))}
             </div>
             <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">
-              Espace clients — demandeurs de services
+              {tr("Espace clients — demandeurs de services")}
             </p>
             <Link
               to="/connexion-client"
@@ -158,10 +157,10 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               className="mt-2 flex items-center gap-2 border-b border-primary-foreground/10 pb-3 text-sm font-medium"
             >
               <UserRound className="h-4 w-4 text-accent" />
-              Se connecter · Compte client gratuit
+              {tr("Se connecter · Compte client gratuit")}
             </Link>
             <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">
-              Réseau de partenaires professionnels
+              {tr("Réseau de partenaires professionnels")}
             </p>
             <Link
               to="/rejoindre"
@@ -169,7 +168,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               className="mt-2 flex items-center gap-2 border-b border-primary-foreground/10 pb-3 text-sm font-medium"
             >
               <Users className="h-4 w-4 text-accent" />
-              Candidater · Découvrir l’espace partenaire
+              {tr("Candidater · Découvrir l’espace partenaire")}
             </Link>
             <div className="mt-5 grid gap-3 text-sm">
               <a href="tel:+243977528234" className="flex items-center gap-2 font-semibold">
@@ -196,7 +195,7 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               </Button>
               <Button asChild className="w-full bg-accent text-accent-foreground">
                 <Link to="/devis" onClick={() => setOpen(false)}>
-                  {t('Demander un devis')}
+                  {t("Demander un devis")}
                 </Link>
               </Button>
             </div>
@@ -209,19 +208,19 @@ export function FormaFrame({ children }: { children: ReactNode }) {
           <div>
             <img
               src={logo.url}
-              alt="FORMA Event Services & Security"
+              alt={tr("FORMA Event Services & Security")}
               className="h-28 w-28 object-cover"
               width="640"
               height="640"
             />
             <p className="mt-4 max-w-sm text-sm leading-6 text-primary-foreground/65">
-              Sécurité, événements et solutions multiservices pour les particuliers, entreprises et
-              organisations en RDC. FORMA est votre unique interlocuteur contractuel et garant de la
-              qualité.
+              {tr(
+                "Sécurité, événements et solutions multiservices pour les particuliers, entreprises et organisations en RDC. FORMA est votre unique interlocuteur contractuel et garant de la qualité.",
+              )}
             </p>
           </div>
           <div>
-            <p className="eyebrow">Contact direct</p>
+            <p className="eyebrow">{tr("Contact direct")}</p>
             <a href="tel:+243977528234" className="mt-4 block font-display text-xl font-bold">
               +243 977 528 234
             </a>
@@ -232,42 +231,45 @@ export function FormaFrame({ children }: { children: ReactNode }) {
               {FORMA_EMAIL}
             </a>
             <p className="mt-3 text-sm text-primary-foreground/65">
-              144, av. Ngandu, Q/Mpasa I<br />
-              C/Nsele, Kinshasa, RDC
+              {tr("144, av. Ngandu, Q/Mpasa I")}
+              <br />
+              {tr("C/Nsele, Kinshasa, RDC")}
             </p>
           </div>
           <div>
-            <p className="eyebrow">Entreprise</p>
+            <p className="eyebrow">{tr("Entreprise")}</p>
             <div className="mt-4 grid gap-3 text-sm">
-              <Link to="/a-propos">À propos</Link>
-              <Link to="/devis">Demander un devis (clients)</Link>
+              <Link to="/a-propos">{tr("À propos")}</Link>
+              <Link to="/devis">{tr("Demander un devis (clients)")}</Link>
               <Link to="/plateforme">
-                {t('Portails professionnels')} <ArrowUpRight className="ml-1 inline h-3 w-3" />
+                {t("Portails professionnels")} <ArrowUpRight className="ml-1 inline h-3 w-3" />
               </Link>
-              <Link to="/admin">{t('Espace Direction')}</Link>
-              <Link to="/mentions-legales">Mentions légales</Link>
-              <Link to="/contact">Contact</Link>
+              <Link to="/admin">{t("Espace Direction")}</Link>
+              <Link to="/mentions-legales">{tr("Mentions légales")}</Link>
+              <Link to="/contact">{tr("Contact")}</Link>
             </div>
-            <p className="eyebrow mt-7">Espace Client</p>
+            <p className="eyebrow mt-7">{tr("Espace Client")}</p>
             <div className="mt-4 grid gap-3 text-sm">
-              <Link to="/connexion-client">Se connecter · Créer un compte gratuit</Link>
+              <Link to="/connexion-client">{tr("Se connecter · Créer un compte gratuit")}</Link>
               <span className="text-xs leading-5 text-primary-foreground/50">
-                Pour les particuliers et organisations qui commandent des prestations.
+                {tr("Pour les particuliers et organisations qui commandent des prestations.")}
               </span>
             </div>
-            <p className="eyebrow mt-7">Réseau de partenaires</p>
+            <p className="eyebrow mt-7">{tr("Réseau de partenaires")}</p>
             <div className="mt-4 grid gap-3 text-sm">
-              <Link to="/rejoindre">Rejoindre le réseau professionnel FORMA</Link>
+              <Link to="/rejoindre">{tr("Rejoindre le réseau professionnel FORMA")}</Link>
               <span className="text-xs leading-5 text-primary-foreground/50">
-                Artisans, indépendants, PME et entreprises spécialisées, sous coordination FORMA.
+                {tr(
+                  "Artisans, indépendants, PME et entreprises spécialisées, sous coordination FORMA.",
+                )}
               </span>
             </div>
           </div>
         </div>
         <div className="border-t border-primary-foreground/10">
           <div className="section-shell flex flex-col gap-2 py-5 text-[11px] text-primary-foreground/45 md:flex-row md:justify-between">
-            <span>© 2026 ETS FORMA EVENT AND SECURITY</span>
-            <span>RCCM CD/KNM/RCCM/25-A-10490 — Kinshasa</span>
+            <span>{tr("© 2026 ETS FORMA EVENT AND SECURITY")}</span>
+            <span>{tr("RCCM CD/KNM/RCCM/25-A-10490 — Kinshasa")}</span>
           </div>
         </div>
       </footer>
@@ -275,11 +277,17 @@ export function FormaFrame({ children }: { children: ReactNode }) {
         href={FORMA_WHATSAPP}
         target="_blank"
         rel="noreferrer"
-        aria-label="Contacter FORMA sur WhatsApp"
-        title="WhatsApp"
+        aria-label={tr("Contacter FORMA sur WhatsApp")}
+        title={tr("WhatsApp")}
         className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 flex h-11 w-11 items-center justify-center shadow-soft transition-transform motion-safe:hover:scale-105 md:left-auto md:right-5"
       >
-        <img src={whatsappIcon.url} alt="" width="44" height="44" className="h-11 w-11 object-contain" />
+        <img
+          src={whatsappIcon.url}
+          alt=""
+          width="44"
+          height="44"
+          className="h-11 w-11 object-contain"
+        />
       </a>
     </div>
   );

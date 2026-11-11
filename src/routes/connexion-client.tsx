@@ -1,6 +1,16 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, Building2, Check, Eye, EyeOff, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Check,
+  Eye,
+  EyeOff,
+  LoaderCircle,
+  LockKeyhole,
+  Mail,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,6 +46,7 @@ export const Route = createFileRoute("/connexion-client")({
 });
 
 function ClientConnection() {
+  const { t: tr } = useLanguage();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -104,13 +115,14 @@ function ClientConnection() {
     <section className="bg-card py-14 md:py-20">
       <div className="section-shell grid items-start gap-12 lg:grid-cols-[.85fr_1.15fr]">
         <div className="pt-4 lg:pt-10">
-          <p className="eyebrow">Clients FORMA</p>
+          <p className="eyebrow">{tr("Clients FORMA")}</p>
           <h1 className="mt-4 max-w-xl text-4xl font-extrabold leading-tight md:text-5xl">
-            Votre suivi opérationnel, au même endroit.
+            {tr("Votre suivi opérationnel, au même endroit.")}
           </h1>
           <p className="mt-5 max-w-lg leading-7 text-muted-foreground">
-            Cet accès gratuit est réservé aux particuliers, entreprises et organisations qui
-            commandent des prestations FORMA.
+            {tr(
+              "Cet accès gratuit est réservé aux particuliers, entreprises et organisations qui commandent des prestations FORMA.",
+            )}
           </p>
           <div className="mt-8 grid gap-3 text-sm font-semibold">
             {[
@@ -120,15 +132,15 @@ function ClientConnection() {
             ].map((item) => (
               <p key={item} className="flex items-center gap-3">
                 <ArrowRight className="h-4 w-4 text-accent" />
-                {item}
+                {tr(item)}
               </p>
             ))}
           </div>
           <div className="mt-9 border-l-2 border-accent bg-background p-5 text-sm leading-6 text-muted-foreground">
-            <p className="font-bold text-foreground">Vous êtes artisan ou technicien ?</p>
-            <p className="mt-1">L’accès prestataire est distinct de l’Espace Client.</p>
+            <p className="font-bold text-foreground">{tr("Vous êtes artisan ou technicien ?")}</p>
+            <p className="mt-1">{tr("L’accès prestataire est distinct de l’Espace Client.")}</p>
             <Link to="/rejoindre" className="mt-3 inline-flex font-bold text-foreground underline">
-              Rejoindre le réseau FORMA
+              {tr("Rejoindre le réseau FORMA")}
             </Link>
           </div>
         </div>
@@ -138,9 +150,11 @@ function ClientConnection() {
               <Building2 className="h-5 w-5" />
             </span>
             <div>
-              <p className="text-xs font-bold uppercase text-muted-foreground">Espace Client</p>
+              <p className="text-xs font-bold uppercase text-muted-foreground">
+                {tr("Espace Client")}
+              </p>
               <h2 className="text-xl font-bold">
-                {mode === "login" ? "Se connecter" : "Créer un compte gratuit"}
+                {tr(mode === "login" ? "Se connecter" : "Créer un compte gratuit")}
               </h2>
             </div>
           </div>
@@ -150,86 +164,97 @@ function ClientConnection() {
               variant={mode === "login" ? "default" : "ghost"}
               onClick={() => setMode("login")}
             >
-              Connexion
+              {tr("Connexion")}
             </Button>
             <Button
               type="button"
               variant={mode === "signup" ? "default" : "ghost"}
               onClick={() => setMode("signup")}
             >
-              Créer un compte
+              {tr("Créer un compte")}
             </Button>
           </div>
           <form className="mt-7 grid gap-5" onSubmit={submit}>
             <fieldset disabled={loading} className="grid min-w-0 gap-5 disabled:opacity-60">
-            <div>
-              <Label htmlFor="client-email">Email</Label>
-              <div className="relative mt-2">
-                <Mail className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="client-email"
-                  className="h-11 pl-10"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="client-password">Mot de passe</Label>
-              <div className="relative mt-2">
-                <LockKeyhole className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="client-password"
-                  className="h-11 px-10"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete={mode === "login" ? "current-password" : "new-password"}
-                  minLength={6}
-                  required
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1 h-9 w-9"
-                  onClick={() => setShowPassword((value) => !value)}
-                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                >
-                  {showPassword ? <EyeOff /> : <Eye />}
-                </Button>
-              </div>
-            </div>
-            {mode === "signup" && password.length > 0 && (
-              <div className="text-xs text-muted-foreground" aria-live="polite">
-                <div className="mb-2 flex gap-1" aria-hidden="true">
-                  {[1, 2, 3, 4, 5, 6].map((part) => <span key={part} className={`h-1 flex-1 transition-colors duration-200 ${password.length >= part ? "bg-success" : "bg-muted"}`} />)}
+              <div>
+                <Label htmlFor="client-email">{tr("Email")}</Label>
+                <div className="relative mt-2">
+                  <Mail className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="client-email"
+                    className="h-11 pl-10"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
                 </div>
-                <p className="flex items-center gap-2">
-                  <Check className={`h-3 w-3 transition-opacity ${password.length >= 6 ? "text-success opacity-100" : "opacity-30"}`} />
-                  6 caractères minimum
-                </p>
               </div>
-            )}
-            <Button
-              className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
-              disabled={loading}
-            >
-              {loading && <LoaderCircle className="motion-safe:animate-spin" />}
-              {loading
-                ? "Connexion…"
-                : mode === "login"
-                  ? "Accéder à mon espace"
-                  : "Créer mon compte client gratuit"}
-            </Button>
+              <div>
+                <Label htmlFor="client-password">{tr("Mot de passe")}</Label>
+                <div className="relative mt-2">
+                  <LockKeyhole className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="client-password"
+                    className="h-11 px-10"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete={mode === "login" ? "current-password" : "new-password"}
+                    minLength={6}
+                    required
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1 h-9 w-9"
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={
+                      showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"
+                    }
+                  >
+                    {showPassword ? <EyeOff /> : <Eye />}
+                  </Button>
+                </div>
+              </div>
+              {mode === "signup" && password.length > 0 && (
+                <div className="text-xs text-muted-foreground" aria-live="polite">
+                  <div className="mb-2 flex gap-1" aria-hidden="true">
+                    {[1, 2, 3, 4, 5, 6].map((part) => (
+                      <span
+                        key={part}
+                        className={`h-1 flex-1 transition-colors duration-200 ${password.length >= part ? "bg-success" : "bg-muted"}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="flex items-center gap-2">
+                    <Check
+                      className={`h-3 w-3 transition-opacity ${password.length >= 6 ? "text-success opacity-100" : "opacity-30"}`}
+                    />
+                    {tr("6 caractères minimum")}
+                  </p>
+                </div>
+              )}
+              <Button
+                className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                disabled={loading}
+              >
+                {loading && <LoaderCircle className="motion-safe:animate-spin" />}
+                {tr(
+                  loading
+                    ? "Connexion…"
+                    : mode === "login"
+                      ? "Accéder à mon espace"
+                      : "Créer mon compte client gratuit",
+                )}
+              </Button>
             </fieldset>
           </form>
           <div className="my-6 flex items-center gap-3 text-xs font-semibold uppercase text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
-            ou
+            {tr("ou")}
             <span className="h-px flex-1 bg-border" />
           </div>
           <Button
@@ -239,19 +264,19 @@ function ClientConnection() {
             onClick={signInWithGoogle}
             disabled={loading}
           >
-            Continuer avec Google
+            {tr("Continuer avec Google")}
           </Button>
           {error && (
             <p
               role="alert"
               className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive"
             >
-              {error}
+              {tr(error)}
             </p>
           )}
           {message && (
             <p role="status" className="mt-5 border-l-2 border-accent pl-3 text-sm font-semibold">
-              {message}
+              {tr(message)}
             </p>
           )}
         </div>

@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute, Link, useNavigate, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
@@ -14,7 +15,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { ClientQuotes } from "@/components/client-quotes";
 
 export const Route = createFileRoute("/espace-client")({
-  beforeLoad: () => { throw redirect({ to: '/portal' }); },
+  beforeLoad: () => {
+    throw redirect({ to: "/portal" });
+  },
   head: () => ({
     meta: [
       { title: "Tableau de bord client — FORMA" },
@@ -37,6 +40,7 @@ export const Route = createFileRoute("/espace-client")({
 });
 
 function ClientDashboard() {
+  const { t: tr } = useLanguage();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -67,7 +71,7 @@ function ClientDashboard() {
   if (checking)
     return (
       <div className="section-shell min-h-[55vh] py-20 text-sm text-muted-foreground">
-        Ouverture de votre espace…
+        {tr("Ouverture de votre espace…")}
       </div>
     );
   const signOut = async () => {
@@ -105,9 +109,9 @@ function ClientDashboard() {
       <section className="border-b border-border bg-primary py-12 text-primary-foreground">
         <div className="section-shell flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow">Espace Client sécurisé</p>
+            <p className="eyebrow">{tr("Espace Client sécurisé")}</p>
             <h1 className="mt-3 text-3xl font-extrabold md:text-4xl">
-              Bienvenue dans votre espace FORMA.
+              {tr("Bienvenue dans votre espace FORMA.")}
             </h1>
             <p className="mt-3 text-sm text-primary-foreground/65">{email}</p>
           </div>
@@ -117,7 +121,7 @@ function ClientDashboard() {
             onClick={signOut}
           >
             <LogOut />
-            Se déconnecter
+            {tr("Se déconnecter")}
           </Button>
         </div>
       </section>
@@ -129,14 +133,16 @@ function ClientDashboard() {
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-sm font-bold uppercase tracking-wider">Accès Direction</p>
+                <p className="text-sm font-bold uppercase tracking-wider">
+                  {tr("Accès Direction")}
+                </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Votre compte dispose des droits de direction FORMA.
+                  {tr("Votre compte dispose des droits de direction FORMA.")}
                 </p>
               </div>
             </div>
             <Button asChild className="w-fit bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link to="/admin">Ouvrir le Centre de pilotage FORMA Admin</Link>
+              <Link to="/admin">{tr("Ouvrir le Centre de pilotage FORMA Admin")}</Link>
             </Button>
           </div>
         </section>
@@ -145,15 +151,15 @@ function ClientDashboard() {
         <div className="section-shell">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div>
-              <h2 className="text-2xl font-bold">Vue d’ensemble</h2>
+              <h2 className="text-2xl font-bold">{tr("Vue d’ensemble")}</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Vos prestations seront ajoutées à mesure de leur validation par FORMA.
+                {tr("Vos prestations seront ajoutées à mesure de leur validation par FORMA.")}
               </p>
             </div>
             <Button asChild className="w-fit bg-accent text-accent-foreground hover:bg-accent/90">
               <Link to="/devis">
                 <Plus />
-                Nouvelle demande de devis
+                {tr("Nouvelle demande de devis")}
               </Link>
             </Button>
           </div>
@@ -163,14 +169,16 @@ function ClientDashboard() {
                 <div className="flex h-10 w-10 items-center justify-center bg-secondary">
                   <Icon className="h-5 w-5 text-accent" />
                 </div>
-                <p className="mt-8 text-xs font-bold uppercase text-muted-foreground">{label}</p>
-                <h3 className="mt-2 text-xl font-bold">{value}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{text}</p>
+                <p className="mt-8 text-xs font-bold uppercase text-muted-foreground">
+                  {tr(label)}
+                </p>
+                <h3 className="mt-2 text-xl font-bold">{tr(value)}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{tr(text)}</p>
               </article>
             ))}
           </div>
           <div className="mt-12">
-            <h2 className="text-2xl font-bold">Mes devis & offres officielles</h2>
+            <h2 className="text-2xl font-bold">{tr("Mes devis & offres officielles")}</h2>
             <div className="mt-5">
               <ClientQuotes userId={uid} />
             </div>
@@ -179,13 +187,14 @@ function ClientDashboard() {
             <div className="flex items-start gap-4">
               <Building2 className="mt-1 h-5 w-5 shrink-0 text-accent" />
               <div>
-                <h2 className="font-bold">Un espace exclusivement réservé aux clients.</h2>
+                <h2 className="font-bold">{tr("Un espace exclusivement réservé aux clients.")}</h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Les artisans et techniciens partenaires utilisent l’espace prestataire distinct
-                  pour candidater et réaliser leurs missions.
+                  {tr(
+                    "Les artisans et techniciens partenaires utilisent l’espace prestataire distinct pour candidater et réaliser leurs missions.",
+                  )}
                 </p>
                 <Link to="/rejoindre" className="mt-3 inline-block text-sm font-bold underline">
-                  Accéder à l’Espace Prestataire
+                  {tr("Accéder à l’Espace Prestataire")}
                 </Link>
               </div>
             </div>

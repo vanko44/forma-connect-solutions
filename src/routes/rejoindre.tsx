@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowDown,
@@ -97,22 +98,24 @@ const portal = [
 ];
 
 function Join() {
+  const { t: tr } = useLanguage();
   return (
     <>
       <section className="bg-primary py-20 text-primary-foreground md:py-28">
         <div className="section-shell reveal">
-          <p className="eyebrow">Réseau de partenaires professionnels</p>
+          <p className="eyebrow">{tr("Réseau de partenaires professionnels")}</p>
           <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-[1.08] md:text-6xl">
-            Rejoignez le réseau de partenaires FORMA
+            {tr("Rejoignez le réseau de partenaires FORMA")}
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-primary-foreground/70 md:text-lg">
-            FORMA collabore avec des artisans, indépendants, PME et entreprises spécialisées afin de
-            proposer à ses clients des solutions complètes et coordonnées.
+            {tr(
+              "FORMA collabore avec des artisans, indépendants, PME et entreprises spécialisées afin de proposer à ses clients des solutions complètes et coordonnées.",
+            )}
           </p>
           <p className="mt-5 max-w-3xl border-l-2 border-accent pl-4 text-sm leading-6 text-primary-foreground/65">
-            Les partenaires interviennent dans leur domaine d’expertise sous la coordination
-            exclusive de FORMA. Le client reste en relation contractuelle et opérationnelle unique
-            avec FORMA.
+            {tr(
+              "Les partenaires interviennent dans leur domaine d’expertise sous la coordination exclusive de FORMA. Le client reste en relation contractuelle et opérationnelle unique avec FORMA.",
+            )}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button
@@ -120,7 +123,8 @@ function Join() {
               className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"
             >
               <a href="#candidature">
-                Devenir partenaire <ArrowDown />
+                {tr("Devenir partenaire")}
+                <ArrowDown />
               </a>
             </Button>
             <Button
@@ -128,7 +132,7 @@ function Join() {
               variant="outline"
               className="h-12 border-primary-foreground/30 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <a href="#processus">Comprendre le processus</a>
+              <a href="#processus">{tr("Comprendre le processus")}</a>
             </Button>
           </div>
         </div>
@@ -137,21 +141,22 @@ function Join() {
       <section className="py-20 md:py-24">
         <div className="section-shell">
           <div className="max-w-3xl">
-            <p className="eyebrow">Un modèle de responsabilité clair</p>
+            <p className="eyebrow">{tr("Un modèle de responsabilité clair")}</p>
             <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-              Deux expertises, un pilotage cohérent.
+              {tr("Deux expertises, un pilotage cohérent.")}
             </h2>
             <p className="mt-4 leading-7 text-muted-foreground">
-              FORMA conduit ses activités stratégiques en régie directe et coordonne un réseau
-              qualifié pour les expertises complémentaires.
+              {tr(
+                "FORMA conduit ses activités stratégiques en régie directe et coordonne un réseau qualifié pour les expertises complémentaires.",
+              )}
             </p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-2">
             <article className="border-t-4 border-primary bg-card p-6 shadow-soft md:p-8">
               <ShieldCheck className="h-7 w-7 text-accent" />
-              <p className="eyebrow mt-8">Pilotage interne</p>
+              <p className="eyebrow mt-8">{tr("Pilotage interne")}</p>
               <h3 className="mt-3 text-2xl font-bold">
-                Activités conduites en régie directe par FORMA
+                {tr("Activités conduites en régie directe par FORMA")}
               </h3>
               <ul className="mt-6 grid gap-3 text-sm font-semibold">
                 {[
@@ -163,16 +168,16 @@ function Join() {
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    {item}
+                    {tr(item)}
                   </li>
                 ))}
               </ul>
             </article>
             <article className="border-t-4 border-accent bg-card p-6 shadow-soft md:p-8">
               <Handshake className="h-7 w-7 text-accent" />
-              <p className="eyebrow mt-8">Réseau coordonné</p>
+              <p className="eyebrow mt-8">{tr("Réseau coordonné")}</p>
               <h3 className="mt-3 text-2xl font-bold">
-                Expertises complémentaires du Réseau de Partenaires
+                {tr("Expertises complémentaires du Réseau de Partenaires")}
               </h3>
               <ul className="mt-6 grid gap-3 text-sm font-semibold sm:grid-cols-2">
                 {[
@@ -186,7 +191,7 @@ function Join() {
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    {item}
+                    {tr(item)}
                   </li>
                 ))}
               </ul>
@@ -200,27 +205,27 @@ function Join() {
         className="scroll-mt-24 bg-primary py-20 text-primary-foreground md:py-24"
       >
         <div className="section-shell">
-          <p className="eyebrow">Qualification & sélection</p>
+          <p className="eyebrow">{tr("Qualification & sélection")}</p>
           <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-            Un processus exigeant, lisible à chaque étape.
+            {tr("Un processus exigeant, lisible à chaque étape.")}
           </h2>
           <div className="mt-10 grid gap-px bg-primary-foreground/15 sm:grid-cols-2 lg:grid-cols-3">
             {steps.map((step, index) => (
               <article key={step} className="bg-primary p-6">
                 <span className="font-display text-3xl font-bold text-accent">0{index + 1}</span>
-                <h3 className="mt-7 font-bold leading-6">{step}</h3>
+                <h3 className="mt-7 font-bold leading-6">{tr(step)}</h3>
               </article>
             ))}
           </div>
           <div className="mt-10">
             <p className="text-xs font-bold uppercase text-primary-foreground/55">
-              Statuts de suivi
+              {tr("Statuts de suivi")}
             </p>
             <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap">
               {statuses.map((status, index) => (
                 <div key={status} className="flex items-center text-sm font-semibold">
                   <span className="my-1 border border-primary-foreground/20 px-4 py-3">
-                    {status}
+                    {tr(status)}
                   </span>
                   {index < statuses.length - 1 && (
                     <span className="hidden px-2 text-accent sm:block">→</span>
@@ -235,31 +240,32 @@ function Join() {
       <section className="py-20 md:py-24">
         <div className="section-shell grid gap-12 lg:grid-cols-2">
           <div>
-            <p className="eyebrow">Pourquoi rejoindre FORMA ?</p>
+            <p className="eyebrow">{tr("Pourquoi rejoindre FORMA ?")}</p>
             <h2 className="mt-4 text-3xl font-bold">
-              Un cadre professionnel pour mieux intervenir.
+              {tr("Un cadre professionnel pour mieux intervenir.")}
             </h2>
             <ul className="mt-7 grid gap-4">
               {benefits.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-6">
                   <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  {item}
+                  {tr(item)}
                 </li>
               ))}
             </ul>
             <p className="mt-6 text-sm leading-6 text-muted-foreground">
-              Les opportunités dépendent des besoins clients, des zones et de la qualification de
-              chaque partenaire. Aucun volume de mission ou revenu n’est garanti.
+              {tr(
+                "Les opportunités dépendent des besoins clients, des zones et de la qualification de chaque partenaire. Aucun volume de mission ou revenu n’est garanti.",
+              )}
             </p>
           </div>
           <div>
-            <p className="eyebrow">Nos exigences</p>
-            <h2 className="mt-4 text-3xl font-bold">La qualité avant l’affectation.</h2>
+            <p className="eyebrow">{tr("Nos exigences")}</p>
+            <h2 className="mt-4 text-3xl font-bold">{tr("La qualité avant l’affectation.")}</h2>
             <ul className="mt-7 grid gap-4">
               {requirements.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-6">
                   <ClipboardCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  {item}
+                  {tr(item)}
                 </li>
               ))}
             </ul>
@@ -276,29 +282,31 @@ function Join() {
       <section className="py-20 md:py-24">
         <div className="section-shell">
           <div className="max-w-3xl">
-            <p className="eyebrow">Portail privé partenaire · Maquette évolutive</p>
+            <p className="eyebrow">{tr("Portail privé partenaire")}</p>
             <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-              Un espace sécurisé pour chaque mission.
+              {tr("Un espace sécurisé pour chaque mission.")}
             </h2>
             <p className="mt-4 leading-7 text-muted-foreground">
-              Après validation et conventionnement, le futur portail centralisera les échanges
-              opérationnels avec FORMA.
+              {tr(
+                "Après validation et conventionnement, le portail centralise les échanges opérationnels avec FORMA.",
+              )}
             </p>
           </div>
           <div className="mt-10 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-5">
             {portal.map(({ icon: Icon, title, text }) => (
               <article key={title} className="service-card bg-card p-6">
                 <Icon className="h-6 w-6 text-accent" />
-                <h3 className="mt-8 font-bold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{text}</p>
+                <h3 className="mt-8 font-bold">{tr(title)}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{tr(text)}</p>
               </article>
             ))}
           </div>
           <div className="mt-8 flex items-start gap-3 border-l-2 border-accent pl-4 text-sm text-muted-foreground">
             <MessageSquareText className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
             <p>
-              Les missions sont proposées et encadrées par FORMA. Le partenaire peut les accepter ou
-              les refuser avant émission de l’ordre de service.
+              {tr(
+                "Les missions sont proposées et encadrées par FORMA. Le partenaire peut les accepter ou les refuser avant émission de l’ordre de service.",
+              )}
             </p>
           </div>
         </div>

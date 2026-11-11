@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { SecurityAssessment } from "@/components/security-assessment";
 import { PageIntro, CtaBand } from "@/components/page-shell";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/securite")({
   component: Security,
 });
 function Security() {
+  const { t: tr } = useLanguage();
   const items = [
     "Gardiennage statique 24/7",
     "Sécurité des entreprises et chantiers",
@@ -39,15 +41,17 @@ function Security() {
   return (
     <>
       <PageIntro
-        eyebrow="FORMA Security"
-        title="Votre sécurité, notre priorité."
+        eyebrow={tr("FORMA Security")}
+        title={tr("Votre sécurité, notre priorité.")}
         text="Nous construisons des dispositifs proportionnés aux risques réels, aux flux, aux horaires et à l’environnement de chaque site."
       />
       <section className="py-20">
         <div className="section-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
           <div>
-            <p className="eyebrow">Prestations</p>
-            <h2 className="mt-3 text-3xl font-bold">Une présence structurée et supervisée.</h2>
+            <p className="eyebrow">{tr("Prestations")}</p>
+            <h2 className="mt-3 text-3xl font-bold">
+              {tr("Une présence structurée et supervisée.")}
+            </h2>
             <div className="mt-8 grid gap-3">
               {items.map((x) => (
                 <div
@@ -55,13 +59,14 @@ function Security() {
                   className="flex items-center gap-3 border-b border-border py-3 text-sm font-semibold"
                 >
                   <Check className="h-4 w-4 text-accent" />
-                  {x}
+                  {tr(x)}
                 </div>
               ))}
             </div>
             <p className="mt-6 text-sm leading-6 text-muted-foreground">
-              Le dimensionnement final est établi après échange et, lorsque nécessaire, une visite
-              du site.
+              {tr(
+                "Le dimensionnement final est établi après échange et, lorsque nécessaire, une visite du site.",
+              )}
             </p>
           </div>
           <SecurityAssessment />
@@ -70,18 +75,19 @@ function Security() {
       <section className="bg-card py-16 md:py-24">
         <div className="section-shell grid items-center gap-8 lg:grid-cols-[.65fr_1.35fr] lg:gap-16">
           <div>
-            <p className="eyebrow">Mobilité opérationnelle</p>
+            <p className="eyebrow">{tr("Mobilité opérationnelle")}</p>
             <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
-              Rondes motorisées & interventions terrain.
+              {tr("Rondes motorisées & interventions terrain.")}
             </h2>
             <p className="mt-5 leading-7 text-muted-foreground">
-              Notre véhicule FORMA accompagne les déplacements des équipes pour la surveillance des
-              sites et les interventions à Kinshasa.
+              {tr(
+                "Notre véhicule FORMA accompagne les déplacements des équipes pour la surveillance des sites et les interventions à Kinshasa.",
+              )}
             </p>
           </div>
           <img
             src="/images/forma-vehicule-patrouille.jpg"
-            alt="Toyota Hilux d’intervention FORMA avec identité visuelle sur la portière"
+            alt={tr("Toyota Hilux d’intervention FORMA avec identité visuelle sur la portière")}
             width="1080"
             height="444"
             loading="lazy"

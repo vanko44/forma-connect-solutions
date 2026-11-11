@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Building2, ClipboardList, LayoutDashboard, WalletCards } from "lucide-react";
@@ -55,11 +56,12 @@ const dashboards = [
 ];
 
 function Platform() {
+  const { t: tr } = useLanguage();
   return (
     <>
       <PageIntro
-        eyebrow="Plateforme digitale"
-        title="Un pilotage clair pour chaque acteur."
+        eyebrow={tr("Plateforme digitale")}
+        title={tr("Un pilotage clair pour chaque acteur.")}
         text="Clients, partenaires et administration FORMA disposent d’une vue adaptée à leurs responsabilités, du suivi de la demande à l’exécution terrain."
       />
       <section className="py-14 md:py-20">
@@ -69,29 +71,35 @@ function Platform() {
               <TabsList className="h-auto min-w-max justify-start">
                 <TabsTrigger value="client" className="gap-2 px-4 py-3">
                   <Building2 className="h-4 w-4" />
-                  Espace Client
+                  {tr("Espace Client")}
                 </TabsTrigger>
                 <TabsTrigger value="partner" className="gap-2 px-4 py-3">
                   <ClipboardList className="h-4 w-4" />
-                  Espace Partenaire
+                  {tr("Espace Partenaire")}
                 </TabsTrigger>
                 <TabsTrigger value="admin" className="gap-2 px-4 py-3">
                   <LayoutDashboard className="h-4 w-4" />
-                  FORMA Admin
+                  {tr("FORMA Admin")}
                 </TabsTrigger>
               </TabsList>
             </div>
             <TabsContent value="client" className="mt-6">
               <DashboardPreview dashboard={dashboards[0]} />
-              <Button asChild className="mt-5"><Link to="/client/dashboard">Accéder à mon espace client</Link></Button>
+              <Button asChild className="mt-5">
+                <Link to="/client/dashboard">{tr("Accéder à mon espace client")}</Link>
+              </Button>
             </TabsContent>
             <TabsContent value="partner" className="mt-6">
               <DashboardPreview dashboard={dashboards[1]} />
-              <Button asChild className="mt-5"><Link to="/provider/dashboard">Accéder à mon espace prestataire</Link></Button>
+              <Button asChild className="mt-5">
+                <Link to="/provider/dashboard">{tr("Accéder à mon espace prestataire")}</Link>
+              </Button>
             </TabsContent>
             <TabsContent value="admin" className="mt-6">
               <DashboardPreview dashboard={dashboards[2]} />
-              <Button asChild className="mt-5"><Link to="/admin/dashboard">Accéder à l’espace Direction</Link></Button>
+              <Button asChild className="mt-5">
+                <Link to="/admin/dashboard">{tr("Accéder à l’espace Direction")}</Link>
+              </Button>
             </TabsContent>
           </Tabs>
         </div>
@@ -102,6 +110,7 @@ function Platform() {
 }
 
 function DashboardPreview({ dashboard }: { dashboard: (typeof dashboards)[number] | undefined }) {
+  const { t: tr } = useLanguage();
   if (!dashboard) return null;
   const Icon = dashboard.icon;
   return (
@@ -109,10 +118,12 @@ function DashboardPreview({ dashboard }: { dashboard: (typeof dashboards)[number
       <div className="border-b border-border p-6 md:p-8">
         <div className="flex items-center justify-between">
           <Icon className="h-7 w-7 text-accent" />
-          <span className="text-xs font-bold uppercase text-muted-foreground">Espace sécurisé</span>
+          <span className="text-xs font-bold uppercase text-muted-foreground">
+            {tr("Espace sécurisé")}
+          </span>
         </div>
-        <h2 className="mt-8 text-2xl font-bold md:text-3xl">{dashboard.title}</h2>
-        <p className="mt-2 text-sm text-muted-foreground">{dashboard.stat}</p>
+        <h2 className="mt-8 text-2xl font-bold md:text-3xl">{tr(dashboard.title)}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{tr(dashboard.stat)}</p>
       </div>
       <div className="grid gap-3 p-6 sm:grid-cols-2 md:p-8">
         {dashboard.rows.map((row) => (
@@ -120,7 +131,7 @@ function DashboardPreview({ dashboard }: { dashboard: (typeof dashboards)[number
             key={row}
             className="flex min-h-14 items-center justify-between border border-border p-4 text-sm font-semibold"
           >
-            <span>{row}</span>
+            <span>{tr(row)}</span>
             <WalletCards className="h-4 w-4 text-accent" />
           </div>
         ))}

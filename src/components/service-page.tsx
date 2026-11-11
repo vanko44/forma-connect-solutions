@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { CheckCircle2 } from "lucide-react";
 import { CtaBand, PageIntro } from "./page-shell";
 
@@ -18,6 +19,7 @@ export function ServicePage({
   image?: string;
   imageAlt?: string;
 }) {
+  const { t: tr } = useLanguage();
   return (
     <>
       <PageIntro eyebrow={eyebrow} title={title} text={intro} />
@@ -35,13 +37,13 @@ export function ServicePage({
       <section className="py-16 md:py-24">
         <div className="section-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
           <div className="scroll-reveal">
-            <p className="eyebrow">Expertise FORMA</p>
+            <p className="eyebrow">{tr("Expertise FORMA")}</p>
             <h2 className="mt-3 text-3xl font-bold">
-              Une coordination rigoureuse, du besoin au reporting.
+              {tr("Une coordination rigoureuse, du besoin au reporting.")}
             </h2>
             {note && (
               <p className="mt-5 border-l-2 border-accent pl-4 text-sm leading-6 text-muted-foreground">
-                {note}
+                {tr(note)}
               </p>
             )}
           </div>
@@ -50,7 +52,7 @@ export function ServicePage({
               <article key={item} className="service-card bg-card p-6">
                 <span className="text-xs font-bold text-accent">0{i + 1}</span>
                 <CheckCircle2 className="mt-8 h-5 w-5 text-accent" />
-                <h3 className="mt-4 text-lg font-bold">{item}</h3>
+                <h3 className="mt-4 text-lg font-bold">{tr(item)}</h3>
               </article>
             ))}
           </div>

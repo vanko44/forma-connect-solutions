@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { useState } from "react";
 import { CheckCircle2, Eye, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,7 @@ export function FormaOfferEditor({
   quote: Q;
   onDone: (patch: Record<string, unknown>) => void;
 }) {
+  const { t: tr } = useLanguage();
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(false);
   const [offer, setOffer] = useState<Offer>(() => (quote.offer as Offer) ?? defaultOffer(quote));
@@ -81,26 +83,28 @@ export function FormaOfferEditor({
   return (
     <>
       <Button size="sm" variant="outline" onClick={() => setOpen(true)}>
-        <Pencil /> Éditer & Approuver
+        <Pencil /> {tr("Éditer & Approuver")}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="offer-dialog max-h-[92vh] max-w-5xl overflow-y-auto p-0">
           <DialogHeader className="border-b border-border p-5">
-            <DialogTitle>Offre officielle — {quote.organization || quote.name}</DialogTitle>
+            <DialogTitle>
+              {tr("Offre officielle —")} {quote.organization || quote.name}
+            </DialogTitle>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button
                 size="sm"
                 variant={preview ? "outline" : "default"}
                 onClick={() => setPreview(false)}
               >
-                <Pencil /> Édition
+                <Pencil /> {tr("Édition")}
               </Button>
               <Button
                 size="sm"
                 variant={preview ? "default" : "outline"}
                 onClick={() => setPreview(true)}
               >
-                <Eye /> Aperçu
+                <Eye /> {tr("Aperçu")}
               </Button>
             </div>
             {preview && <FormaOfferDownloads offer={offer} />}
@@ -110,7 +114,11 @@ export function FormaOfferEditor({
           ) : (
             <div className="grid gap-6 p-5">
               <p className="border-l-2 border-accent pl-3 text-sm text-muted-foreground">
-                <b className="text-foreground">Besoin client ({quote.pole}) :</b> {quote.needs}
+                <b className="text-foreground">
+                  {tr("Besoin client (")}
+                  {quote.pole}) :
+                </b>{" "}
+                {quote.needs}
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 <L t="Organisation cliente">
@@ -144,12 +152,12 @@ export function FormaOfferEditor({
               </div>
               <div>
                 <p className="text-xs font-bold uppercase text-muted-foreground">
-                  Prestations retenues
+                  {tr("Prestations retenues")}
                 </p>
                 <div className="mt-3 grid gap-4 sm:grid-cols-2">
                   {SERVICE_GROUPS.map((g) => (
                     <div key={g.title}>
-                      <p className="text-sm font-bold">{g.title}</p>
+                      <p className="text-sm font-bold">{tr(g.title)}</p>
                       {g.items.map((i) => (
                         <label key={i} className="mt-2 flex items-start gap-2 text-sm">
                           <input
@@ -158,7 +166,7 @@ export function FormaOfferEditor({
                             checked={offer.services.includes(i)}
                             onChange={() => toggle(i)}
                           />
-                          {i}
+                          {tr(i)}
                         </label>
                       ))}
                     </div>
@@ -166,14 +174,16 @@ export function FormaOfferEditor({
                 </div>
               </div>
               <fieldset className="border-t border-border pt-5">
-                <legend className="pr-3 text-sm font-bold">Équipe & Organigramme mission</legend>
+                <legend className="pr-3 text-sm font-bold">
+                  {tr("Équipe & Organigramme mission")}
+                </legend>
                 <div className="mt-3 grid gap-4 sm:grid-cols-2">
                   {TEAM_ROLES.map((role) => (
                     <L key={role.key} t={role.label}>
                       <Input
                         maxLength={200}
                         value={offer.team?.[role.key] ?? ""}
-                        placeholder="Nom : ____________________"
+                        placeholder={tr("Nom : ____________________")}
                         onChange={(e) => {
                           const name = e.target.value;
                           setOffer((o) => ({ ...o, team: { ...o.team, [role.key]: name } }));
@@ -187,10 +197,10 @@ export function FormaOfferEditor({
                 <table className="w-full min-w-[640px] text-left text-sm">
                   <thead className="bg-muted/60 text-xs uppercase text-muted-foreground">
                     <tr>
-                      <th className="p-2">Prestation</th>
-                      <th className="p-2">Tarif unitaire (USD)</th>
-                      <th className="p-2">Quantité / effectif</th>
-                      <th className="p-2 text-right">Montant</th>
+                      <th className="p-2">{tr("Prestation")}</th>
+                      <th className="p-2">{tr("Tarif unitaire (USD)")}</th>
+                      <th className="p-2">{tr("Quantité / effectif")}</th>
+                      <th className="p-2 text-right">{tr("Montant")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -240,8 +250,11 @@ export function FormaOfferEditor({
                   />
                 </L>
                 <div className="self-end text-right text-sm">
-                  Sous-total {usd(t.subtotal)} · Remise {usd(t.discount)} ·{" "}
-                  <b className="text-base">Total HT {usd(t.total)}</b>
+                  {tr("Sous-total")}
+                  {usd(t.subtotal)} {tr("· Remise")} {usd(t.discount)} ·{" "}
+                  <b className="text-base">
+                    {tr("Total HT")} {usd(t.total)}
+                  </b>
                 </div>
               </div>
               <L t="Notes et conditions particulières">
@@ -250,7 +263,7 @@ export function FormaOfferEditor({
                   className="min-h-24"
                   value={offer.notes}
                   onChange={(e) => setOffer({ ...offer, notes: e.target.value })}
-                  placeholder="Durée d'engagement, équipement inclus, modalités de paiement…"
+                  placeholder={tr("Durée d'engagement, équipement inclus, modalités de paiement…")}
                 />
               </L>
               {error && (
@@ -263,7 +276,7 @@ export function FormaOfferEditor({
                 onClick={() => void approve()}
                 className="h-11 bg-accent text-accent-foreground hover:bg-accent/90"
               >
-                <CheckCircle2 /> {busy ? "Publication…" : "Approuver & Publier l'offre"}
+                <CheckCircle2 /> {tr(busy ? "Publication…" : "Approuver & Publier l'offre")}
               </Button>
             </div>
           )}

@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/service-page";
 export const Route = createFileRoute("/facility")({
@@ -21,20 +22,27 @@ export const Route = createFileRoute("/facility")({
     ],
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/facility" }],
   }),
-  component: () => (
-    <ServicePage
-      eyebrow="FORMA Facility"
-      title="Un seul partenaire pour coordonner vos services opérationnels."
-      intro="Notre rôle est d’orchestrer avec clarté les expertises nécessaires au bon fonctionnement de vos sites."
-      note="FORMA sélectionne, coordonne, supervise, contrôle la qualité et fournit le reporting. Ce modèle ne suppose pas que tous les corps de métier soient directement salariés par FORMA."
-      items={[
-        "Qualification des prestataires",
-        "Planification des interventions",
-        "Supervision opérationnelle",
-        "Contrôle qualité",
-        "Gestion des remontées",
-        "Reporting client",
-      ]}
-    />
-  ),
+  component: () => {
+    const { t: tr } = useLanguage();
+    return (
+      <ServicePage
+        eyebrow={tr("FORMA Facility")}
+        title={tr("Un seul partenaire pour coordonner vos services opérationnels.")}
+        intro={tr(
+          "Notre rôle est d’orchestrer avec clarté les expertises nécessaires au bon fonctionnement de vos sites.",
+        )}
+        note={tr(
+          "FORMA sélectionne, coordonne, supervise, contrôle la qualité et fournit le reporting. Ce modèle ne suppose pas que tous les corps de métier soient directement salariés par FORMA.",
+        )}
+        items={[
+          "Qualification des prestataires",
+          "Planification des interventions",
+          "Supervision opérationnelle",
+          "Contrôle qualité",
+          "Gestion des remontées",
+          "Reporting client",
+        ]}
+      />
+    );
+  },
 });

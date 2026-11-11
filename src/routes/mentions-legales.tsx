@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/page-shell";
 
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/mentions-legales")({
 });
 
 function Legal() {
+  const { t: tr } = useLanguage();
   const rows = [
     ["Raison sociale", "ETS FORMA EVENT AND SECURITY"],
     ["RCCM", "CD/KNM/RCCM/25-A-10490 — Kinshasa"],
@@ -42,8 +44,8 @@ function Legal() {
   return (
     <>
       <PageIntro
-        eyebrow="Transparence administrative"
-        title="Mentions légales et conformité."
+        eyebrow={tr("Transparence administrative")}
+        title={tr("Mentions légales et conformité.")}
         text="Ces informations reprennent les éléments officiels communiqués pour ETS FORMA EVENT AND SECURITY."
       />
       <section className="py-20">
@@ -51,15 +53,15 @@ function Legal() {
           <dl className="divide-y divide-border border-y border-border">
             {rows.map(([k, v]) => (
               <div key={k} className="grid gap-2 py-5 md:grid-cols-[240px_1fr]">
-                <dt className="text-sm font-bold uppercase text-muted-foreground">{k}</dt>
+                <dt className="text-sm font-bold uppercase text-muted-foreground">{tr(k ?? "")}</dt>
                 <dd className="font-semibold">{v}</dd>
               </div>
             ))}
           </dl>
           <p className="mt-8 text-sm leading-6 text-muted-foreground">
-            FORMA ne publie pas de faux témoignages, faux logos clients ou certifications non
-            vérifiées. Toute référence commerciale devra être ajoutée uniquement après validation
-            formelle.
+            {tr(
+              "FORMA ne publie pas de faux témoignages, faux logos clients ou certifications non vérifiées. Toute référence commerciale devra être ajoutée uniquement après validation formelle.",
+            )}
           </p>
         </div>
       </section>

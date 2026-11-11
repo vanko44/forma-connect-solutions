@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/service-page";
 const training = { url: "/images/forma-training-equipe.jpeg" };
@@ -22,22 +23,27 @@ export const Route = createFileRoute("/formations")({
     ],
     links: [{ rel: "canonical", href: "https://forma-connect-solutions.lovable.app/formations" }],
   }),
-  component: () => (
-    <ServicePage
-      eyebrow="FORMA Training"
-      title="Des compétences utiles, mobilisables sur le terrain."
-      intro="FORMA structure des parcours de formation professionnelle en langues, technologies et métiers du digital."
-      image={training.url}
-      imageAlt="Jeunes professionnels africains en formation informatique"
-      items={[
-        "Anglais professionnel",
-        "Français professionnel",
-        "Portugais et Espagnol",
-        "Informatique & développement",
-        "Marketing digital",
-        "Graphisme",
-        "Community Management",
-      ]}
-    />
-  ),
+  component: () => {
+    const { t: tr } = useLanguage();
+    return (
+      <ServicePage
+        eyebrow={tr("FORMA Training")}
+        title={tr("Des compétences utiles, mobilisables sur le terrain.")}
+        intro={tr(
+          "FORMA structure des parcours de formation professionnelle en langues, technologies et métiers du digital.",
+        )}
+        image={training.url}
+        imageAlt={tr("Jeunes professionnels africains en formation informatique")}
+        items={[
+          "Anglais professionnel",
+          "Français professionnel",
+          "Portugais et Espagnol",
+          "Informatique & développement",
+          "Marketing digital",
+          "Graphisme",
+          "Community Management",
+        ]}
+      />
+    );
+  },
 });

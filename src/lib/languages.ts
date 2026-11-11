@@ -1,3 +1,4 @@
+import { completeTranslations } from "./language-catalog";
 export const languages = {
   fr: "Français",
   en: "English",
@@ -332,5 +333,16 @@ export const translations: Record<string, Translation> = {
 };
 export function translate(text: string, language: Language): string {
   if (language === "fr") return text;
-  return translations[text]?.[language === "en" ? 0 : language === "pt" ? 1 : 2] ?? text;
+  const index = language === "en" ? 0 : language === "pt" ? 1 : 2;
+  const direct = translations[text] ?? completeTranslations[text];
+  if (direct) return direct[index];
+  const normalized = text.replace(/\s+/g, " ").trim();
+  const entry = translations[normalized] ?? completeTranslations[normalized];
+  if (entry) return entry[index];
+  const counted = normalized.match(/^(.*?)\s*\((\d+)\)$/);
+  if (counted?.[1]) {
+    const label = translations[counted[1]] ?? completeTranslations[counted[1]];
+    if (label) return `${label[index]} (${counted[2]})`;
+  }
+  return text;
 }

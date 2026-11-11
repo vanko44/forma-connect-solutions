@@ -135,6 +135,7 @@ const commitments = [
 ];
 
 export function FormaIdentity({ detailed = false }: { detailed?: boolean }) {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   return (
     <section
@@ -150,10 +151,11 @@ export function FormaIdentity({ detailed = false }: { detailed?: boolean }) {
           >
             {t("Qui sommes-nous ?")}
           </h2>
-          <p className="mt-6 text-xl font-medium leading-8">FORMA Event & Security</p>
+          <p className="mt-6 text-xl font-medium leading-8">{tr("FORMA Event & Security")}</p>
           <p className="mt-2 max-w-md leading-7 text-muted-foreground">
-            Une entreprise de services intégrés, ancrée à Kinshasa et tournée vers les besoins des
-            organisations en République démocratique du Congo.
+            {tr(
+              "Une entreprise de services intégrés, ancrée à Kinshasa et tournée vers les besoins des organisations en République démocratique du Congo.",
+            )}
           </p>
           {!detailed && (
             <Button asChild variant="outline" className="mt-7">
@@ -165,41 +167,40 @@ export function FormaIdentity({ detailed = false }: { detailed?: boolean }) {
         </div>
         <div className="space-y-6 text-base leading-7 text-muted-foreground">
           <p>
-            FORMA réunit la sécurité, l’événementiel, la communication, la formation et les
-            solutions multiservices dans une approche coordonnée. Nous accompagnons les entreprises,
-            institutions, organisations, hôtels et organisateurs d’événements, ainsi que les
-            particuliers, dans la préparation et le suivi de leurs prestations.
+            {tr(
+              "FORMA réunit la sécurité, l’événementiel, la communication, la formation et les solutions multiservices dans une approche coordonnée. Nous accompagnons les entreprises, institutions, organisations, hôtels et organisateurs d’événements, ainsi que les particuliers, dans la préparation et le suivi de leurs prestations.",
+            )}
           </p>
           <p>
-            Notre mission est de comprendre chaque besoin, de définir un dispositif adapté et d’en
-            organiser la mise en œuvre avec rigueur. La sécurité constitue le cœur de notre offre ;
-            les autres pôles apportent des expertises complémentaires sous un pilotage cohérent.
+            {tr(
+              "Notre mission est de comprendre chaque besoin, de définir un dispositif adapté et d’en organiser la mise en œuvre avec rigueur. La sécurité constitue le cœur de notre offre ; les autres pôles apportent des expertises complémentaires sous un pilotage cohérent.",
+            )}
           </p>
           <div className="border-l-2 border-accent pl-5 font-medium text-foreground">
-            Un interlocuteur contractuel unique : FORMA coordonne les prestations et assume les
-            engagements de sécurité et de qualité convenus avec le client.
+            {tr(
+              "Un interlocuteur contractuel unique : FORMA coordonne les prestations et assume les engagements de sécurité et de qualité convenus avec le client.",
+            )}
           </div>
           {detailed && (
             <p>
-              Notre vision est de construire une entreprise multiservices de référence en RDC,
-              reconnue pour sa discipline d’exécution et la clarté de ses relations commerciales.
-              Nous souhaitons inscrire chaque collaboration dans la durée, en associant
-              responsabilité, qualité de service et écoute du client.
+              {tr(
+                "Notre vision est de construire une entreprise multiservices de référence en RDC, reconnue pour sa discipline d’exécution et la clarté de ses relations commerciales. Nous souhaitons inscrire chaque collaboration dans la durée, en associant responsabilité, qualité de service et écoute du client.",
+              )}
             </p>
           )}
           <div className="grid gap-5 border-t border-border pt-6 sm:grid-cols-2">
             <div>
               <Target className="h-5 w-5 text-accent" aria-hidden="true" />
-              <h3 className="mt-3 font-bold text-foreground">Une réponse structurée</h3>
+              <h3 className="mt-3 font-bold text-foreground">{tr("Une réponse structurée")}</h3>
               <p className="mt-2 text-sm leading-6">
-                Analyser, organiser, encadrer et rendre compte.
+                {tr("Analyser, organiser, encadrer et rendre compte.")}
               </p>
             </div>
             <div>
               <Handshake className="h-5 w-5 text-accent" aria-hidden="true" />
-              <h3 className="mt-3 font-bold text-foreground">Une relation durable</h3>
+              <h3 className="mt-3 font-bold text-foreground">{tr("Une relation durable")}</h3>
               <p className="mt-2 text-sm leading-6">
-                Des engagements définis et un dialogue suivi.
+                {tr("Des engagements définis et un dialogue suivi.")}
               </p>
             </div>
           </div>
@@ -210,6 +211,7 @@ export function FormaIdentity({ detailed = false }: { detailed?: boolean }) {
 }
 
 export function FormaDomains() {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   return (
     <section className="py-16 md:py-24" aria-labelledby="forma-domains-title">
@@ -223,8 +225,9 @@ export function FormaDomains() {
             {t("Nos domaines d’intervention")}
           </h2>
           <p className="mt-5 leading-7 text-muted-foreground">
-            Six pôles complémentaires, une même exigence de coordination et de suivi pour vos sites,
-            vos équipes et vos événements.
+            {tr(
+              "Six pôles complémentaires, une même exigence de coordination et de suivi pour vos sites, vos équipes et vos événements.",
+            )}
           </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -266,6 +269,7 @@ export function FormaDomains() {
 }
 
 export function FormaCommitments() {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   return (
     <section
@@ -281,8 +285,9 @@ export function FormaCommitments() {
             </h2>
           </div>
           <p className="max-w-xl leading-7 text-muted-foreground">
-            La confiance se construit par des engagements clairs. Ils guident notre préparation,
-            notre conduite des prestations et notre relation avec chaque client.
+            {tr(
+              "La confiance se construit par des engagements clairs. Ils guident notre préparation, notre conduite des prestations et notre relation avec chaque client.",
+            )}
           </p>
         </div>
         <div className="mt-10 grid gap-x-8 md:grid-cols-2 lg:grid-cols-3">

@@ -63,13 +63,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { t: tr } = useLanguage();
   const { t } = useLanguage();
   return (
     <>
       <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-primary text-primary-foreground">
         <img
           src={hero}
-          alt="Agents de sécurité professionnels devant un immeuble moderne"
+          alt={tr("Agents de sécurité professionnels devant un immeuble moderne")}
           fetchPriority="high"
           decoding="async"
           width="1920"
@@ -80,14 +81,16 @@ function Home() {
         <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/85 to-primary/10" />
         <div className="section-shell relative flex min-h-[calc(100vh-5rem)] items-end py-16 md:items-center md:py-20">
           <div className="reveal max-w-4xl">
-            <p className="eyebrow">Kinshasa · République Démocratique du Congo</p>
+            <p className="eyebrow">{tr("Kinshasa · République Démocratique du Congo")}</p>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] sm:text-5xl md:text-7xl">
               {t("Sécurité, événements")}
               <br />
               {t("et solutions multiservices.")}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-primary-foreground/75 md:text-lg">
-              {t('Des solutions professionnelles en sécurité, événementiel, formation et services multiservices en RDC.')}
+              {t(
+                "Des solutions professionnelles en sécurité, événementiel, formation et services multiservices en RDC.",
+              )}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button
@@ -107,9 +110,9 @@ function Home() {
               </Button>
             </div>
             <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-primary-foreground/20 pt-5 text-[11px] font-semibold uppercase text-primary-foreground/65">
-              <span>RCCM CD/KNM/RCCM/25-A-10490</span>
-              <span>Kinshasa</span>
-              <span>Enregistré ONEM · INPP</span>
+              <span>{tr("RCCM CD/KNM/RCCM/25-A-10490")}</span>
+              <span>{tr("Kinshasa")}</span>
+              <span>{tr("Enregistré ONEM · INPP")}</span>
             </div>
           </div>
         </div>
@@ -125,8 +128,9 @@ function Home() {
                 {t("notre priorité.")}
               </h2>
               <p className="mt-5 max-w-md leading-7 text-muted-foreground">
-                Chaque dispositif part du terrain : diagnostic, dimensionnement, encadrement
-                opérationnel et suivi régulier.
+                {tr(
+                  "Chaque dispositif part du terrain : diagnostic, dimensionnement, encadrement opérationnel et suivi régulier.",
+                )}
               </p>
               <ul className="mt-8 grid gap-3 text-sm font-semibold">
                 {[
@@ -140,7 +144,7 @@ function Home() {
                 ].map((x) => (
                   <li key={x} className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-accent" />
-                    {x}
+                    {tr(x)}
                   </li>
                 ))}
               </ul>
@@ -154,7 +158,7 @@ function Home() {
           <div className="overflow-hidden">
             <img
               src="/images/forma-vehicule-patrouille.jpg"
-              alt="Véhicule d’intervention FORMA siglé, déployé pour les rondes à Kinshasa"
+              alt={tr("Véhicule d’intervention FORMA siglé, déployé pour les rondes à Kinshasa")}
               width="1080"
               height="444"
               loading="lazy"
@@ -163,13 +167,14 @@ function Home() {
             />
           </div>
           <div>
-            <p className="eyebrow">Flotte & réactivité terrain · Kinshasa</p>
+            <p className="eyebrow">{tr("Flotte & réactivité terrain · Kinshasa")}</p>
             <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
-              Une présence mobile, au plus près de vos sites.
+              {tr("Une présence mobile, au plus près de vos sites.")}
             </h2>
             <p className="mt-5 leading-7 text-primary-foreground/75">
-              Nos équipes de terrain s’appuient sur un véhicule d’intervention FORMA pour les rondes
-              motorisées et le suivi opérationnel.
+              {tr(
+                "Nos équipes de terrain s’appuient sur un véhicule d’intervention FORMA pour les rondes motorisées et le suivi opérationnel.",
+              )}
             </p>
             <Button
               asChild
@@ -177,7 +182,8 @@ function Home() {
               className="mt-7 border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
               <Link to="/securite">
-                Découvrir FORMA Security <ArrowRight />
+                {tr("Découvrir FORMA Security")}
+                <ArrowRight />
               </Link>
             </Button>
           </div>
@@ -190,9 +196,11 @@ function Home() {
       <section className="bg-primary py-20 text-primary-foreground md:py-28">
         <div className="section-shell">
           <div className="scroll-reveal max-w-4xl">
-            <p className="eyebrow">Pilotage & Facility Management</p>
+            <p className="eyebrow">{tr("Pilotage & Facility Management")}</p>
             <h2 className="mt-4 text-3xl font-extrabold leading-tight md:text-5xl">
-              La Solution FORMA : Pilotez et optimisez vos services généraux en toute sérénité.
+              {tr(
+                "La Solution FORMA : Pilotez et optimisez vos services généraux en toute sérénité.",
+              )}
             </h2>
           </div>
           <div className="mt-12 grid gap-px bg-primary-foreground/15 md:grid-cols-3">
@@ -205,23 +213,23 @@ function Home() {
               return (
                 <article key={label as string} className="service-card bg-primary p-7">
                   <PillarIcon className="h-7 w-7 text-accent" />
-                  <h3 className="mt-10 text-xl font-bold">{label as string}</h3>
+                  <h3 className="mt-10 text-xl font-bold">{tr(label as string)}</h3>
                 </article>
               );
             })}
           </div>
           <p className="mt-10 max-w-4xl font-display text-2xl font-bold leading-snug">
-            Avec FORMA EVENT & SECURITY, gérer vos bureaux, sites et opérations n’aura jamais été
-            aussi simple !
+            {tr(
+              "Avec FORMA EVENT & SECURITY, gérer vos bureaux, sites et opérations n’aura jamais été aussi simple !",
+            )}
           </p>
           <div className="mt-12 grid gap-10 border-t border-primary-foreground/15 pt-10 lg:grid-cols-2">
             <div>
-              <p className="eyebrow">Notre mission</p>
+              <p className="eyebrow">{tr("Notre mission")}</p>
               <p className="mt-4 leading-7 text-primary-foreground/70">
-                FORMA EVENT & SECURITY a analysé les exigences des appels d’offres, matrices de
-                chiffrage et contrats pour chaque service. Nous avons modélisé des solutions
-                standardisées et personnalisables, pour automatiser les chiffrages tout en nous
-                adaptant aux besoins précis de chaque organisation.
+                {tr(
+                  "FORMA EVENT & SECURITY a analysé les exigences des appels d’offres, matrices de chiffrage et contrats pour chaque service. Nous avons modélisé des solutions standardisées et personnalisables, pour automatiser les chiffrages tout en nous adaptant aux besoins précis de chaque organisation.",
+                )}
               </p>
               <ul className="mt-6 grid gap-3 text-sm font-semibold">
                 {[
@@ -231,20 +239,21 @@ function Home() {
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    {item}
+                    {tr(item)}
                   </li>
                 ))}
               </ul>
               <p className="mt-6 font-bold">
-                Sélectionnez vos services, vos gammes, vos options, et nous prenons le relais !
+                {tr(
+                  "Sélectionnez vos services, vos gammes, vos options, et nous prenons le relais !",
+                )}
               </p>
             </div>
             <div>
               <p className="leading-7 text-primary-foreground/70">
-                Du cahier des charges à la planification, du contrat au démarrage, FORMA EVENT &
-                SECURITY vous offre une prise en charge 100 % clé en main. Ne perdez plus de temps à
-                lancer des appels d’offres chronophages ou à attendre des devis sans réponse :
-                bénéficiez immédiatement de notre réseau qualifié.
+                {tr(
+                  "Du cahier des charges à la planification, du contrat au démarrage, FORMA EVENT & SECURITY vous offre une prise en charge 100 % clé en main. Ne perdez plus de temps à lancer des appels d’offres chronophages ou à attendre des devis sans réponse : bénéficiez immédiatement de notre réseau qualifié.",
+                )}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -252,7 +261,8 @@ function Home() {
                   className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90"
                 >
                   <Link to="/devis">
-                    Demander un chiffrage de services <ArrowRight />
+                    {tr("Demander un chiffrage de services")}
+                    <ArrowRight />
                   </Link>
                 </Button>
                 <Button
@@ -260,7 +270,7 @@ function Home() {
                   variant="outline"
                   className="h-12 border-primary-foreground/25 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                 >
-                  <Link to="/rejoindre">Rejoindre le réseau partenaire</Link>
+                  <Link to="/rejoindre">{tr("Rejoindre le réseau partenaire")}</Link>
                 </Button>
               </div>
             </div>
@@ -276,15 +286,17 @@ function Home() {
             <img
               src={wedding.url}
               loading="lazy"
-              alt="Échange d’alliances lors d’une cérémonie de mariage"
+              alt={tr("Échange d’alliances lors d’une cérémonie de mariage")}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
             <div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-7 md:p-10">
-              <p className="eyebrow">FORMA Events</p>
-              <h2 className="mt-3 text-3xl font-bold">Cérémonies privées & protocole</h2>
+              <p className="eyebrow">{tr("FORMA Events")}</p>
+              <h2 className="mt-3 text-3xl font-bold">{tr("Cérémonies privées & protocole")}</h2>
               <p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">
-                Une coordination raffinée pour les mariages, célébrations et événements privés.
+                {tr(
+                  "Une coordination raffinée pour les mariages, célébrations et événements privés.",
+                )}
               </p>
               <ArrowRight className="mt-5 h-5 w-5 text-accent" />
             </div>
@@ -296,15 +308,17 @@ function Home() {
             <img
               src={training.url}
               loading="lazy"
-              alt="Jeunes professionnels africains en formation informatique"
+              alt={tr("Jeunes professionnels africains en formation informatique")}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
             <div className="absolute inset-0 bg-linear-to-t from-primary via-primary/25 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-7 md:p-10">
-              <p className="eyebrow">FORMA Training</p>
-              <h2 className="mt-3 text-3xl font-bold">Compétences professionnelles</h2>
+              <p className="eyebrow">{tr("FORMA Training")}</p>
+              <h2 className="mt-3 text-3xl font-bold">{tr("Compétences professionnelles")}</h2>
               <p className="mt-3 max-w-lg text-sm leading-6 text-primary-foreground/75">
-                Des parcours concrets pour renforcer l’autonomie et la performance des équipes.
+                {tr(
+                  "Des parcours concrets pour renforcer l’autonomie et la performance des équipes.",
+                )}
               </p>
               <ArrowRight className="mt-5 h-5 w-5 text-accent" />
             </div>
@@ -319,22 +333,24 @@ function Home() {
               loading="lazy"
               width="1671"
               height="941"
-              alt="Couverture vidéo professionnelle d’un événement institutionnel"
+              alt={tr("Couverture vidéo professionnelle d’un événement institutionnel")}
               className="absolute inset-0 h-full w-full object-cover object-left md:object-center"
             />
           </div>
           <div className="scroll-reveal flex flex-col justify-center">
-            <p className="eyebrow">Phase 3 · Vision digitale</p>
+            <p className="eyebrow">{tr("Plateforme digitale FORMA")}</p>
             <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-              La continuité de service, bientôt dans un espace unique.
+              {tr("La continuité de service dans vos espaces privés.")}
             </h2>
             <p className="mt-5 leading-7 text-muted-foreground">
-              Suivi des sites, interventions, rapports, missions prestataires, factures et pilotage
-              central : découvrez l’aperçu interactif de la future plateforme.
+              {tr(
+                "Suivi des sites, interventions, rapports, missions prestataires, factures et pilotage central : accédez à vos portails professionnels FORMA.",
+              )}
             </p>
             <Button asChild variant="outline" className="mt-7 w-fit">
               <Link to="/plateforme">
-                Explorer les espaces <ClipboardCheck />
+                {tr("Explorer les espaces")}
+                <ClipboardCheck />
               </Link>
             </Button>
           </div>
@@ -343,8 +359,10 @@ function Home() {
       <section className="bg-accent py-14 text-accent-foreground">
         <div className="section-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <p className="text-xs font-bold uppercase">Besoin immédiat ?</p>
-            <h2 className="mt-2 text-2xl font-bold md:text-3xl">Parlons de votre dispositif.</h2>
+            <p className="text-xs font-bold uppercase">{tr("Besoin immédiat ?")}</p>
+            <h2 className="mt-2 text-2xl font-bold md:text-3xl">
+              {tr("Parlons de votre dispositif.")}
+            </h2>
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="bg-primary text-primary-foreground">

@@ -1,3 +1,4 @@
+import { useLanguage } from "@/components/language-provider";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, LoaderCircle, Mail, Send } from "lucide-react";
 import { FormField as Field } from "@/components/ui/form-field";
@@ -38,6 +39,7 @@ const initial: Data = {
 };
 
 export function QuoteWizard() {
+  const { t: tr } = useLanguage();
   const [step, setStep] = useState(1);
   const [data, setData] = useState(initial);
   const [error, setError] = useState("");
@@ -47,34 +49,43 @@ export function QuoteWizard() {
   const sent = sentState;
   const setSent = async (channel: "email" | "whatsapp") => {
     if (busy) return;
-    setBusy(true); setError("");
+    setBusy(true);
+    setError("");
     const target = channel === "whatsapp" ? window.open("", "_blank") : null;
     try {
       if (!saved) {
         const { data: auth } = await supabase.auth.getSession();
         const { error: saveError } = await supabase.from("quote_requests").insert({
-            user_id: auth.session?.user.id ?? null,
-            pole: data.pole,
-            name: data.name.trim(),
-            organization: data.org || null,
-            phone: data.phone.trim(),
-            email: data.email || null,
-            needs: data.needs.trim(),
-            place: data.place.trim(),
-            desired_date: data.dates || null,
-          });
+          user_id: auth.session?.user.id ?? null,
+          pole: data.pole,
+          name: data.name.trim(),
+          organization: data.org || null,
+          phone: data.phone.trim(),
+          email: data.email || null,
+          needs: data.needs.trim(),
+          place: data.place.trim(),
+          desired_date: data.dates || null,
+        });
         if (saveError) throw saveError;
         setSaved(true);
       }
       setSentState(channel);
-      const url = channel === "email" ? mailtoLink(`Demande de devis FORMA — ${data.pole} — ${data.name}`, body) : whatsappLink(body);
+      const url =
+        channel === "email"
+          ? mailtoLink(`Demande de devis FORMA — ${data.pole} — ${data.name}`, body)
+          : whatsappLink(body);
       if (channel === "email") window.location.href = url;
       else if (target) target.location.href = url;
-      else setError("Votre demande est enregistrée. Autorisez l’ouverture de WhatsApp puis réessayez.");
+      else
+        setError(
+          "Votre demande est enregistrée. Autorisez l’ouverture de WhatsApp puis réessayez.",
+        );
     } catch {
       target?.close();
       setError("La demande n’a pas pu être enregistrée. Réessayez avant de l’envoyer.");
-    } finally { setBusy(false); }
+    } finally {
+      setBusy(false);
+    }
   };
   const set = (key: keyof Data, value: string) => setData((v) => ({ ...v, [key]: value }));
   const valid = useMemo(
@@ -112,156 +123,180 @@ export function QuoteWizard() {
         ))}
       </div>
       <div key={step} className="form-step">
-      {step === 1 && (
-        <div>
-          <p className="eyebrow">Étape 1</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Quel pôle vous concerne ?</h2>
-          <div className="mt-7 grid gap-3 sm:grid-cols-2">
-            {poles.map((p) => (
+        {step === 1 && (
+          <div>
+            <p className="eyebrow">{tr("Étape 1")}</p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
+              {tr("Quel pôle vous concerne ?")}
+            </h2>
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
+              {poles.map((p) => (
+                <Button
+                  type="button"
+                  key={p}
+                  onClick={() => set("pole", p)}
+                  variant="outline"
+                  aria-pressed={data.pole === p}
+                  className={`flex h-auto min-h-14 items-center justify-between whitespace-normal border p-4 text-left text-sm font-bold transition-colors hover:bg-accent/10 hover:text-foreground ${data.pole === p ? "border-accent bg-accent/10" : "border-border hover:border-accent"}`}
+                >
+                  {tr(p)}
+                  {data.pole === p && <Check className="h-4 w-4 text-accent" />}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+        {step === 2 && (
+          <div>
+            <p className="eyebrow">{tr("Étape 2")}</p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{tr("Vos coordonnées")}</h2>
+            <div className="mt-7 grid gap-5 sm:grid-cols-2">
+              <Field label={tr("Nom *")}>
+                <Input
+                  maxLength={100}
+                  value={data.name}
+                  onChange={(e) => set("name", e.target.value)}
+                />
+              </Field>
+              <Field label={tr("Entreprise / Organisation")}>
+                <Input
+                  maxLength={120}
+                  value={data.org}
+                  onChange={(e) => set("org", e.target.value)}
+                />
+              </Field>
+              <Field label={tr("Téléphone *")}>
+                <Input
+                  type="tel"
+                  inputMode="tel"
+                  placeholder={tr("0977528234 ou +243 977 528 234")}
+                  maxLength={20}
+                  value={data.phone}
+                  onChange={(e) => set("phone", e.target.value.replace(/[^+0-9 ().-]/g, ""))}
+                />
+              </Field>
+              <Field label={tr("Email")}>
+                <Input
+                  type="email"
+                  inputMode="email"
+                  maxLength={255}
+                  value={data.email}
+                  onChange={(e) => set("email", e.target.value)}
+                />
+              </Field>
+            </div>
+          </div>
+        )}
+        {step === 3 && (
+          <div>
+            <p className="eyebrow">{tr("Étape 3")}</p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{tr("Décrivez votre besoin")}</h2>
+            <Field label={tr("Spécifications et besoins précis *")}>
+              <Textarea
+                className="mt-7 min-h-44"
+                maxLength={1500}
+                placeholder={tr("Contexte, volume, horaires, objectifs, contraintes…")}
+                value={data.needs}
+                onChange={(e) => set("needs", e.target.value)}
+              />
+            </Field>
+          </div>
+        )}
+        {step === 4 && (
+          <div>
+            <p className="eyebrow">{tr("Étape 4")}</p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
+              {tr("Lieu et période souhaitée")}
+            </h2>
+            <div className="mt-7 grid gap-5 sm:grid-cols-2">
+              <Field label={tr("Commune de Kinshasa / Province *")}>
+                <Input
+                  maxLength={120}
+                  value={data.place}
+                  onChange={(e) => set("place", e.target.value)}
+                />
+              </Field>
+              <Field label={tr("Date ou période souhaitée *")}>
+                <Input
+                  type="date"
+                  className="w-full min-h-12 appearance-none"
+                  value={data.dates}
+                  onChange={(e) => set("dates", e.target.value)}
+                />
+              </Field>
+            </div>
+          </div>
+        )}
+        {step === 5 && (
+          <div>
+            <p className="eyebrow">{tr("Étape 5")}</p>
+            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
+              {tr("Vérifiez et transmettez votre demande")}
+            </h2>
+            <dl className="mt-7 divide-y divide-border border-y border-border text-sm">
+              {[
+                ["Pôle", data.pole],
+                ["Contact", `${data.name} — ${data.phone}`],
+                ["Organisation", data.org || "Non précisée"],
+                ["Email", data.email || "Non précisé"],
+                ["Besoin", data.needs],
+                ["Lieu et date", `${data.place} — ${data.dates}`],
+              ].map(([k, v]) => (
+                <div key={k} className="grid gap-2 py-4 sm:grid-cols-[140px_1fr]">
+                  <dt className="font-bold text-muted-foreground">{tr(k ?? "")}</dt>
+                  <dd className="whitespace-pre-wrap break-words">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
               <Button
-                type="button"
-                key={p}
-                onClick={() => set("pole", p)}
-                variant="outline"
-                aria-pressed={data.pole === p}
-                className={`flex h-auto min-h-14 items-center justify-between whitespace-normal border p-4 text-left text-sm font-bold transition-colors hover:bg-accent/10 hover:text-foreground ${data.pole === p ? "border-accent bg-accent/10" : "border-border hover:border-accent"}`}
+                disabled={busy}
+                onClick={() => void setSent("email")}
+                className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
               >
-                {p}
-                {data.pole === p && <Check className="h-4 w-4 text-accent" />}
+                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Mail />}{" "}
+                {tr(busy ? "Enregistrement…" : "Envoyer par Email")}
               </Button>
-            ))}
-          </div>
-        </div>
-      )}
-      {step === 2 && (
-        <div>
-          <p className="eyebrow">Étape 2</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Vos coordonnées</h2>
-          <div className="mt-7 grid gap-5 sm:grid-cols-2">
-            <Field label="Nom *">
-              <Input
-                maxLength={100}
-                value={data.name}
-                onChange={(e) => set("name", e.target.value)}
-              />
-            </Field>
-            <Field label="Entreprise / Organisation">
-              <Input
-                maxLength={120}
-                value={data.org}
-                onChange={(e) => set("org", e.target.value)}
-              />
-            </Field>
-            <Field label="Téléphone *">
-              <Input
-                type="tel"
-                inputMode="tel"
-                placeholder="0977528234 ou +243 977 528 234"
-                maxLength={20}
-                value={data.phone}
-                onChange={(e) => set("phone", e.target.value.replace(/[^+0-9 ().-]/g, ""))}
-              />
-            </Field>
-            <Field label="Email">
-              <Input
-                type="email"
-                inputMode="email"
-                maxLength={255}
-                value={data.email}
-                onChange={(e) => set("email", e.target.value)}
-              />
-            </Field>
-          </div>
-        </div>
-      )}
-      {step === 3 && (
-        <div>
-          <p className="eyebrow">Étape 3</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Décrivez votre besoin</h2>
-          <Field label="Spécifications et besoins précis *">
-            <Textarea
-              className="mt-7 min-h-44"
-              maxLength={1500}
-              placeholder="Contexte, volume, horaires, objectifs, contraintes…"
-              value={data.needs}
-              onChange={(e) => set("needs", e.target.value)}
-            />
-          </Field>
-        </div>
-      )}
-      {step === 4 && (
-        <div>
-          <p className="eyebrow">Étape 4</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Lieu et période souhaitée</h2>
-          <div className="mt-7 grid gap-5 sm:grid-cols-2">
-            <Field label="Commune de Kinshasa / Province *">
-              <Input
-                maxLength={120}
-                value={data.place}
-                onChange={(e) => set("place", e.target.value)}
-              />
-            </Field>
-            <Field label="Date ou période souhaitée *">
-              <Input
-                type="date"
-                className="w-full min-h-12 appearance-none"
-                value={data.dates}
-                onChange={(e) => set("dates", e.target.value)}
-              />
-            </Field>
-          </div>
-        </div>
-      )}
-      {step === 5 && (
-        <div>
-          <p className="eyebrow">Étape 5</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
-            Vérifiez et transmettez votre demande
-          </h2>
-          <dl className="mt-7 divide-y divide-border border-y border-border text-sm">
-            {[
-              ["Pôle", data.pole],
-              ["Contact", `${data.name} — ${data.phone}`],
-              ["Organisation", data.org || "Non précisée"],
-              ["Email", data.email || "Non précisé"],
-              ["Besoin", data.needs],
-              ["Lieu et date", `${data.place} — ${data.dates}`],
-            ].map(([k, v]) => (
-              <div key={k} className="grid gap-2 py-4 sm:grid-cols-[140px_1fr]">
-                <dt className="font-bold text-muted-foreground">{k}</dt>
-                <dd className="whitespace-pre-wrap break-words">{v}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mt-7 grid gap-3 sm:grid-cols-2">
-            <Button
-              disabled={busy}
-              onClick={() => void setSent("email")}
-              className="h-12 w-full bg-accent text-accent-foreground hover:bg-accent/90"
-            >
-                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Mail />} {busy ? "Enregistrement…" : "Envoyer par Email"}
-            </Button>
-            <Button disabled={busy} onClick={() => void setSent("whatsapp")} variant="outline" className="h-12 w-full">
-                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Send />} {busy ? "Enregistrement…" : "Transmettre sur WhatsApp"}
-            </Button>
-          </div>
-          <p className="mt-4 text-xs leading-5 text-muted-foreground">
-            Votre demande est transmise à{" "}
-            <a className="font-semibold text-foreground underline" href={`mailto:${FORMA_EMAIL}`}>
-              {FORMA_EMAIL}
-            </a>{" "}
-            ou au +243 977 528 234.
-          </p>
-          {sent && (
-            <p role="status" className="form-success mt-4 border-l-2 border-accent pl-3 text-sm font-semibold text-accent">
-              Demande enregistrée dans FORMA Admin. {sent === "email" ? "Terminez l’envoi dans votre messagerie." : "Terminez l’envoi dans WhatsApp."}
+              <Button
+                disabled={busy}
+                onClick={() => void setSent("whatsapp")}
+                variant="outline"
+                className="h-12 w-full"
+              >
+                {busy ? <LoaderCircle className="motion-safe:animate-spin" /> : <Send />}{" "}
+                {tr(busy ? "Enregistrement…" : "Transmettre sur WhatsApp")}
+              </Button>
+            </div>
+            <p className="mt-4 text-xs leading-5 text-muted-foreground">
+              {tr("Votre demande est transmise à")}{" "}
+              <a className="font-semibold text-foreground underline" href={`mailto:${FORMA_EMAIL}`}>
+                {FORMA_EMAIL}
+              </a>{" "}
+              {tr("ou au +243 977 528 234.")}
             </p>
-          )}
-        </div>
-      )}
+            {sent && (
+              <p
+                role="status"
+                className="form-success mt-4 border-l-2 border-accent pl-3 text-sm font-semibold text-accent"
+              >
+                {tr("Demande enregistrée dans FORMA Admin.")}
+                {tr(
+                  sent === "email"
+                    ? "Terminez l’envoi dans votre messagerie."
+                    : "Terminez l’envoi dans WhatsApp.",
+                )}
+              </p>
+            )}
+          </div>
+        )}
       </div>
       {error && (
-        <p role="alert" className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>
+        <p
+          role="alert"
+          className="mt-5 border-l-2 border-destructive pl-3 text-sm text-destructive"
+        >
+          {tr(error)}
+        </p>
       )}
       <div className="mt-8 flex justify-between gap-3">
         {step > 1 ? (
@@ -272,14 +307,15 @@ export function QuoteWizard() {
               setStep((s) => s - 1);
             }}
           >
-            <ArrowLeft /> Retour
+            <ArrowLeft /> {tr("Retour")}
           </Button>
         ) : (
           <span />
         )}
         {step < 5 && (
           <Button onClick={next}>
-            Continuer <ArrowRight />
+            {tr("Continuer")}
+            <ArrowRight />
           </Button>
         )}
       </div>
