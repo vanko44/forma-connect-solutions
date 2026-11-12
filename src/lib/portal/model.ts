@@ -72,7 +72,13 @@ export function destination(admin: boolean, roles: string[]): Environment {
         : "client";
 }
 export function portalAllowed(environment: Environment, admin: boolean, roles: string[]): boolean {
-  return destination(admin, roles) === environment;
+  return destination(admin, roles) === environment && (environment !== "client" || roles.includes("client"));
+}
+export function parentKinds(kind: string): string[] {
+  return kind === "report" ? ["mission"] : kind === "payment" ? ["invoice", "mission"] : kind === "mission" ? ["service"] : kind === "service" ? ["contract"] : [];
+}
+export function reportableMission(record: Pick<PortalRecord, "kind" | "status">) {
+  return record.kind === "mission" && ["acceptée", "en cours", "en attente de validation"].includes(record.status);
 }
 export function canAccessSection(admin: boolean, roles: string[], section: string): boolean {
   if (admin) return true;

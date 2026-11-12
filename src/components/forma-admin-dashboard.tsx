@@ -29,6 +29,9 @@ import { FormaOfferEditor } from "@/components/forma-offer-editor";
 import { PENDING_STATUS, APPROVED_STATUS } from "@/lib/forma-offer";
 import { MissionOrders } from "@/components/mission-orders";
 import { SecurityOperations } from "@/components/security-operations";
+import { useServerFn } from "@tanstack/react-start";
+import { convertQuote } from "@/lib/portal/portal.functions";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Quote = {
   id: string;
@@ -44,6 +47,8 @@ type Quote = {
   amount: string | null;
   status: string;
   offer?: import("@/integrations/supabase/types").Json;
+  user_id?: string | null;
+  approved_at?: string | null;
 };
 type Partner = {
   id: string;
@@ -128,6 +133,19 @@ function StatusSelect({
 export function FormaAdminDashboard() {
   const { t: tr } = useLanguage();
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const convert = useServerFn(convertQuote);
+  const queryClient = useQueryClient();
+  const [converting, setConverting] = useState<string | null>(null);
+  async function prepareExecution(q: Quote) {
+    setConverting(q.id);
+    setError("");
+    try {
+      await convert({ data: { id: q.id } });
+      await queryClient.invalidateQueries({ queryKey: ["portal"] });
+      setError(tr("Contrat et prestation préparés dans vos dossiers."));
+    } catch (e) { setError(e instanceof Error ? e.message : tr("Action impossible.")); }
+    finally { setConverting(null); }
+  }
   const [partners, setPartners] = useState<Partner[]>([]);
   const [sites, setSites] = useState<Site[]>([]);
   const [loading, setLoading] = useState(true);
@@ -427,6 +445,11 @@ export function FormaAdminDashboard() {
                               )
                             }
                           />
+                          {q.user_id && q.approved_at && q.offer && (
+                            <Button size="sm" variant="outline" disabled={converting === q.id} onClick={() => void prepareExecution(q)}>
+                              <ClipboardCheck /> {tr(converting === q.id ? "Enregistrement…" : "Préparer l’exécution")}
+                            </Button>
+                          )}
                           <Button asChild size="sm" variant="outline" title={tr("WhatsApp")}>
                             <a
                               href={waTo(

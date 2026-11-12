@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { recordSchema, portalAllowed } from "./model";
+import { recordSchema, portalAllowed, reportableMission } from "./model";
 export const getPortal = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((v: unknown) =>
@@ -48,6 +48,7 @@ export const getPortal = createServerFn({ method: "GET" })
       userId: context.userId,
       profile: profile.data,
       roles: roles.data?.map((r) => r.role) ?? [],
+      accountRoles: staff ? (await s.from("portal_roles").select("user_id, role")).data ?? [] : [],
       admin: Boolean(admin.data),
       records: records.data ?? [],
       people: people.data ?? [],
@@ -85,9 +86,8 @@ export const saveRecord = createServerFn({ method: "POST" })
           .single();
         if (
           !m ||
-          m.kind !== "mission" ||
           m.provider_id !== context.userId ||
-          !["acceptée", "en cours", "en attente de validation"].includes(m.status)
+          !reportableMission(m)
         )
           throw new Error("Mission non autorisée.");
         data.owner_id = m.owner_id;
@@ -100,6 +100,16 @@ export const saveRecord = createServerFn({ method: "POST" })
           difficulties: data.attributes["difficulties"] ?? "",
         };
       } else throw new Error("Action non autorisée.");
+    }
+    if (staff && data.parent_id) {
+      const { data: parent, error } = await context.supabase.from("portal_records").select("owner_id, provider_id").eq("id", data.parent_id).single();
+      if (error || !parent) throw new Error("Dossier associé inaccessible.");
+      data.owner_id = parent.owner_id;
+      if (["report", "payment"].includes(data.kind)) data.provider_id = parent.provider_id;
+    }
+    if (data.kind === "service") {
+      const { team, instructions, ...safe } = data.attributes;
+      data.attributes = safe;
     }
     const { id, ...payload } = data;
     const result = id
@@ -129,6 +139,14 @@ export const actOnMission = createServerFn({ method: "POST" })
     });
     if (r.error) throw new Error("Cette action n’est pas autorisée pour cette mission.");
     return { ok: true };
+  });
+export const convertQuote = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((v: unknown) => z.object({ id: z.string().uuid() }).parse(v))
+  .handler(async ({ data, context }) => {
+    const result = await context.supabase.rpc("convert_portal_quote", { quote_id: data.id });
+    if (result.error) throw new Error("Une offre approuvée liée à un compte client est requise.");
+    return { id: result.data };
   });
 export const saveProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

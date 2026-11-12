@@ -4,7 +4,7 @@ import { Clock, FileCheck2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FormaOfferDocument } from "@/components/forma-offer-document";
-import { APPROVED_STATUS, type Offer } from "@/lib/forma-offer";
+import { type Offer } from "@/lib/forma-offer";
 import { supabase } from "@/integrations/supabase/client";
 
 import { FormaOfferDownloads } from "@/components/forma-offer-downloads";
@@ -57,7 +57,7 @@ export function ClientQuotes({ userId }: { userId: string }) {
     <>
       <div className="divide-y divide-border border border-border bg-card">
         {rows.map((r) => {
-          const ready = r.status === APPROVED_STATUS && !!r.offer;
+          const ready = !!r.offer;
           return (
             <div
               key={r.id}

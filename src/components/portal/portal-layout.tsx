@@ -18,6 +18,7 @@ import {
   ClipboardCheck,
   Moon,
   Sun,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -100,6 +101,18 @@ export function PortalLayout({
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [dark, setDark] = useState(false);
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const menuGroups = environment === "provider"
+    ? [{ label: "Missions", keys: ["mission", "available", "report", "history"] }, { label: "Finances & documents", keys: ["payment", "documents"] }]
+    : environment === "client"
+      ? [{ label: "Mes prestations", keys: ["quotes", "contract", "service", "complaint"] }, { label: "Finances & documents", keys: ["invoice", "documents"] }]
+      : [{ label: "Relation client", keys: ["accounts", "contract", "complaint"] }, { label: "Opérations", keys: ["service", "mission", "report", "legacy"] }, { label: "Finances & documents", keys: ["invoice", "documents"] }, { label: "Contrôle", keys: ["audit"] }];
+  const entries = [...sections[environment === "staff" ? "admin" : environment], ["documents", "Mes documents"]].filter(([key]) => key === "documents" || !["admin", "staff"].includes(environment) || canAccessSection(admin, roles, key ?? ""));
+  const renderEntry = ([key, label]: string[]) => {
+    if (!key) return null;
+    const Icon = icons[key] ?? FileText;
+    return <Button key={key} title={t(label ?? key)} aria-label={t(label ?? key)} aria-current={section === key ? "page" : undefined} variant="ghost" onClick={() => { onSection(key); setOpen(false); }} className={`h-11 w-full justify-start gap-3 text-sm ${section === key ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"}`}><Icon className="h-4 w-4 shrink-0" /><span className={collapsed ? "lg:hidden" : ""}>{t(label ?? key)}</span></Button>;
+  };
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
   }, []);
@@ -159,36 +172,18 @@ export function PortalLayout({
           {t("Votre espace de gestion")}
         </p>
         <nav className="flex-1 space-y-1 overflow-y-auto px-3">
-          {[
-            ...sections[environment === "staff" ? "admin" : environment],
-            ["documents", "Mes documents"],
-          ]
-            .filter(
-              ([key]) =>
-                key === "documents" ||
-                !["admin", "staff"].includes(environment) ||
-                canAccessSection(admin, roles, key ?? ""),
-            )
-            .map(([key, label]) => {
-              if (!key) return null;
-              const Icon = icons[key] ?? FileText;
-              return (
-                <Button
-                  key={key}
-                  title={t(label ?? key)}
-                  aria-label={t(label ?? key)}
-                  variant="ghost"
-                  onClick={() => {
-                    onSection(key);
-                    setOpen(false);
-                  }}
-                  className={`h-11 w-full justify-start gap-3 text-sm ${section === key ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"}`}
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  <span className={collapsed ? "lg:hidden" : ""}>{t(label ?? key)}</span>
-                </Button>
-              );
-            })}
+          {entries.filter(([key]) => key === "dashboard").map(renderEntry)}
+          {menuGroups.map((group) => {
+            const items = entries.filter(([key]) => group.keys.includes(key ?? ""));
+            if (!items.length) return null;
+            const active = group.keys.includes(section);
+            const show = collapsed || active || expanded.includes(group.label);
+            return <div key={group.label} className="pt-2">
+              <Button variant="ghost" className={`h-10 w-full justify-between text-xs text-sidebar-foreground/65 ${collapsed ? "lg:hidden" : ""}`} aria-expanded={show} onClick={() => setExpanded((current) => current.includes(group.label) ? current.filter((label) => label !== group.label) : [...current, group.label])}>{t(group.label)}<ChevronDown className={`h-3 w-3 transition-transform ${show ? "rotate-180" : ""}`} /></Button>
+              {show && <div className={collapsed ? "" : "border-l border-sidebar-border pl-2"}>{items.map(renderEntry)}</div>}
+            </div>;
+          })}
+          {entries.filter(([key]) => key === "notification" || key === "profile").map(renderEntry)}
         </nav>
         <div className="space-y-2 border-t border-sidebar-border p-4">
           <Button asChild variant="ghost" className="w-full justify-start text-sidebar-foreground">

@@ -12,6 +12,14 @@ export function validLanguage(value: unknown): value is Language {
 }
 type Translation = readonly [string, string, string];
 export const translations: Record<string, Translation> = {
+  "Mes espaces": ["My workspaces", "Meus espaços", "Maeneo yangu"],
+  "Nos services": ["Our services", "Nossos serviços", "Huduma zetu"],
+  "Opérations": ["Operations", "Operações", "Shughuli"],
+  "Finances & documents": ["Finance & documents", "Finanças e documentos", "Fedha na nyaraka"],
+  "Contrôle": ["Oversight", "Controlo", "Udhibiti"],
+  "Préparer l’exécution": ["Prepare execution", "Preparar execução", "Andaa utekelezaji"],
+  "Contrat et prestation préparés dans vos dossiers.": ["Contract and service prepared in your records.", "Contrato e serviço preparados nos seus registos.", "Mkataba na huduma zimeandaliwa katika rekodi zako."],
+  "Une offre approuvée liée à un compte client est requise.": ["An approved offer linked to a client account is required.", "É necessária uma oferta aprovada associada a uma conta de cliente.", "Ofa iliyoidhinishwa iliyounganishwa na akaunti ya mteja inahitajika."],
   "Vos prochaines actions": ["Your next actions", "Suas próximas ações", "Hatua zako zinazofuata"],
   "Suivi de vos demandes": ["Your request follow-up", "Acompanhamento dos seus pedidos", "Ufuatiliaji wa maombi yako"],
   "À traiter en priorité": ["Priority actions", "Ações prioritárias", "Hatua za kipaumbele"],

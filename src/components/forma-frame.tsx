@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X, ArrowUpRight, Mail, Moon, Sun, UserRound, Users } from "lucide-react";
+import { Menu, Phone, X, ArrowUpRight, Mail, Moon, Sun, UserRound, Users, ChevronDown } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { PageMotion } from "@/components/page-motion";
 import { LanguageSelect, useLanguage } from "@/components/language-provider";
 const whatsappIcon = { url: "/images/forma-whatsapp.png" };
@@ -61,49 +62,31 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             className="hidden items-center gap-4 xl:flex"
             aria-label={tr("Navigation principale")}
           >
-            {nav.map(([label, to]) => (
-              <Link
-                key={to}
-                to={to}
-                activeProps={{ className: "text-accent" }}
-                className="text-xs font-semibold text-primary-foreground/75 transition-colors hover:text-primary-foreground"
-              >
-                {t(label)}
-              </Link>
+            {[nav[0], nav[1], nav[8]].map(([label, to]) => (
+              <Button asChild variant="ghost" key={to} className="text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <Link to={to} activeProps={{ className: "text-accent" }}>{t(label)}</Link>
+              </Button>
             ))}
-            <Link
-              to="/connexion-client"
-              activeProps={{ className: "text-accent" }}
-              className="border-l border-primary-foreground/20 pl-4 text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
-            >
-              {t("Espace Client")}
-            </Link>
-            <Link
-              to="/rejoindre"
-              activeProps={{ className: "text-accent" }}
-              className="text-xs font-semibold text-primary-foreground/70 transition-colors hover:text-primary-foreground 2xl:hidden"
-            >
-              {t("Prestataire")}
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground">{t("Nos services")} <ChevronDown /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-56">
+                {nav.slice(2, 8).map(([label, to]) => <DropdownMenuItem asChild key={to}><Link to={to}>{t(label)}</Link></DropdownMenuItem>)}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
-          <Button
-            asChild
-            variant="ghost"
-            className="hidden px-2 text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
-          >
-            <Link to="/connexion-client">
-              <UserRound /> {t("Espace Client")}
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="hidden border-primary-foreground/25 bg-transparent px-3 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground 2xl:inline-flex"
-          >
-            <Link to="/rejoindre">
-              <Users /> {t("Espace Prestataire")}
-            </Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="hidden text-primary-foreground/75 hover:bg-primary-foreground/10 hover:text-primary-foreground xl:inline-flex"><UserRound /> {t("Mes espaces")} <ChevronDown /></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-60">
+              <DropdownMenuItem asChild><Link to="/portal">{t("Ouvrir mon espace")}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/connexion-client">{t("Espace Client")}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/provider/dashboard">{t("Espace Prestataire")}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/rejoindre">{t("Rejoindre le réseau FORMA")}</Link></DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             asChild
             className="hidden bg-accent text-accent-foreground hover:bg-accent/90 md:inline-flex"
@@ -137,16 +120,13 @@ export function FormaFrame({ children }: { children: ReactNode }) {
             aria-label={tr("Navigation mobile")}
           >
             <div className="grid gap-1">
-              {nav.map(([label, to]) => (
-                <Link
-                  key={to}
-                  to={to}
-                  onClick={() => setOpen(false)}
-                  className="border-b border-primary-foreground/10 py-3 text-sm font-medium"
-                >
-                  {t(label)}
-                </Link>
+              {[nav[0], nav[1], nav[8]].map(([label, to]) => (
+                <Button asChild variant="ghost" className="justify-start text-primary-foreground" key={to}><Link to={to} onClick={() => setOpen(false)}>{t(label)}</Link></Button>
               ))}
+              <details className="border-y border-primary-foreground/10 py-3">
+                <summary className="cursor-pointer text-sm font-semibold">{t("Nos services")}</summary>
+                <div className="mt-3 grid gap-1 pl-3">{nav.slice(2, 8).map(([label, to]) => <Button asChild variant="ghost" className="justify-start text-primary-foreground" key={to}><Link to={to} onClick={() => setOpen(false)}>{t(label)}</Link></Button>)}</div>
+              </details>
             </div>
             <p className="mt-5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground/45">
               {tr("Espace clients — demandeurs de services")}

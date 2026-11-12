@@ -1,5 +1,9 @@
 # Roadmap
 
+- [x] Audit Direction authorization and role destinations; harden tenant-parent validation, mission assignments, identity cache clearing and client-safe service fields.
+- [x] Connect approved quotes idempotently to existing contract/service records, preserve published offer access, link validated reports to client services and synchronize mission/service status.
+- [ ] Verify the full workflow and cross-client/document isolation with actual non-Direction accounts: only two Direction accounts exist, no client or provider account is available.
+- [x] Simplify public navigation and group private menus while retaining every existing destination and four-language labels.
 - [x] Remove obsolete future-project wording from homepage and partner presentation; bind full static sentences and descriptions to four languages with a local catalog, preserving native option values and official documents. Public pages, quote steps and Direction contract form checked without submission.
 - [x] Complete reference-inspired portal overview: actionable priorities, recent activity, invoice/payment trend, direct client/provider support and searchable accounts using real authorized records only; add working private light/dark themes and translations for the new views.
 - [x] Verify Direction overview with a real temporary complaint created and reopened from priorities (then removed), account search, English, dark theme and 390px layout; Direction rejected from both other portals, 14 tests passed. Separate client/provider account checks remain blocked as noted below.

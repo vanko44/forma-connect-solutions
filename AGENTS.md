@@ -29,3 +29,5 @@
 - Use a local typed translation catalog and shared language context; preserve French fallback and original official documents rather than translating stored business content.
 - Bind static interface sentences, labels and descriptions to the shared translation context; preserve native option values, submitted text and original official documents across languages.
 - Derive portal overview priorities and charts only from caller-authorized persisted records; keep overview presentation separate from record editing to preserve existing workflows.
+- Convert approved quotes idempotently into existing contract/service records; validate parent kinds and tenant ownership in database triggers, and link approved reports to client-visible services without exposing partner missions.
+- Keep tactical instructions and team identities on private mission records, never client-readable service records; clear protected query caches on identity transitions.

@@ -200,6 +200,8 @@ export type Database = {
           parent_id: string | null
           provider_id: string | null
           reference: string
+          service_id: string | null
+          source_quote_id: string | null
           start_date: string | null
           status: string
           title: string
@@ -218,6 +220,8 @@ export type Database = {
           parent_id?: string | null
           provider_id?: string | null
           reference?: string
+          service_id?: string | null
+          source_quote_id?: string | null
           start_date?: string | null
           status?: string
           title: string
@@ -236,6 +240,8 @@ export type Database = {
           parent_id?: string | null
           provider_id?: string | null
           reference?: string
+          service_id?: string | null
+          source_quote_id?: string | null
           start_date?: string | null
           status?: string
           title?: string
@@ -261,6 +267,27 @@ export type Database = {
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_records_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "portal_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_records_source_quote_id_fkey"
+            columns: ["source_quote_id"]
+            isOneToOne: false
+            referencedRelation: "portal_quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_records_source_quote_id_fkey"
+            columns: ["source_quote_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -541,6 +568,7 @@ export type Database = {
     }
     Functions: {
       claim_direction_admin: { Args: never; Returns: boolean }
+      convert_portal_quote: { Args: { quote_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -57,6 +57,13 @@
       "when": 1794291822132,
       "tag": "0007_confirmed_direction_boundary",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794470653290,
+      "tag": "0008_portal_workflow_integrity",
+      "breakpoints": true
     }
   ]
 }

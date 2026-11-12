@@ -11,6 +11,8 @@ import {
   attributes,
   statuses,
   labels,
+  parentKinds,
+  reportableMission,
   type PortalRecord,
   type PortalProfile,
   type Environment,
@@ -20,6 +22,7 @@ export function RecordEditor({
   record,
   records,
   people,
+  accountRoles,
   environment,
   onClose,
   onSaved,
@@ -28,6 +31,7 @@ export function RecordEditor({
   record: PortalRecord | null;
   records: PortalRecord[];
   people: PortalProfile[];
+  accountRoles: { user_id: string; role: string }[];
   environment: Environment;
   onClose: () => void;
   onSaved: () => Promise<void>;
@@ -53,7 +57,7 @@ export function RecordEditor({
           title: text("title"),
           status: text("status") || (kind === "report" ? "soumis" : "nouvelle"),
           owner_id: parent?.owner_id ?? (text("owner_id") || null),
-          provider_id: parent?.provider_id ?? (text("provider_id") || null),
+          provider_id: ["report", "payment"].includes(kind) ? parent?.provider_id ?? null : text("provider_id") || null,
           parent_id: text("parent_id") || null,
           start_date: text("start_date") || null,
           end_date: text("end_date") || null,
@@ -133,7 +137,7 @@ export function RecordEditor({
                     className="h-10 rounded-md border border-input bg-background px-3"
                   >
                     <option value="">{tr("Sans client")}</option>
-                    {people.map((p) => (
+                    {people.filter((p) => accountRoles.some((r) => r.user_id === p.id && r.role === "client")).map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.display_name || p.company || p.id.slice(0, 8)}
                       </option>
@@ -148,7 +152,7 @@ export function RecordEditor({
                     className="h-10 rounded-md border border-input bg-background px-3"
                   >
                     <option value="">{tr("Sans prestataire")}</option>
-                    {people.map((p) => (
+                    {people.filter((p) => accountRoles.some((r) => r.user_id === p.id && r.role === "provider")).map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.display_name || p.company || p.id.slice(0, 8)}
                       </option>
@@ -189,21 +193,13 @@ export function RecordEditor({
                 {tr(kind === "report" ? "Mission" : "Dossier associé")}
                 <select
                   name="parent_id"
-                  required={["report", "payment"].includes(kind)}
+                  required={["report", "payment", "mission"].includes(kind)}
                   defaultValue={record?.parent_id ?? ""}
                   className="h-10 rounded-md border border-input bg-background px-3"
                 >
                   <option value="">{tr("Choisir")}</option>
                   {records
-                    .filter((r) =>
-                      kind === "report"
-                        ? r.kind === "mission"
-                        : kind === "payment"
-                          ? ["invoice", "mission"].includes(r.kind)
-                          : kind === "mission"
-                            ? r.kind === "service"
-                            : r.kind === "contract",
-                    )
+                    .filter((r) => parentKinds(kind).includes(r.kind) && (kind !== "report" || staff || reportableMission(r)))
                     .map((r) => (
                       <option value={r.id} key={r.id}>
                         {r.reference} · {r.title}
@@ -235,16 +231,16 @@ export function RecordEditor({
                   ["supervisor", "Responsable de suivi"],
                   ["team", "Équipe (désignation autorisée)"],
                   ["hours", "Horaires"],
-                ].map(([key, label]) => (
+                ].filter(([key]) => kind === "mission" || key !== "team").map(([key, label]) => (
                   <label className="grid gap-2 text-xs font-semibold" key={key}>
                     {tr(label ?? "")}
                     <Input name={key} defaultValue={a[key ?? ""] ?? ""} />
                   </label>
                 ))}
-                <label className="grid gap-2 text-xs font-semibold sm:col-span-2">
+                {kind === "mission" && <label className="grid gap-2 text-xs font-semibold sm:col-span-2">
                   {tr("Consignes autorisées")}
                   <Textarea name="instructions" defaultValue={a["instructions"] ?? ""} />
-                </label>
+                </label>}
               </div>
             )}
             {kind === "report" && (

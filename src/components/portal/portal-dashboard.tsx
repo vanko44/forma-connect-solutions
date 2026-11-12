@@ -583,6 +583,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
               {...editor}
               records={data.records}
               people={data.people}
+              accountRoles={data.accountRoles}
               environment={environment}
               onClose={() => setEditor(null)}
               onSaved={refresh}
@@ -623,7 +624,9 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                               difficulties: "Difficultés",
                               proof: "Référence de règlement",
                             } as Record<string, string>
-                          )[k] ?? k}
+                          )[k] ? tr(({
+                            description: "Description", site: "Site", supervisor: "Responsable de suivi", team: "Équipe affectée", instructions: "Consignes autorisées", hours: "Horaires", response: "Réponse FORMA", validation: "Validation FORMA", incident: "Incident", difficulties: "Difficultés", proof: "Référence de règlement",
+                          } as Record<string, string>)[k] ?? k) : k}
                         </p>
                         <p className="mt-1 whitespace-pre-wrap text-sm">{v}</p>
                       </div>
@@ -671,7 +674,7 @@ export function PortalDashboard({ environment }: { environment: Environment }) {
                 )}
                 <h3 className="mt-3 font-semibold">{t("Dossiers associés")}</h3>
                 {data.records
-                  .filter((r) => r.parent_id === detail.id)
+                  .filter((r) => r.parent_id === detail.id || (r.kind === "report" && r.service_id === detail.id))
                   .map((r) => (
                     <Button
                       variant="ghost"

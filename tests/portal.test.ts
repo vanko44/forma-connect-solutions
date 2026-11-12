@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { settlement,destination,missionActions,recordSchema,canAccessSection,portalAllowed } from '../src/lib/portal/model';
+import { settlement,destination,missionActions,recordSchema,canAccessSection,portalAllowed,parentKinds,reportableMission } from '../src/lib/portal/model';
 describe('portals',()=>{
+ it('denies a client environment to accounts without an assigned client role',()=>{expect(portalAllowed('client',false,[])).toBe(false);expect(portalAllowed('client',false,['client'])).toBe(true);});
+ it('links missions to services rather than unrelated financial records',()=>{expect(parentKinds('mission')).toEqual(['service']);expect(parentKinds('service')).toEqual(['contract']);});
+ it('links partner reports only to missions',()=>{expect(parentKinds('report')).toEqual(['mission']);});
+ it('permits reports only after mission acceptance',()=>{expect(reportableMission({kind:'mission',status:'attribuée'})).toBe(false);expect(reportableMission({kind:'mission',status:'acceptée'})).toBe(true);expect(reportableMission({kind:'mission',status:'terminée'})).toBe(false);});
  it('never allows clients or providers into Direction',()=>{expect(portalAllowed('admin',false,['client'])).toBe(false);expect(portalAllowed('admin',false,['provider'])).toBe(false);});
  it('keeps delegated staff separate from Direction',()=>{expect(destination(false,['operations'])).toBe('staff');expect(portalAllowed('admin',false,['finance'])).toBe(false);expect(portalAllowed('staff',false,['finance'])).toBe(true);});
  it('does not show management data inside a client or provider portal',()=>{expect(portalAllowed('client',true,['client'])).toBe(false);expect(portalAllowed('provider',true,['provider'])).toBe(false);});
